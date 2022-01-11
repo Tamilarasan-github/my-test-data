@@ -1,0 +1,177 @@
+.main-test-script-container
+{
+    margin: 0px;
+}
+
+
+.group-container
+{
+  
+   padding: 15px;
+    display:flex;
+    margin: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.float-dropdown {
+    
+    width: 30%;
+    margin-right: 20px;  
+}  
+
+.group-btn
+{
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    flex-wrap: wrap;
+}
+
+.new-testscript-btn
+{
+    display: flex;
+    justify-content: center;
+    width: 15%;
+    flex-wrap: wrap;
+}
+
+.exec-btn
+{
+    display: flex;
+   flex-wrap: wrap;
+   flex-direction: row-reverse;
+    width: 15%;
+}
+ 
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+.table-div
+{
+    box-shadow: -2px 1px 13px -2px rgba(0,0,0,0.75);
+-webkit-box-shadow: -2px 1px 13px -2px rgba(0,0,0,0.75);
+-moz-box-shadow: -2px 1px 13px -2px rgba(0,0,0,0.75);
+max-height: 550px;
+  overflow: auto;
+  display: flex;
+  margin: 14px;
+
+}
+
+.table-testscripts
+{
+    overflow: auto;
+    height: 300px;
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .float-dropdown, float-update-group, float-load-group, float-create-group, float-start-execution{
+      width: 100%;
+    }
+}
+
+.tr-testscripts
+{
+    height: 10px;
+}
+
+.th-checkbox
+{
+    width:5%;
+    padding-left: 25px;
+}
+
+.th-action
+{
+    width:7%;
+    
+}
+
+.th-list
+{
+    width:28%;
+  
+}
+
+.th-desc
+{
+    width:60%;
+}
+
+.edit-icon
+{
+    font-size:20px;
+    padding: 5px;
+    color:rgb(112, 109, 109);
+}
+
+.delete-icon
+{
+    font-size:20px;
+    padding: 5px;
+    
+    color:rgb(129, 128, 128);
+}
+
+.save-icon
+{
+    color:rgb(112, 109, 109);
+    font-size:20px;
+    padding: 5px;
+}
+
+.cancel-icon
+{
+    color:rgb(92, 91, 91);
+    font-size:20px;
+    padding: 5px;
+}
+
+.editable-table-input
+{
+    border-color:transparent;
+    background-color: transparent;
+    overflow: hidden;
+    width:100%;
+    padding: 3px;
+    text-shadow: 2px 2px 19px rgb(255, 255, 255);
+}
+
+.editable-table-input-highlight
+{
+    border-color:black;
+    background-color: transparent;
+    overflow: hidden;
+    width:100%;
+    padding: 3px;
+   
+}
+
+td{
+    color: rgb(0, 0, 0);
+}
+
+.table-column
+{
+    display: inline block;
+    /* font-family: sans-Tahoma; */
+    font-size: 18px;
+    
+}

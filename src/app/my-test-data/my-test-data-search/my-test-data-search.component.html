@@ -1,0 +1,71 @@
+<div class="search-criteria-container">
+    <button class="collapsible" (click)="showSeachContainer()">Search Criteria</button>
+    <div class="search-container" *ngIf="showSearch">
+        <div class="search-fields">
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataIdDropdownList" [(ngModel)]="testDataIdSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testScriptDropdownList" [(ngModel)]="testScriptSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataDescriptionDropdownList" [(ngModel)]="testDataDescriptionSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataCategoryDropdownList" [(ngModel)]="testDataCategorySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="jiraStoryDropdownList" [(ngModel)]="jiraStorySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testRunFlagDropdownList" [(ngModel)]="testRunFlagSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataCreatedByDropdownList" [(ngModel)]="testDataCreatedBySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataUpdatedByDropdownList" [(ngModel)]="testDataUpdatedBySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testRunFlagDropdownList" [(ngModel)]="testRunFlagSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="search-input-fields">
+                <label>Field 1</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testRunFlagDropdownList" [(ngModel)]="testRunFlagSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <div class="search-button-div">
+            <button type="button" class="btn btn-secondary button-defaults">SEARCH</button>
+        </div>
+
+    </div>
+</div>

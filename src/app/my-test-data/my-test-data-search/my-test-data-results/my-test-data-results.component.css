@@ -1,0 +1,60 @@
+.collapsible {
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border: none;
+    padding: 10px;
+    background-color: rgb(36, 40, 44);
+    color: white;
+    font-weight: bold;
+}
+
+.search-results-container {
+    margin: 15px;
+}
+
+.results-action-btn {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    justify-content: center;
+}
+
+.results-column-dropdown {
+    margin: 15px;
+    max-width: 100%;
+}
+
+.export-container {
+    background-color: whitesmoke;
+}
+
+.columns-dropdown-div {
+    margin: 10px;
+    width: 10%;
+}
+
+.columns-dropdown-container {
+    width: 100%;
+    height: 200px;
+    overflow: scroll;
+    padding: 10px;
+    display: block;
+    background-color: whitesmoke;
+}
+
+.columns-dropdown {
+    background-color: whitesmoke;
+}
+
+columns-dropdown-checkbox {
+    padding: 5px;
+}
+
+.columns-dropdown-label {
+    padding: 5px;
+}
+
+.search-txtbox {
+    border-style: none;
+}

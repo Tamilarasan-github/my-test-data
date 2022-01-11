@@ -1,0 +1,56 @@
+<div class="search-results-container">
+    <div>
+        <button class="collapsible">Test Data Search Results</button>
+    </div>
+    <div class="results-action-btn">
+        <!-- <div class="results-column-dropdown">
+            <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="selectColumnsDropdownSettings" [data]="columnsDropdownList" [(ngModel)]="columnsSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+        </div> -->
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary">Add</button>
+        </div>
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary">Clone</button>
+        </div>
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary">Delete</button>
+        </div>
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary">Update Run Flags</button>
+        </div>
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary">Update Status</button>
+        </div>
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary" (click)="showExportOptions()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+              </svg>
+            </button>
+            <div class="export-container" *ngIf="enableExportDropdown">
+                <button class="export-dropdown-btn"> All Data </button>
+                <button class="export-dropdown-btn"> Selected Data </button>
+            </div>
+        </div>
+
+        <div class="columns-dropdown-div">
+            <button type="button" class="btn btn-primary column-dropdown-btn" (click)="showColumnDropdown($event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-columns-reverse" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Z"/>
+              </svg>
+            </button>
+
+            <div class="columns-dropdown-container" *ngIf="enableColumnDropdown">
+                <input class="search-txtbox" type="text" placeholder="Search" (input)="searchColumnsInDropdown($event)">
+                <div class="columns-dropdown" *ngFor="let column of filteredColumnsDropdownList">
+
+                    <input class="columns-dropdown-checkbox" type="checkbox" [checked]="columnsSelectedList.includes(column)" (change)="updateColumnsVisible($event, column)">
+                    <label class="columns-dropdown-label">{{column}}</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<div id="main-test-script-container" class="main-test-script-container">
+    <div class="group-container">
+
+        <div class="form-group float-dropdown">
+            <select id="groupDropdown" formControlName="group" class="form-control">
+                <option disabled>Select Group</option>
+                <option>Choose Group</option>
+                <option *ngFor="let group of groupsList">{{group.groupName}}</option>
+            </select>
+        </div>
+        <div class="group-btn">
+            <button type="button" class="button-defaults float-load-group">LOAD GROUP</button>
+
+            <button type="button" class="button-defaults float-update-group">UPDATE GROUP</button>
+
+            <button type="button" class="button-defaults float-create-group">CREATE GROUP</button>
+        </div>
+
+        <div class="new-testscript-btn">
+            <button type="button" class="btn btn-secondary button-defaults" (click)="enableNewTestscriptRow($event)">ADD NEW TESTSCRIPT</button>
+        </div>
+
+        <div class="exec-btn">
+            <button type="button" class="btn btn-secondary button-defaults start-exec">START EXECUTION</button>
+        </div>
+
+    </div>
+
+    <div class="table-div">
+        <table class="table table-borderless table-testscripts">
+            <thead class="table-header">
+                <th class="th-checkbox"> <input type="checkbox" (change)="selectAllCheckboxes($event)"> </th>
+                <th class="th-action"> ACTION</th>
+                <th class="th-list"> TEST SCRIPTS</th>
+                <th class="th-desc"> DESCRIPTION</th>
+            </thead>
+            <tbody>
+
+                <tr *ngIf="showAddTestscript">
+                    <td></td>
+                    <td> <i class='fa fa-times cancel-icon' (click)="cancelNewTestscriptRow($event)"></i>
+                        <i class='fa fa-save save-icon' (click)="saveNewTestscriptDetails($event)"></i>
+                    </td>
+                    <td class="table-column">
+                        <textarea #newTestScriptName class="editable-table-input-highlight"></textarea>
+                    </td>
+                    <td class="table-column">
+                        <textarea #newTestScriptDescription class="editable-table-input-highlight"></textarea>
+                    </td>
+                </tr>
+                <tr class="tr-testscripts" *ngFor="let testScript of testScriptList;let i = index">
+
+                    <td class="table-column th-checkbox">
+                        <input type="checkbox" ng-checked="valuelistOfTestScriptsToExecute.includes(testScript.testScriptId)" (change)="eventCheck($event, testScript.testScriptId)">
+                    </td>
+                    <td class="table-column">
+                        <i class='fas fa-edit edit-icon' *ngIf="editEnabledIndex!=testScript.testScriptId" (click)="enableSaveAndCancel($event,testScript.testScriptId)"></i>
+
+                        <i class='fas fa-trash delete-icon' *ngIf="editEnabledIndex!=testScript.testScriptId"></i>
+
+                        <i class='fa fa-times cancel-icon' *ngIf="editEnabledIndex==testScript.testScriptId" (click)="enableEditAndDelete($event,testScript.testScriptId)"></i>
+
+                        <i class='fa fa-save save-icon' *ngIf="editEnabledIndex==testScript.testScriptId" (click)="updateExistingTestscriptDetails($event,testScript.testScriptId)"></i>
+
+
+                    </td>
+                    <td class="table-column">
+                        <textarea #testScripts id="{{'testScripts'+ testScript.testScriptId}}" name="{{'testScripts'}}" [ngClass]="{'editable-table-input': editEnabledIndex!=testScript.testScriptId, 'editable-table-input-highlight': editEnabledIndex==testScript.testScriptId}"
+                            type="text" value={{testScript.testScriptName}} [disabled]="editEnabledIndex!=testScript.testScriptId" (click)="backupExistingValue($event, testScript.testScriptId, testScripts)" (change)="updateExistingTestscriptFieldDetails($event, testScript.testScriptId, testScripts)">  
+                        </textarea>
+                    </td>
+                    <td class="table-column">
+                        <textarea #testScriptsDescription id="{{'testScriptsDescription'+ testScript.testScriptId}}" name="{{'testScriptsDescription'}}" [ngClass]="{'editable-table-input': editEnabledIndex!=testScript.testScriptId, 'editable-table-input-highlight': editEnabledIndex==testScript.testScriptId}"
+                            type="text" value={{testScript.testScriptDescription}} [disabled]="editEnabledIndex!=testScript.testScriptId" (click)="backupExistingValue($event, testScript.testScriptId, testScriptsDescription)" (change)="updateExistingTestscriptFieldDetails($event, testScript.testScriptId, testScriptsDescription)">  </textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
