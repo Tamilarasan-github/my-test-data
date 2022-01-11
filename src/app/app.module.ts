@@ -13,14 +13,15 @@ import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MyTestDataComponent } from './my-test-data/my-test-data.component';
-import { MyTestDataSearchComponent } from './my-test-data/my-test-data-search/my-test-data-search.component';
+
 //import { ModuleOfNgb } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { MyTestDataResultsComponent } from './my-test-data/my-test-data-search/my-test-data-results/my-test-data-results.component';
-import { MyTestExecutionSummaryComponent } from './src/app/my-test-data/my-test-data-search/my-test-data-results/my-test-execution-summary/my-test-execution-summary.component';
 
+import { MyTestDataComponent } from './home/my-test-scripts/my-test-data/my-test-data.component';
+import { MyTestDataResultsComponent } from './home/my-test-scripts/my-test-data/my-test-data-search/my-test-data-results/my-test-data-results.component';
+import { MyTestDataSearchComponent } from './home/my-test-scripts/my-test-data/my-test-data-search/my-test-data-search.component';
+import { MyTestExecutionSummaryComponent } from './home/my-test-scripts/my-test-data/my-test-execution-summary/my-test-execution-summary.component';
 
 
 
@@ -34,6 +35,7 @@ import { MyTestExecutionSummaryComponent } from './src/app/my-test-data/my-test-
     MyTestDataSearchComponent,
     MyTestDataResultsComponent,
     MyTestExecutionSummaryComponent,
+   
         
   ],
   imports: [
