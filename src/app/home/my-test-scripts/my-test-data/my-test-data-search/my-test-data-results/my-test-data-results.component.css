@@ -58,3 +58,13 @@ columns-dropdown-checkbox {
 .search-txtbox {
     border-style: none;
 }
+
+.scrollable-div {
+    max-height: 550px;
+    overflow: scroll;
+    background-color: rgb(149, 192, 194);
+}
+
+.table-header {
+    background-color: dimgrey;
+}

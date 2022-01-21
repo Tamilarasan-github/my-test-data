@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { MyTestDataService } from '../my-test-data.service';
+import { TestData } from './my-test-data-results/my-test-data';
+import { TestDataSearchCriteria } from './my-test-data-search-criteria';
 
 @Component({
   selector: 'app-my-test-data-search',
@@ -8,20 +11,25 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 })
 export class MyTestDataSearchComponent implements OnInit {
 
-  constructor() { }
+  constructor(private testDataService:MyTestDataService) { }
+
+ 
+  listOfTestData:TestData[]=[];
+
+  testDataDropdownValues:any;
 
   showSearch:boolean=true;
 
   searchDropdownSettings:IDropdownSettings={};
 
-  testDataIdDropdownList:any[]= [];
+  testDataIdDropdownList:string[]= [];
   testDataIdSelectedList:any=[];
 
   testScriptDropdownList:any[]= [];
   testScriptSelectedList:any=[];
 
-  testDataDescriptionDropdownList:any[]= [];
-  testDataDescriptionSelectedList:any=[];
+  testDataShortDescriptionDropdownList:any[]= [];
+  testDataShortDescriptionSelectedList:any=[];
 
   testDataCategoryDropdownList:any[]= [];
   testDataCategorySelectedList:any=[];
@@ -38,9 +46,9 @@ export class MyTestDataSearchComponent implements OnInit {
   testDataUpdatedByDropdownList:any[]= [];
   testDataUpdatedBySelectedList:any=[];
 
-  
+ 
   ngOnInit(): void {
-
+   
     this.searchDropdownSettings = {
       singleSelection: false,
       idField: 'item_id',
@@ -51,57 +59,64 @@ export class MyTestDataSearchComponent implements OnInit {
       allowSearchFilter: true,
       clearSearchFilter: true,
     };
+    this.testDataDropdownValues=this.testDataService.fetchDropdownValues();
 
-    this.testDataIdDropdownList = [
-      { item_id: 1, item_text: 'Test 1' },
-      { item_id: 2, item_text: 'Test 2' },
-      { item_id: 3, item_text: 'Test 3' },
-      { item_id: 4, item_text: 'Test 4' },
-      { item_id: 5, item_text: 'Test 5' }
-    ];
-
-    this.testDataIdSelectedList = [
-      { item_id: 1, item_text: 'Test 1' },
-      { item_id: 2, item_text: 'Test 2' },
-      { item_id: 3, item_text: 'Test 3' },
-      { item_id: 4, item_text: 'Test 4' },
-      { item_id: 5, item_text: 'Test 5' }
-    ];
-
-    this.testScriptDropdownList = [
-      { item_id: 1, item_text: 'Test 1' },
-      { item_id: 2, item_text: 'Test 2' },
-      { item_id: 3, item_text: 'Test 3' },
-      { item_id: 4, item_text: 'Test 4' },
-      { item_id: 5, item_text: 'Test 5' }
-    ];
-
-    this.testScriptSelectedList = [
-      { item_id: 1, item_text: 'Test 1' },
-      { item_id: 2, item_text: 'Test 2' },
-      { item_id: 3, item_text: 'Test 3' },
-      { item_id: 4, item_text: 'Test 4' },
-      { item_id: 5, item_text: 'Test 5' }
-    ];
+    this.testDataIdDropdownList =  this.testDataDropdownValues['testDataId'];
+    this.testScriptDropdownList = this.testDataDropdownValues['testScripts'];
+    this.testDataShortDescriptionDropdownList=this.testDataDropdownValues['testShortDescription'];
+    this.testDataCategoryDropdownList=this.testDataDropdownValues['testCategory'];
+    this.jiraStoryDropdownList=this.testDataDropdownValues['jiraStory'];
+    this.testRunFlagDropdownList=this.testDataDropdownValues['runFlag'];
+    this.testDataCreatedByDropdownList=this.testDataDropdownValues['createdBy'];
+    this.testDataUpdatedByDropdownList=this.testDataDropdownValues['updatedBy'];
     
   }
 
-  
- 
-
   onItemSelect(event:any)
   {
-
+    console.log('Dropdown Item Select Event: '+event);
   }
 
   onSelectAll(event:any)
   {
-
+    console.log('Dropdown Select All Event: '+event);
   }
 
   showSeachContainer()
   {
     this.showSearch=!this.showSearch;
+  }
+
+  fetchTestData()
+  {
+    const testDataRequest:TestDataSearchCriteria={
+      'testDataId':this.testDataIdSelectedList,
+      'testCategory':this.testDataCategorySelectedList,
+      'jiraStory':this.jiraStorySelectedList,
+      'runFlag':this.testRunFlagSelectedList,
+      'testScripts':this.testScriptSelectedList,
+      'testShortDescription':this.testDataShortDescriptionSelectedList,
+      'createdBy':this.testDataCreatedBySelectedList,
+      'updatedBy':this.testDataUpdatedBySelectedList
+    }
+
+    console.log('Test data request : '+JSON.stringify(testDataRequest));
+
+    this.listOfTestData=this.testDataService.fetchTestData();
+  }
+
+  clearSearch()
+  {
+
+  this.testDataIdSelectedList=[];
+  this.testScriptSelectedList=[];
+  this.testDataShortDescriptionSelectedList=[];
+  this.testDataCategorySelectedList=[];
+  this.jiraStorySelectedList=[];
+  this.testRunFlagSelectedList=[];
+  this.testDataCreatedBySelectedList=[];
+  this.testDataUpdatedBySelectedList=[];
+
   }
 
 }

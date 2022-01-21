@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,11 +10,10 @@ export class MyHeaderComponent
 {
 
   @ViewChild('app-my-test-scripts') show: any;
+  @Output() featureSelected=new EventEmitter<string>();
   
-  
+  highlightFeature:string='';
   constructor(private router:Router) { }
-
-  featureSelected:string='';
 
   ngOnInit(): void {
   }
@@ -25,15 +24,18 @@ export class MyHeaderComponent
   }
 
   navigateToFeature(feature:string) {
-    this.featureSelected=feature;
+    this.highlightFeature=feature;
+    this.featureSelected.emit(feature);
+    console.log('Clicked '+feature)
   }
 
-  navigateToExecutionSummary(event:any) {
-    this.router.navigate(['/execution-summary']);
-  }
-
-  navigateToTestScripts(event:any) {
-    this.router.navigate(['/test-scripts']);
+  highlight(selectedFeature:string):string
+  {
+    if(selectedFeature===this.highlightFeature)
+    {
+      return 'highlight-selected-Link';
+    }
+    return '';
   }
 
 }

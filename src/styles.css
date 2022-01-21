@@ -32,11 +32,18 @@ thead th {
 }
 
 ::-webkit-scrollbar {
-    width: 2px;
+    width: 15px;
+    height: 20px;
+    color: rgb(10, 10, 10);
+    background-color: transparent;
 }
 
 
 /* Handle on hover */
+
+::-webkit-scrollbar-thumb {
+    color: #000;
+}
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
@@ -50,4 +57,33 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.collapsible {
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border: none;
+    padding: 10px;
+    background-color: rgb(36, 40, 44);
+    color: white;
+    font-weight: bold;
+}
+
+.table-textarea {
+    border-color: transparent;
+    background-color: transparent;
+    /* overflow: hidden; */
+    font-weight: bold;
+}
+
+.table-textarea-edit {
+    border-color: transparent;
+    background-color: transparent;
+    /* overflow: hidden; */
+    font-weight: bold;
+}
+
+.table-textarea::-webkit-resizer {
+    display: none;
 }

@@ -3,11 +3,19 @@
     <header class="header-title">AUTOMATION TEST RUNNER</header>
 
     <div class="nav-bar">
-        <a (click)="navigateToExecutionSummary($event)">EXECUTION SUMMARY</a>
-        <!-- <a (click)="navigateToFeature('test-data')">TEST DATA</a> -->
-        <a (click)="navigateToTestScripts($event)">TEST SCRIPTS</a>
+        <a routerLink="/test-reports" routerLinkActive="active">REPORTS</a>
+        <a routerLink="/test-execution-summary" routerLinkActive="active">EXECUTION SUMMARY</a>
+        <a routerLink="/test-data" routerLinkActive="active">TEST DATA</a>
+        <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')" [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a>
+        <!-- 
+        <a routerLink="/test-execution-summary" routerLinkActive="active" (click)="navigateToFeature('test-execution-summary')" [ngClass]="highlight('test-execution-summary')">EXECUTION SUMMARY</a>
+        <a routerLink="/test-data" routerLinkActive="active" (click)="navigateToFeature('test-data')" [ngClass]="highlight('test-data')">TEST DATA</a>
+        <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')" [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a> -->
     </div>
-    <div class="my-profile">
-        <a> MY PROFILE</a>
+    <div class="my-profile" ngbDropdown>
+        <a role="button" ngbDropdownToggle> MY PROFILE</a>
+        <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+            <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Log out</a>
+        </div>
     </div>
 </div>

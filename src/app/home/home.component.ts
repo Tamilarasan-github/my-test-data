@@ -9,7 +9,14 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
+  selectedModule:string='';
+
   ngOnInit(): void {
   }
 
+  navigateToModule(moduleName:string)
+  {
+    console.log(moduleName)
+    this.selectedModule=moduleName;
+  }
 }

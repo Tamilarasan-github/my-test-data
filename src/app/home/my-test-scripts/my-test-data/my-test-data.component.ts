@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-my-test-data',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-test-data.component.css']
 })
 export class MyTestDataComponent implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit(): void {

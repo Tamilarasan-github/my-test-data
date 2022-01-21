@@ -1,56 +1,561 @@
-<div class="search-results-container">
+<div class="container-xxl mw-100">
     <div>
         <button class="collapsible">Test Data Search Results</button>
     </div>
-    <div class="results-action-btn">
-        <!-- <div class="results-column-dropdown">
+    <div class="container-xxl mw-100">
+        <div class="d-flex justify-content-center">
+
+            <div class="my-2 px-1">
+                <ngb-pagination [collectionSize]="dataCollectionSize" [(page)]="page" [pageSize]="pageSize" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="pageChange()">
+                </ngb-pagination>
+            </div>
+            <!-- <div class="results-column-dropdown">
             <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="selectColumnsDropdownSettings" [data]="columnsDropdownList" [(ngModel)]="columnsSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
             </ng-multiselect-dropdown>
         </div> -->
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary">Add</button>
-        </div>
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary">Clone</button>
-        </div>
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary">Delete</button>
-        </div>
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary">Update Run Flags</button>
-        </div>
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary">Update Status</button>
-        </div>
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary" (click)="showExportOptions()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-              </svg>
-            </button>
-            <div class="export-container" *ngIf="enableExportDropdown">
-                <button class="export-dropdown-btn"> All Data </button>
-                <button class="export-dropdown-btn"> Selected Data </button>
+            <div class="my-2 px-1">
+                <button type="button" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                  </svg>
+                </button>
             </div>
-        </div>
-
-        <div class="columns-dropdown-div">
-            <button type="button" class="btn btn-primary column-dropdown-btn" (click)="showColumnDropdown($event)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-columns-reverse" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Z"/>
-              </svg>
-            </button>
-
-            <div class="columns-dropdown-container" *ngIf="enableColumnDropdown">
-                <input class="search-txtbox" type="text" placeholder="Search" (input)="searchColumnsInDropdown($event)">
-                <div class="columns-dropdown" *ngFor="let column of filteredColumnsDropdownList">
-
-                    <input class="columns-dropdown-checkbox" type="checkbox" [checked]="columnsSelectedList.includes(column)" (change)="updateColumnsVisible($event, column)">
-                    <label class="columns-dropdown-label">{{column}}</label>
+            <div class="my-2 px-1">
+                <button type="button" class="btn btn-primary" (click)="cloneSelectedTestData()"><svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+              </svg></button>
+            </div>
+            <div class="my-2 px-1">
+                <button type="button" class="btn btn-primary" (click)="deleteSelectedTestData()"><svg xmlns="http://www.w3.org/2000/svg"  width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg></button>
+            </div>
+            <div ngbDropdown class="my-2 px-1">
+                <button ngbDropdownToggle type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                    <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                    <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                  </svg>
+                 </button>
+                <div ngbDropdownMenu>
+                    <a ngbDropdownItem> Yes </a>
+                    <a ngbDropdownItem> No </a>
                 </div>
             </div>
-        </div>
+            <div ngbDropdown class="my-2 px-1">
+                <button ngbDropdownToggle type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-download" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                </svg>
+            </button>
+                <div ngbDropdownMenu>
+                    <a ngbDropdownItem class="export-dropdown-btn"> All Data </a>
+                    <a ngbDropdownItem class="export-dropdown-btn"> Selected Data </a>
+                </div>
+            </div>
 
+            <div ngbDropdown class="my-2 px-1" [autoClose]="false">
+                <button ngbDropdownToggle type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg " width="16 " height="16 " fill="currentColor "
+                    class="bi bi-list-columns-reverse " viewBox="0 0 16 16 ">
+                    <path fill-rule="evenodd "
+                        d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5
+                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5
+                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5
+                    0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5
+                    0 0 1-.5-.5Z " />
+                </svg>
+                 </button>
+
+                <div ngbDropdownMenu>
+                    <input class="search-txtbox" type="text " placeholder="Search " (input)="searchColumnsInDropdown($event)">
+                    <div ngbDropdownItem class="dropdown-item" *ngFor="let column of filteredColumnsDropdownList ">
+
+                        <input class="columns-dropdown-checkbox" type="checkbox" [checked]="columnsSelectedList.includes(column)" (change)="updateColumnsVisible($event, column)">
+                        <label class="columns-dropdown-label">{{column}}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="table-responsive m-2">
+
+        <table class="table table-borderless table-hover scrollable-div">
+
+            <thead class="thead-dark table-header">
+                <th> <input type="checkbox"> </th>
+                <th> ACTIONS </th>
+                <th>Test Data ID</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+                <th>Column 4</th>
+                <th>Column 5</th>
+                <th>Column 6</th>
+                <th>Column 7</th>
+                <th>Column 8</th>
+                <th>Column 9</th>
+                <th>Column 10</th>
+                <th>Column 11</th>
+                <th>Column 12</th>
+                <th>Column 13</th>
+                <th>Column 14</th>
+                <th>Column 15</th>
+                <th>Column 16</th>
+                <th>Column 17</th>
+                <th>Column 18</th>
+                <th>Column 19</th>
+                <th>Column 20</th>
+                <th>Column 21</th>
+                <th>Column 22</th>
+                <th>Column 23</th>
+                <th>Column 24</th>
+                <th>Column 25</th>
+                <th>Column 26</th>
+                <th>Column 27</th>
+                <th>Column 28</th>
+                <th>Column 29</th>
+                <th>Column 30</th>
+                <th>Column 31</th>
+                <th>Column 32</th>
+                <th>Column 33</th>
+                <th>Column 34</th>
+                <th>Column 35</th>
+                <th>Column 36</th>
+                <th>Column 37</th>
+                <th>Column 38</th>
+                <th>Column 39</th>
+                <th>Column 40</th>
+                <th>Column 41</th>
+                <th>Column 42</th>
+                <th>Column 43</th>
+                <th>Column 44</th>
+                <th>Column 45</th>
+                <th>Column 46</th>
+                <th>Column 47</th>
+                <th>Column 48</th>
+                <th>Column 49</th>
+                <th>Column 50</th>
+                <th>Column 51</th>
+                <th>Column 52</th>
+                <th>Column 53</th>
+                <th>Column 54</th>
+                <th>Column 55</th>
+                <th>Column 56</th>
+                <th>Column 57</th>
+                <th>Column 58</th>
+                <th>Column 59</th>
+                <th>Column 60</th>
+                <th>Column 61</th>
+                <th>Column 62</th>
+                <th>Column 63</th>
+                <th>Column 64</th>
+                <th>Column 65</th>
+                <th>Column 66</th>
+                <th>Column 67</th>
+                <th>Column 68</th>
+                <th>Column 69</th>
+                <th>Column 70</th>
+                <th>Column 71</th>
+                <th>Column 72</th>
+                <th>Column 73</th>
+                <th>Column 74</th>
+                <th>Column 75</th>
+                <th>Column 76</th>
+                <th>Column 77</th>
+                <th>Column 78</th>
+                <th>Column 79</th>
+                <th>Column 80</th>
+                <th>Column 81</th>
+                <th>Column 82</th>
+                <th>Column 83</th>
+                <th>Column 84</th>
+                <th>Column 85</th>
+                <th>Column 86</th>
+                <th>Column 87</th>
+                <th>Column 88</th>
+                <th>Column 89</th>
+                <th>Column 90</th>
+                <th>Column 91</th>
+                <th>Column 92</th>
+                <th>Column 93</th>
+                <th>Column 94</th>
+                <th>Column 95</th>
+                <th>Column 96</th>
+                <th>Column 97</th>
+                <th>Column 98</th>
+                <th>Column 99</th>
+                <th>Column 100</th>
+                <th>Column 101</th>
+                <th>Column 102</th>
+                <th>Column 103</th>
+                <th>Column 104</th>
+                <th>Column 105</th>
+                <th>Column 106</th>
+                <th>Column 107</th>
+                <th>Column 108</th>
+                <th>Column 109</th>
+                <th>Column 110</th>
+                <th>Column 111</th>
+                <th>Column 112</th>
+                <th>Column 113</th>
+                <th>Column 114</th>
+                <th>Column 115</th>
+                <th>Column 116</th>
+                <th>Column 117</th>
+                <th>Column 118</th>
+                <th>Column 119</th>
+                <th>Column 120</th>
+                <th>Column 121</th>
+                <th>Column 122</th>
+                <th>Column 123</th>
+                <th>Column 124</th>
+                <th>Column 125</th>
+                <th>Column 126</th>
+                <th>Column 127</th>
+                <th>Column 128</th>
+                <th>Column 129</th>
+                <th>Column 130</th>
+                <th>Column 131</th>
+                <th>Column 132</th>
+                <th>Column 133</th>
+                <th>Column 134</th>
+                <th>Column 135</th>
+                <th>Column 136</th>
+                <th>Column 137</th>
+                <th>Column 138</th>
+                <th>Column 139</th>
+                <th>Column 140</th>
+                <th>Column 141</th>
+                <th>Column 142</th>
+                <th>Column 143</th>
+                <th>Column 144</th>
+                <th>Column 145</th>
+            </thead>
+            <!-- <thead>
+                <th> <input type="checkbox"> </th>
+                <th> ACTIONS </th>
+                <th *ngFor="let header of headers(listOfTestDataReceived[0])">{{header}}</th>
+            </thead> -->
+            <tbody>
+                <tr *ngFor="let testData of listOfTestDataReceived | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                    <td> <input type="checkbox"> </td>
+                    <td>
+                        <i class='mx-2 fas fa-edit edit-icon' *ngIf="editableTestData!=testData " (click)="onEdit($event, testData) "></i>
+
+                        <i class='mx-2 fas fa-trash delete-icon' *ngIf="editableTestData!=testData " (click)="onDelete($event, testData) "></i>
+
+                        <i class='mx-2 fa fa-times cancel-icon' *ngIf="editableTestData===testData " (click)="onCancel($event, testData) "></i>
+
+                        <i class='mx-2 fa fa-save save-icon' *ngIf="editableTestData===testData " (click)="onUpdate(testData) "></i>
+                    </td>
+                    <td>
+                        <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.testDataId [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.testDataId}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea>
+                    </td>
+
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column2 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column2}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column3 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column3}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column4 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column4}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column5 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column5}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column6 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column6}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column7 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column7}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column8 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column8}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column9 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column9}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column10 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column10}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column11 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column11}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column12 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column12}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column13 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column13}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column14 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column14}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column15 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column15}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column16 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column16}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column17 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column17}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column18 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column18}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column19 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column19}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column20 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column20}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column21 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column21}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column22 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column22}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column23 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column23}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column24 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column24}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column25 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column25}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column26 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column26}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column27 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column27}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column28 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column28}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column29 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column29}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column30 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column30}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column31 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column31}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column32 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column32}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column33 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column33}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column34 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column34}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column35 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column35}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column36 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column36}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column37 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column37}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column38 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column38}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column39 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column39}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column40 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column40}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column41 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column41}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column42 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column42}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column43 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column43}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column44 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column44}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column45 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column45}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column46 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column46}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column47 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column47}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column48 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column48}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column49 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column49}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column50 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column50}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column51 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column51}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column52 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column52}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column53 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column53}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column54 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column54}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column55 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column55}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column56 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column56}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column57 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column57}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column58 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column58}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column59 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column59}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column60 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column60}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column61 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column61}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column62 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column62}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column63 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column63}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column64 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column64}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column65 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column65}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column66 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column66}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column67 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column67}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column68 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column68}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column69 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column69}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column70 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column70}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column71 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column71}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column72 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column72}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column73 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column73}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column74 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column74}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column75 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column75}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column76 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column76}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column77 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column77}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column78 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column78}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column79 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column79}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column80 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column80}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column81 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column81}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column82 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column82}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column83 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column83}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column84 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column84}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column85 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column85}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column86 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column86}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column87 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column87}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column88 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column88}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column89 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column89}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column90 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column90}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column91 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column91}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column92 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column92}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column93 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column93}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column94 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column94}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column95 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column95}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column96 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column96}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column97 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column97}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column98 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column98}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column99 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column99}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column100 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column100}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column101 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column101}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column102 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column102}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column103 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column103}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column104 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column104}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column105 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column105}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column106 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column106}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column107 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column107}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column108 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column108}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column109 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column109}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column110 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column110}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column111 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column111}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column112 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column112}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column113 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column113}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column114 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column114}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column115 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column115}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column116 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column116}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column117 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column117}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column118 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column118}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column119 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column119}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column120 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column120}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column121 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column121}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column122 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column122}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column123 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column123}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column124 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column124}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column125 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column125}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column126 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column126}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column127 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column127}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column128 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column128}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column129 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column129}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column130 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column130}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column131 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column131}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column132 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column132}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column133 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column133}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column134 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column134}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column135 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column135}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column136 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column136}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column137 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column137}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column138 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column138}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column139 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column139}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column140 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column140}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column141 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column141}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column142 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column142}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column143 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column143}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column144 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column144}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' "></textarea></td>
+                    <td> <textarea *ngIf="editableTestData!=testData " [disabled]="true " [(ngModel)]=testData.column145 [ngClass]=" 'table-textarea' "></textarea>
+                        <textarea #currentTestDataRow *ngIf="editableTestData===testData " value={{testData.column145}} (change)="updateExistingTestDataFieldDetails($event, testData) " [ngClass]=" 'table-textarea-edit' ">
+                    </textarea>
+                    </td>
+
+
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 </div>
