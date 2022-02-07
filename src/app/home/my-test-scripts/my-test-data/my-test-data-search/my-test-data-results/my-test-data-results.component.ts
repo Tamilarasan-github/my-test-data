@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { KeyValue } from '@angular/common';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { MyTestDataService } from '../../my-test-data.service';
@@ -11,25 +12,36 @@ import { TestData } from './my-test-data';
 })
 export class MyTestDataResultsComponent implements OnInit {
 
-  constructor(private testDataService:MyTestDataService) { }
+  constructor(private testDataService: MyTestDataService) { }
 
   @Input()
   listOfTestDataReceived: TestData[] = [];
 
   @Input()
-  dataCollectionSize:number=0;
+  dataCollectionSize: number = 0;
 
   page = 1;
   pageSize = 10;
- 
+
   selectColumnsDropdownSettings: IDropdownSettings = {};
 
- // listOfTestData:TestData[]=[]
-  editableTestData: TestData| undefined;
-  testDataDetailsUpdate:Map<String,Map<String,String>>=new Map<String, Map<String,String>>();
-  listOfTestDataSelected:TestData[]=[];
-
-  columnsDropdownList: string[] = [];
+  // listOfTestData:TestData[]=[]
+  editableTestData: TestData | undefined;
+  testDataDetailsUpdate: Map<number, Map<number, String>> = new Map<number, Map<number, String>>();
+  listOfTestDataSelected: TestData[] = [];
+  headersList = [
+    'Column2',
+    'Column3',
+    'Column4',
+    'Column5',
+    'Column6',
+    'Column7',
+    'Column8',
+    'Column9',
+    'Column10',
+   
+  ];
+  columnsList: string[] = [];
   filteredColumnsDropdownList: string[] = [];
   columnsSelectedList: string[] = [];
 
@@ -48,28 +60,28 @@ export class MyTestDataResultsComponent implements OnInit {
       clearSearchFilter: true,
     };
 
-    this.columnsDropdownList = [
-      'Column 1',
-      'Column 2',
-      'Column 3',
-      'Column 4',
-      'Column 5',
-      'Column 6',
-      'Column 7',
-      'Column 8',
-      'Column 9',
-      'Column 10',
+    this.columnsList = [
+      'Column2',
+      'Column3',
+      'Column4',
+      'Column5',
+      'Column6',
+      'Column7',
+      'Column8',
+      'Column9',
+      'Column10',
+     
     ];
 
     this.columnsSelectedList = [
-      'Column 1',
-      'Column 2',
-      'Column 3',
-      'Column 4',
-      'Column 5'
+      'Column1',
+      'Column2',
+      'Column3',
+      'Column4',
+      'Column5'
     ];
 
-   this.filteredColumnsDropdownList=this.columnsDropdownList;
+    this.filteredColumnsDropdownList = this.columnsList;
   }
 
   onSelectAll(event: any) {
@@ -80,12 +92,12 @@ export class MyTestDataResultsComponent implements OnInit {
 
   }
 
-  showColumnDropdown(event:any) {
+  showColumnDropdown(event: any) {
     console.log(event)
     this.enableColumnDropdown = true;
   }
 
-  hideColumnDropdown(event:any) {
+  hideColumnDropdown(event: any) {
     console.log(event)
     this.enableColumnDropdown = false;
   }
@@ -94,48 +106,41 @@ export class MyTestDataResultsComponent implements OnInit {
     if (event.target.checked === false) {
 
       const index = this.columnsSelectedList.indexOf(column);
-     
+
       if (index !== -1) {
         this.columnsSelectedList.splice(index, 1);
-        console.log('Removed Index : ' + index + ' Column: '+column);
+        console.log('Removed Index : ' + index + ' Column: ' + column);
       }
     }
-    else  if (event.target.checked === true)
-    {
+    else if (event.target.checked === true) {
       this.columnsSelectedList.push(column);
       console.log('Added : ' + column);
     }
   }
 
-  searchColumnsInDropdown(event:any)
-  {
-    const expectedValue:string=event.target.value;
-    console.log('Typed Char is '+expectedValue);
+  searchColumnsInDropdown(event: any) {
+    const expectedValue: string = event.target.value;
+    console.log('Typed Char is ' + expectedValue);
 
-    const columnFilteredSearchResults:string[]=[];
+    const columnFilteredSearchResults: string[] = [];
 
-    this.columnsDropdownList.forEach((value)=>
-    {
-      console.log('Loop current value is ' +value);
-     if(value.includes(expectedValue))
-      {
+    this.columnsList.forEach((value) => {
+      console.log('Loop current value is ' + value);
+      if (value.includes(expectedValue)) {
         columnFilteredSearchResults.push(value);
       }
     });
     console.log(columnFilteredSearchResults);
-    this.filteredColumnsDropdownList=columnFilteredSearchResults;
+    this.filteredColumnsDropdownList = columnFilteredSearchResults;
   }
 
-  showExportOptions()
-  {
-    this.enableExportDropdown=!this.enableExportDropdown;
+  showExportOptions() {
+    this.enableExportDropdown = !this.enableExportDropdown;
   }
 
 
-  onDelete(event: any, testData: TestData)
-  {
-    if(confirm('Are you sure? Do you want to delete this row '+testData.testDataId+' ?'))
-    {
+  onDelete(event: any, testData: TestData) {
+    if (confirm('Are you sure? Do you want to delete this row ' + testData.test_data_id + ' ?')) {
       alert('Deleted successfully!');
     }
   }
@@ -145,50 +150,47 @@ export class MyTestDataResultsComponent implements OnInit {
   }
 
   onCancel(event: any, testData: TestData) {
-    if(this.testDataDetailsUpdate.has(testData.testDataId))
-    {
-      if(confirm('Are you sure? Do you want to cancel the changes made for this row?'))
-      {
-       this.testDataDetailsUpdate.clear();    
-        
-       }
-     }
-     this.editableTestData = undefined;
+    if (this.testDataDetailsUpdate.has(testData.test_data_id)) {
+      if (confirm('Are you sure? Do you want to cancel the changes made for this row?')) {
+        this.testDataDetailsUpdate.clear();
+
+      }
+    }
+    this.editableTestData = undefined;
   }
 
-  onUpdate(testData:TestData) {
+  onUpdate(testData: TestData) {
 
-    if(this.testDataDetailsUpdate.has(testData.testDataId))
-    {
+    if (this.testDataDetailsUpdate.has(testData.test_data_id)) {
       for (let [key, value] of this.testDataDetailsUpdate) {
-        console.log(key, value); 
-        alert("Updated Successfully!")       
+        console.log(key, value);
+        alert("Updated Successfully!")
+      }
     }
-    }
-    else{
+    else {
       alert("No changes were found!")
     }
-  // this.enableEditAndDelete(event, testScriptId, testScript);
-}
-
-updateExistingTestDataFieldDetails(event: any, testData: TestData) {
-
-  console.log(this.testDataDetailsUpdate.get(testData.testDataId));
-  const updateColumn = event.target.name;
-  const updatedValue = event.target.value;
-
-  console.log(updateColumn + ' Updated Value:' + updatedValue);
-  const updateData = new Map<string, string>();
-  updateData.set(updateColumn, updatedValue);
-
-  if (this.testDataDetailsUpdate.has(testData.testDataId)) {
-    const existingStoredData = this.testDataDetailsUpdate.get(testData.testDataId);
-    existingStoredData?.set(updateColumn, updatedValue);
+    // this.enableEditAndDelete(event, testScriptId, testScript);
   }
-  else {
-    this.testDataDetailsUpdate.set(testData.testDataId, updateData);
+
+  updateExistingTestDataFieldDetails(event: any, testData: TestData) {
+
+    console.log(this.testDataDetailsUpdate.get(testData.test_data_id));
+    const updateColumn = event.target.name;
+    const updatedValue = event.target.value;
+
+    console.log(updateColumn + ' Updated Value:' + updatedValue);
+    const updateData = new Map<number, string>();
+    updateData.set(updateColumn, updatedValue);
+
+    if (this.testDataDetailsUpdate.has(testData.test_data_id)) {
+      const existingStoredData = this.testDataDetailsUpdate.get(testData.test_data_id);
+      existingStoredData?.set(updateColumn, updatedValue);
+    }
+    else {
+      this.testDataDetailsUpdate.set(testData.test_data_id, updateData);
+    }
   }
-}
 
   eventCheck(event: any, TestData: TestData) {
     if (event.target.checked) {
@@ -206,42 +208,42 @@ updateExistingTestDataFieldDetails(event: any, testData: TestData) {
     }
   }
 
-  getColumnValue(testData:TestData)
-  {
+  getColumnValue(testData: TestData) {
 
   }
 
-  headers(testData:TestData)
-  {
-    const columnMapping=new Map(Object.entries(testData));
+  headers(testData: TestData) {
+    const columnMapping = new Map(Object.entries(testData));
     return columnMapping.keys();
   }
-  columns(testData:TestData):Map<String, String>
-  {
-    const columnMapping:Map<String,String>=new Map(Object.entries(testData));
+  columns(testData: TestData): Map<String, String> {
+    const columnMapping: Map<String, String> = new Map(Object.entries(testData));
     console.log(columnMapping);
     return columnMapping;
   }
 
-  pageChange()
-  {
-    
+  pageChange() {
+
   }
 
-  deleteSelectedTestData()
-  {
-    if(confirm("Are you sure do you want to delete the selected test data?"))
-    {
+  deleteSelectedTestData() {
+    if (confirm("Are you sure do you want to delete the selected test data?")) {
       alert("Selected test data deleted successfully!")
     }
   }
 
-  cloneSelectedTestData()
-  {
-    if(confirm("Are you sure do you want to clone the selected test data?"))
-    {
+  cloneSelectedTestData() {
+    if (confirm("Are you sure do you want to clone the selected test data?")) {
       alert("Selected test data cloned successfully!")
     }
   }
+  unsorted():number
+  { 
+    return 0;
+  }
 
+  getDependentRows(parentRowId:any):TestData[]
+  {
+    return this.testDataService.fetchDependentTestData(parentRowId);
+  }
 }

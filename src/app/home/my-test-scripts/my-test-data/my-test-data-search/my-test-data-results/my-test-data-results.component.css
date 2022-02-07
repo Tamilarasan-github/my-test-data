@@ -13,12 +13,6 @@
     margin: 15px;
 }
 
-.results-action-btn {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 10px;
-    justify-content: center;
-}
 
 .results-column-dropdown {
     margin: 15px;
@@ -55,8 +49,15 @@ columns-dropdown-checkbox {
     padding: 5px;
 }
 
+.custom-dropdown
+{
+    max-height: 100px;
+    overflow: scroll;
+}
+
 .search-txtbox {
     border-style: none;
+  
 }
 
 .scrollable-div {

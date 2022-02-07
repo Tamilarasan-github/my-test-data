@@ -103,6 +103,7 @@ export class MyTestDataSearchComponent implements OnInit {
     console.log('Test data request : '+JSON.stringify(testDataRequest));
 
     this.listOfTestData=this.testDataService.fetchTestData();
+    console.log(this.listOfTestData)
   }
 
   clearSearch()
