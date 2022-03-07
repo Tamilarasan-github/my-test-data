@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Event } from '@angular/router';
 import { NewGroup } from './my-new-group';
 import { TestScriptGroups } from './my-test-script-groups';
-import { MyTestScriptService } from './my-test-script-service';
+import { TestScriptService } from './my-test-script-service';
 import { TestScriptData } from './test-script-data';
 
 @Component({
@@ -40,7 +40,7 @@ export class MyTestScriptsComponent implements OnInit {
 
   groupsList: String[] = [];
 
-  constructor(private testScriptService: MyTestScriptService) {
+  constructor(private testScriptService: TestScriptService) {
 
   }
 

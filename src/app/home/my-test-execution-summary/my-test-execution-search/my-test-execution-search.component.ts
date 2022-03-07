@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { MyTestExecutionSummaryService } from '../my-test-execution-summary-service';
+import { TestExecutionSummaryService } from '../my-test-execution-summary-service';
 import { TestExecutionSummarySearchCriteria } from './my-test-execution-summary-search-criteria';
 
 @Component({
@@ -10,7 +10,7 @@ import { TestExecutionSummarySearchCriteria } from './my-test-execution-summary-
 })
 export class MyTestExecutionSearchComponent implements OnInit {
 
-  constructor(private testExecutionSummaryService:MyTestExecutionSummaryService) { }
+  constructor(private testExecutionSummaryService:TestExecutionSummaryService) { }
 
   showSearch:boolean=true;
 

@@ -25,18 +25,18 @@ thead th {
 }
 
 * {
-    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, FontAwesome;
     -webkit-font-smoothing: antialiased;
     margin: 0px;
     padding: 0px;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 15px;
     height: 20px;
     color: rgb(10, 10, 10);
     background-color: transparent;
-}
+} */
 
 
 /* Handle on hover */
@@ -87,3 +87,4 @@ body {
 .table-textarea::-webkit-resizer {
     display: none;
 }
+

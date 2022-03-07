@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { TestExecutionSummarySearchCriteria } from "./my-test-execution-search/my-test-execution-summary-search-criteria";
 
 @Injectable()
-export class MyTestExecutionSummaryService
+export class TestExecutionSummaryService
 {
 
     getTestExecutionSummaryDropdownValues():TestExecutionSummarySearchCriteria

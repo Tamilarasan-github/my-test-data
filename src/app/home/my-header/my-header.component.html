@@ -1,21 +1,59 @@
-<div class="top-container">
-
-    <header class="header-title">AUTOMATION TEST RUNNER</header>
-
-    <div class="nav-bar">
-        <a routerLink="/test-reports" routerLinkActive="active">REPORTS</a>
-        <a routerLink="/test-execution-summary" routerLinkActive="active">EXECUTION SUMMARY</a>
-        <a routerLink="/test-data" routerLinkActive="active">TEST DATA</a>
-        <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')" [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a>
-        <!-- 
-        <a routerLink="/test-execution-summary" routerLinkActive="active" (click)="navigateToFeature('test-execution-summary')" [ngClass]="highlight('test-execution-summary')">EXECUTION SUMMARY</a>
-        <a routerLink="/test-data" routerLinkActive="active" (click)="navigateToFeature('test-data')" [ngClass]="highlight('test-data')">TEST DATA</a>
-        <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')" [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a> -->
+<div class="d-flex top-container">
+    <div class="me-auto">
+        <a class="header-title">AUTOMATION TEST RUNNER</a>
     </div>
-    <div class="my-profile" ngbDropdown>
-        <a role="button" ngbDropdownToggle> MY PROFILE</a>
+    <div class="ms-auto" ngbDropdown>
+        <a role="button" class="my-profile" ngbDropdownToggle> MY PROFILE</a>
         <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
             <a ngbDropdownItem href="#" (click)="$event.preventDefault()">Log out</a>
+        </div>
+    </div>
+</div>
+
+<div class="nav-bar-main">
+    <div class="d-flex justify-content-between">
+        <div  class="d-flex justify-content-between">
+            <div>
+                <select class="form-select form-select-sm select-customized" (change)="changeApplication($event)">
+                   <option>Select Application</option>
+                    <option *ngFor="let application of getApplicationList()">
+                        {{application.applicationName}}
+                    </option>
+                 
+                </select>
+            </div>
+            <div>
+                <select class="form-select form-select-sm select-customized" (change)="changeTable($event)">
+                    <option>Select Test Data Table</option>
+                    <option *ngFor="let table of getTableList()">
+                        {{table.tableName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="d-flex justify-content-sm-end align-items-stretch nav-bar">
+
+            <div class="flex-sm-shrink-1">
+                <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')"
+                    [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a>
+            </div>
+            <div class="flex-sm-shrink-1">
+                <a routerLink="/test-data" routerLinkActive="active">TEST DATA</a>
+            </div>
+
+            <div class="flex-sm-shrink-1">
+                <a routerLink="/test-reports" routerLinkActive="active">REPORTS</a>
+            </div>
+            <div class="flex-sm-shrink-1">
+                <a routerLink="/test-execution-summary" routerLinkActive="active">EXECUTION SUMMARY</a>
+            </div>
+            <!-- 
+    <a routerLink="/test-execution-summary" routerLinkActive="active" (click)="navigateToFeature('test-execution-summary')" [ngClass]="highlight('test-execution-summary')">EXECUTION SUMMARY</a>
+    <a routerLink="/test-data" routerLinkActive="active" (click)="navigateToFeature('test-data')" [ngClass]="highlight('test-data')">TEST DATA</a>
+    <a routerLink="/test-scripts" routerLinkActive="active" (click)="navigateToFeature('test-scripts')" [ngClass]="highlight('test-scripts')">TEST SCRIPTS</a> -->
         </div>
     </div>
 </div>

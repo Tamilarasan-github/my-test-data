@@ -51,7 +51,7 @@ columns-dropdown-checkbox {
 
 .custom-dropdown
 {
-    max-height: 100px;
+    max-height: 250px;
     overflow: scroll;
 }
 
@@ -61,10 +61,18 @@ columns-dropdown-checkbox {
 }
 
 .scrollable-div {
-    max-height: 550px;
+   
+    max-height: 540px;
     overflow: scroll;
     background-color: rgb(149, 192, 194);
 }
+
+th{
+    position: sticky;
+    top: 0;
+    background-color: dimgrey;
+}
+
 
 .table-header {
     background-color: dimgrey;

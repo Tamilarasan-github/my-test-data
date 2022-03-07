@@ -1,0 +1,199 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { TestDataService } from '../my-test-data.service';
+import { TestDataMeta } from '../my-test-data-results/my-test-data-meta';
+import { TestDataSearchCriteria } from './my-test-data-search-criteria';
+import { TestDataMetaDropdownValues } from './my-test-data-meta-dropdown-values';
+import { ApplicationTableInfoService } from '../../my-header/my-application-table-info-service';
+
+
+@Component({
+  selector: 'app-my-test-data-search',
+  templateUrl: './my-test-data-search.component.html',
+  styleUrls: ['./my-test-data-search.component.css']
+})
+export class MyTestDataSearchComponent implements OnInit {
+
+  constructor(private testDataService: TestDataService, 
+    private applicationTableInfoService:ApplicationTableInfoService) 
+  {
+    console.log("TestDataSearch Constructor triggered!!!!");
+    this.testDataService.testDataMetaDropdownValuesAsObservable.subscribe(
+      {
+        next:(value)=>
+        {
+          this.setDropdownValues(value);
+        }
+      }
+    )
+  }
+
+  @Output() 
+  listOfTestDataSearchResults= new EventEmitter<TestDataMeta[]>();
+  
+  testDataMetaDropdownValues!: TestDataMetaDropdownValues;
+
+  showSearch: boolean = true;
+ 
+  searchDropdownSettings: IDropdownSettings = {};
+
+  testDataMetaIdDropdownList: number[] = [];
+  testDataMetaIdSelectedList: number[]= [];
+
+  testTableId: number=0;
+
+  testCaseIdDropdownList: any[] = [];
+  testCaseIdSelectedList: any = [];
+
+  jiraIdDropdownList: any[] = [];
+  jiraIdSelectedList: any = [];
+
+  testRunFlagDropdownList: any[] = [];
+  testRunFlagSelectedList: any = [];
+
+  testScriptNamesDropdownList: any[] = [];
+  testScriptNamesSelectedList: any = [];
+
+  testDataShortDescriptionDropdownList: any[] = [];
+  testDataShortDescriptionSelectedList: any = [];
+
+  testDataCategoryDropdownList: any[] = [];
+  testDataCategorySelectedList: any = [];
+
+  testDataPriorityDropdownList: any[] = [];
+  testDataPrioritySelectedList: any = [];
+
+  testDataCreatedByDropdownList: any[] = [];
+  testDataCreatedBySelectedList: any = [];
+
+  testDataCreatedDateFrom: Date = new Date(); ;
+  testDataCreatedDateTo: Date = new Date(); 
+
+  testDataUpdatedByDropdownList: any[] = [];
+  testDataUpdatedBySelectedList: any = [];
+
+  testDataUpdatedDateFrom: any = new Date(); 
+  testDataUpdatedDateTo: any = new Date(); 
+
+
+
+  ngOnInit(): void {
+    console.log("TestDataSearch ngOnInit() triggered!!!")
+    this.searchDropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+    };
+  }
+
+  // ngOnChanges()
+  // {
+  //   console.log("TestDataSearch ngOnChanges() triggered!!!!");
+  // }
+  ngDoCheck()
+  {
+    
+  }
+  // ngAfterContentInit()
+  // {
+  //   console.log("TestDataSearch ngAfterContentInit() triggered!!!!")
+  // }
+  // ngAfterContentChecked()
+  // {
+  //   console.log("TestDataSearch ngAfterContentChecked() triggered!!!!")
+  // }
+  // ngAfterViewInit()
+  // {
+  //   console.log("TestDataSearch ngAfterViewInit() triggered!!!!")
+  // }
+  // ngAfterViewChecked()
+  // {
+  //   console.log("TestDataSearch ngAfterViewChecked() triggered!!!!")
+  // }
+  // ngOnDestroy()
+  // {
+  //   console.log("TestDataSearch ngOnDestroy() triggered!!!!")
+  // }
+  
+  
+  
+  setDropdownValues(newValues: TestDataMetaDropdownValues)
+  {
+    console.log("Setting drop down values in component" +JSON.stringify(newValues));
+          this.testDataMetaIdDropdownList = newValues.testDataMetaId!;
+          this.testCaseIdDropdownList = newValues.testCaseId!;
+          this.testScriptNamesDropdownList = newValues.testScriptName!;
+          this.testDataShortDescriptionDropdownList = newValues.testShortDescription!;
+          this.testDataCategoryDropdownList = newValues.testCategory!;
+          this.testDataPriorityDropdownList=newValues.testPriority!;
+          this.jiraIdDropdownList = newValues.jiraId!;
+          this.testRunFlagDropdownList = newValues.runFlag!;
+          this.testDataCreatedByDropdownList = newValues.createdBy!;
+          this.testDataUpdatedByDropdownList = newValues.updatedBy!;
+  }
+
+  onItemSelect(event: any) {
+    console.log('Dropdown Item Select Event: ' + event);
+  }
+
+  onSelectAll(event: any) {
+    console.log('Dropdown Select All Event: ' + event);
+  }
+
+  showSeachContainer() {
+    this.showSearch = !this.showSearch;
+  }
+
+  
+  fetchTestData() {
+  
+    const testTableId=this.applicationTableInfoService.getSeletedTable();
+    const applicationId=this.applicationTableInfoService.getSeletedApplication();
+
+    const testDataSearchCriteria: TestDataSearchCriteria= new TestDataSearchCriteria(
+      this.testDataMetaIdSelectedList,
+      testTableId, 
+      this.testCaseIdSelectedList,
+      this.jiraIdSelectedList,
+      this.testRunFlagSelectedList, 
+      this.testScriptNamesSelectedList,
+      this.testDataShortDescriptionSelectedList,
+      this.testDataPrioritySelectedList,
+      this.testDataCategorySelectedList,
+      this.testDataCreatedBySelectedList,
+      this.testDataCreatedDateFrom,
+      this.testDataCreatedDateTo,
+      this.testDataUpdatedBySelectedList,
+      this.testDataUpdatedDateFrom,
+      this.testDataUpdatedDateTo);
+
+     
+    console.log('Test data request : ' + JSON.stringify(testDataSearchCriteria));
+    this.testDataService.fetchTestDataMetaFromBackend(applicationId, testTableId, testDataSearchCriteria);
+    
+    console.log(this.listOfTestDataSearchResults)
+  }
+
+  clearSearch() {
+
+    this.testDataMetaIdSelectedList = [];
+    this.testScriptNamesSelectedList = [];
+    this.testDataShortDescriptionSelectedList = [];
+    this.testDataCategorySelectedList = [];
+    this.jiraIdSelectedList = [];
+    this.testRunFlagSelectedList = [];
+    this.testDataCreatedBySelectedList = [];
+    this.testDataUpdatedBySelectedList = [];
+
+  }
+
+  showStats() {
+
+  }
+
+}

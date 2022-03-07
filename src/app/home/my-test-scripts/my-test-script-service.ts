@@ -4,7 +4,7 @@ import { TestScriptGroups } from "./my-test-script-groups";
 import { TestScriptData } from "./test-script-data";
 
 @Injectable()
-export class MyTestScriptService {
+export class TestScriptService {
     fetchTestScriptGroups(): TestScriptGroups {
         return { 'groupName': ['Smoke Test', 'Regression Test', 'Unit Test'] }
     }
