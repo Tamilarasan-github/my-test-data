@@ -55,11 +55,6 @@
     margin: 14px;
 }
 
-.table-testscripts {
-    max-height: 600px;
-    width: 100%;
-}
-
 @media screen and (max-width: 600px) {
     .float-dropdown,
     float-update-group,
@@ -70,21 +65,7 @@
     }
 }
 
-.th-checkbox {
-    width: 5%;
-}
 
-.th-action {
-    width: 10%;
-}
-
-.th-list {
-    width: 28%;
-}
-
-.th-desc {
-    width: 60%;
-}
 
 .edit-icon {
     font-size: 20px;
@@ -118,12 +99,3 @@
     font-weight: bold;
 }
 
-td {
-    color: rgb(0, 0, 0);
-}
-
-.table-column {
-    display: inline block;
-    /* font-family: sans-Tahoma; */
-    /* font-size: 18px; */
-}

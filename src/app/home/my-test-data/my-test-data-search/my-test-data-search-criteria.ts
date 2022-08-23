@@ -2,7 +2,6 @@ export class TestDataSearchCriteria
 {
     constructor(
         public testDataMetaId:number[],
-        public testTableId: number,
         public testCaseId:string[],
         public jiraId:string[],
         public runFlag:string[],

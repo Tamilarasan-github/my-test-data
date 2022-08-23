@@ -1,145 +1,326 @@
-<div class="container-xxl mw-100">
-    <div class="row m-2">
-        <button class="collapsible" (click)="showLoadGroup()">
-            LOAD GROUP
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                <path
-                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
-        </button>
-        <div class="row m-2" *ngIf="showLoadGroupFields">
-            <div class="col-sm">
-                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings" [data]="groupsList" [(ngModel)]="groupSelected">
+<button class="collapsible" (click)="showSeachContainer()">
+    Search Criteria
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+        viewBox="0 0 16 16">
+        <path
+            d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+    </svg>
+</button>
+<div class="container" *ngIf="showSearch">
+    <div class="row p-2">
+        <div class="col-sm">
+            <label class="label">Test Scripts</label>
+            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsDropdownList"
+                [(ngModel)]="testScriptsSelectedList">
+            </ng-multiselect-dropdown>
+        </div>
+    </div>
 
-                </ng-multiselect-dropdown>
+    <div class="row p-2">
+
+        <div class="col-sm">
+            <label class="label">Test Scripts ID</label>
+            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsIdDropdownList"
+                [(ngModel)]="testScriptsIdSelectedList">
+
+            </ng-multiselect-dropdown>
+        </div>
+
+        <div class="col-sm">
+            <label class="label">Test Scripts Category</label>
+            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsCategoryDropdownList"
+                [(ngModel)]="testScriptsCategorySelectedList">
+            </ng-multiselect-dropdown>
+        </div>
+        <div class="col-sm">
+            <label class="label">Created By</label>
+            <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+                [data]=" testScriptsCreatedByDropdownList" [(ngModel)]=" testScriptsCreatedBySelectedList">
+            </ng-multiselect-dropdown>
+        </div>
+
+        <div class="col-sm">
+            <label class="label">Updated By</label>
+            <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+                [data]=" testScriptsUpdatedByDropdownList" [(ngModel)]=" testScriptsUpdatedBySelectedList">
+            </ng-multiselect-dropdown>
+        </div>
+
+
+    </div>
+
+    <div class="row p-2">
+
+
+
+        <div class="col-sm">
+            <label class="label">Created Date From</label>
+            <input type="date" id=" testScriptCreatedFromDate" class="form-select"
+                [(ngModel)]=" testScriptCreatedDateFrom">
+        </div>
+
+        <div class="col-sm">
+            <label class="label">Created Date To</label>
+            <input type="date" id=" testScriptCreatedToDate" class="form-select" [(ngModel)]=" testScriptCreatedDateTo">
+
+        </div>
+
+        <div class="col-sm">
+            <label class="label">Updated Date From</label>
+            <input type="date" id=" testScriptUpdatedFromDate" class="form-select"
+                [(ngModel)]=" testScriptUpdatedDateFrom">
+
+        </div>
+
+
+        <div class="col-sm">
+            <label class="label">Updated Date To</label>
+            <input type="date" id=" testScriptUpdatedToDate" class="form-select" [(ngModel)]=" testScriptUpdatedDateTo">
+
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="d-flex justify-content-center">
+            <div class="px-2">
+                <button type="button" class="primary-btn" (click)="fetchTestscripts()">Search</button>
             </div>
-            <div class="col-sm">
-                <button class="btn btn-primary" (click)="loadGroup()">LOAD GROUP</button>
+            <div class="px-2">
+                <button type="button" class="secondary-btn" (click)="clearSearch()">Clear</button>
             </div>
         </div>
 
     </div>
 
-    <div class="row m-2">
-        <button class="collapsible" (click)="showCreateGroup()">
-            Create Group <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                <path
-                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
-        </button>
-        <div class="row m-2" *ngIf="showCreateGroupFields">
-            <div class="col-sm">
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-sm">
-                <button type="button" class="btn btn-primary" (click)="createGroup()">Create Group</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="row m-2">
-        <button class="collapsible" (click)="showUpdateGroup()">
-            Update Group <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                <path
-                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
-        </button>
-        <div class="row m-2" *ngIf="showUpdateGroupFields">
-            <div class="col-sm">
-                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings" [data]="groupsList" [(ngModel)]="groupSelected">
+</div>
 
-                </ng-multiselect-dropdown>
-            </div>
-            <div class="col-sm">
-                <button class="btn btn-primary" (click)="updateGroup()">Update Group</button>
-            </div>
-        </div>
-    </div>
-    <div class="row m-2" style="background-color: rgb(149, 192, 194);">
-        <button class="collapsible" (click)="showTestScriptsGrid()">
-            Test Scripts <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                <path
-                    d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
-        </button>
-        <div class="row m-2" *ngIf="showTestScriptsTable">
 
-            <div class="float-md-right">
-                <button class="btn btn-secondary mx-2" (click)="enableNewTestscriptRow($event)"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-plus-square-fill" viewBox="0 0 16 16">
-                        <path
-                            d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z" />
-                    </svg>
+
+
+
+<button class="collapsible" (click)="showTestScriptsGrid()">
+    Test Scripts
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+        viewBox="0 0 16 16">
+        <path
+            d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+    </svg>
+</button>
+
+<div class="" *ngIf="showTestScriptsTable">
+
+    <div class="m-2">
+        <button class="secondary-btn" (click)="enableNewTestscriptRow($event)">
+            <i class="bi bi-plus-square-fill"></i>
+        </button>
+
+        <button type="button" class="secondary-btn" (click)="openModal(myModal)">Add to Execution List</button>
+        <i class="fa-thin fa-circle-info"></i>
+
+        <ng-template #myModal>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-basic-title">Execution Details</h5>
+                <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
+                    <span aria-hidden="true">×</span>
                 </button>
-                <button type="button" class="btn btn-primary" (click)="executeTestScripts()">Start Execution</button>
             </div>
-            <div class="table-responsive table-testscripts m-2">
-                <table class="table table-borderless table-hover">
-                    <thead class="thead-dark">
-                        <th class="th-checkbox"> <input type="checkbox" (change)="selectAllCheckboxes($event)"> </th>
-                        <th class="th-action"> ACTION</th>
-                        <th class="th-list"> TEST SCRIPTS ID</th>
-                        <th class="th-list"> TEST SCRIPTS</th>
-                        <th class="th-desc"> DESCRIPTION</th>
-                    </thead>
-                    <tbody>
+            <div class="m-3">
 
-                        <tr *ngIf="showAddTestscript">
-                            <td> <i class='fa fa-times cancel-icon' (click)="cancelNewTestscriptRow($event)"></i>
-                                <i class='fa fa-save save-icon' (click)="saveNewTestscriptDetails($event)"></i>
-                            </td>
-                            <td class="table-column">
-                                <textarea #newTestScriptName class="table-textarea-highlight"></textarea>
-                            </td>
-                            <td class="table-column">
-                                <textarea #newTestScriptDescription class="table-textarea-highlight"></textarea>
-                            </td>
-                        </tr>
-                        <tr #currentRow class="table-active" *ngFor="let testScript of testScriptsList;let i = index">
+                <label class="label">Suite Name</label>
+                <input type="text" id="suiteName" class="form-control" [(ngModel)]="suiteName" #sName="ngModel">
+                <div *ngIf="sName.invalid" class="alert alert-danger">
+                    Suite Name is required!
+                </div>
+                <label class="label">Description</label>
+                <textarea type="text" id="suiteDescription" class="form-control"
+                    [(ngModel)]="suiteDescription"></textarea>
 
-                            <td class="table-column th-checkbox">
-                                <input type="checkbox" (change)="eventCheck($event, testScript)">
-                            </td>
-                            <td class="table-column">
-                                <i class='fas fa-edit edit-icon' *ngIf="editableTestScript!=testScript" (click)="onEdit($event, testScript)"></i>
+                <label class="label">URL(Dev/SIT/UAT/Prod)</label>
+                <input type="text" id="url" class="form-control" [(ngModel)]="url" #sUrl="ngModel">
+                <div *ngIf="sUrl.invalid" class="alert alert-danger">
+                    URL is required!
+                </div>
 
-                                <i class='fas fa-trash delete-icon' *ngIf="editableTestScript!=testScript" (click)="onDelete($event, testScript)"></i>
+                <label class="label">Browser</label>
+                <input type="text" id="browser" class="form-control" [(ngModel)]="browser" #sBrowser="ngModel">
+                <div *ngIf="sBrowser.invalid" class="alert alert-danger">
+                    Browser Name is required!
+                </div>
 
-                                <i class='fa fa-times cancel-icon' *ngIf="editableTestScript===testScript" (click)="onCancel($event, testScript)"></i>
+                <div class="info mt-3">
+                    <span>Note: Here we need to enter the input values which will be added to execution list for this suite. In the execution summary screen, by clicking on "Execute", this suite can be executed.</span>
+                </div>
+            </div>
 
-                                <i class='fa fa-save save-icon' *ngIf="editableTestScript===testScript" (click)="onUpdate(testScript)"></i>
+            <div class="modal-footer">
+                <button type="submit" class="primary-btn" (click)="addSuiteToExecutionList()">Done</button>
+            </div>
+        </ng-template>
+
+        <button type="button" class="primary-btn" (click)="openModal(myModalExecute)">Execute</button>
+
+        <ng-template #myModalExecute>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-basic-title">Execution Details</h5>
+                <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="m-3">
+
+                <label class="label">Batch Name</label>
+                <input type="text" id="batchName" class="form-control" [(ngModel)]="suiteName">
+
+                <label class="label">URL(Dev/SIT/UAT/Prod)</label>
+                <input type="text" id="url" class="form-control" [(ngModel)]="url">
+
+                <label class="label">Browser</label>
+                <input type="text" id="browser" class="form-control" [(ngModel)]="browser">
+
+                <label class="label">User Name</label>
+                <input type="text" id="userName" class="form-control" [(ngModel)]="userName">
+
+                <label class="label">Password</label>
+                <input type="password" id="password" class="form-control" [(ngModel)]="password">
+
+                <div class="info mt-3">
+                    <span>Note: Here we need to pass the input values based on which the suite will be executed.</span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="primary-btn" (click)="executeTestScriptsBatch()">Done</button>
+            </div>
+        </ng-template>
 
 
-                            </td>
-                            <td class="table-column">
-                                <textarea id="{{'testScripts'+ testScript.testScriptId}}" name="{{'testScriptsId'}}" [ngClass]="'table-textarea'" type="text" [(ngModel)]=testScript.testScriptId [disabled]="true">
+    </div>
+
+
+    <div class="table-responsive scrollable-div mt-2">
+
+        <table class="table table-borderless table-hover">
+            <thead class="table-header">
+                <th class="table-header-cols"> <input type="checkbox" (change)="selectAllCheckboxes($event)"> </th>
+                <th class="table-header-cols"> ACTION</th>
+                <th class="table-header-cols"> TEST SCRIPTS ID</th>
+                <th class="table-header-cols"> TEST SCRIPTS</th>
+                <th class="table-header-cols"> TEST SCRIPTS CATEGORY</th>
+                <th class="table-header-cols"> DESCRIPTION</th>
+            </thead>
+            <tbody class="table-body">
+
+                <tr *ngIf="showAddTestscript">
+                    <td class="th-checkbox"> <input type="checkbox" [disabled]="true"> </td>
+
+                    <td> <i class='bi bi-x-square m-2' (click)="cancelNewTestscriptRow($event)"></i>
+                        <i class='bi bi-save2 m-2' (click)="saveNewTestscriptDetails($event)"></i>
+                    </td>
+
+                    <td>
+                        <textarea #newTestScriptId class="table-textarea-highlight" [disabled]="true"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea #newTestScriptName class="table-textarea-highlight"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea #newTestScriptCategory class="table-textarea-highlight"></textarea>
+                    </td>
+
+                    <td>
+                        <textarea #newTestScriptDescription class="table-textarea-highlight"></textarea>
+                    </td>
+                </tr>
+
+                <tr #currentRow class="table-active" *ngFor="let testScript of testScriptsList; let i = index">
+
+                    <td class="table-column th-checkbox">
+                        <input type="checkbox" (change)="eventCheck($event, testScript)">
+                    </td>
+                    <td>
+                
+                        <i class='bi bi-pencil-square m-2' *ngIf="editableTestScript!=testScript"
+                            (click)="onEdit($event, testScript)"></i>
+
+                        <i class='bi bi-trash3-fill m-2' *ngIf="editableTestScript!=testScript"
+                            (click)="onDelete($event, testScript)"></i>
+
+                        <i class='bi bi-x-circle-fill m-2' *ngIf="editableTestScript===testScript"
+                            (click)="onCancel($event, testScript)"></i>
+
+                        <i class='bi bi-box-arrow-down m-2' *ngIf="editableTestScript===testScript"
+                            (click)="onUpdate(testScript)"></i>
+
+                    </td>
+                    <td>
+                        <textarea id="{{'testScripts'+ testScript.testScriptsId}}" name="{{'testScriptsId'}}"
+                            [ngClass]="'table-textarea'" type="text" [(ngModel)]=testScript.testScriptsId
+                            [disabled]="true">
                                  </textarea>
 
-                            </td>
-                            <td class="table-column">
-                                <textarea *ngIf="editableTestScript!=testScript" id="{{'testScripts'+ testScript.testScriptName}}" name="{{'testScriptName'}}" [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
-                                    type="text" [(ngModel)]=testScript.testScriptName [disabled]="editableTestScript!=testScript">
-                        </textarea>
-                                <textarea #testScripts style="background-color: cornflowerblue;" *ngIf="editableTestScript==testScript" id="{{'testScripts'+ testScript.testScriptId}}" name="{{'testScripts'}}" [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
-                                    type="text" value={{testScript.testScriptName}} [disabled]="editableTestScript!=testScript" (change)="updateExistingTestscriptFieldDetails($event, testScript)">
-                      </textarea>
-                            </td>
-                            <td class="table-column">
-                                <textarea *ngIf="editableTestScript!=testScript" id="{{'testScriptsDescription'+ testScript.testScriptId}}" name="{{'testScriptsDescription'}}" [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
-                                    type="text" [(ngModel)]=testScript.testScriptDescription [disabled]="editableTestScript!=testScript">  </textarea>
-                                <textarea #testScriptsDescription style="background-color: cornflowerblue;" *ngIf="editableTestScript==testScript" id="{{'testScriptsDescription'+ testScript.testScriptId}}" name="{{'testScriptsDescription'}}" [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
-                                    type="text" value={{testScript.testScriptDescription}} [disabled]="editableTestScript!=testScript" (change)="updateExistingTestscriptFieldDetails($event, testScript)">  </textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    </td>
+                    <td>
+                        <a *ngIf="editableTestScript!=testScript" id="{{'testScripts'+ testScript.testScripts}}"
+                            name="{{'testScripts'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" (click)="openBiggerModal(testScript.testScripts,myTestData)">
+                            {{testScript.testScripts}}
+                        </a>
+                        <textarea #testScripts *ngIf="editableTestScript==testScript"
+                            id="{{'testScripts'+ testScript.testScriptsId}}" name="{{'testScripts'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" value={{testScript.testScripts}} [disabled]="editableTestScript!=testScript"
+                            (change)="updateExistingTestscriptFieldDetails($event, testScript)">
+                                </textarea>
+                    </td>
 
-        </div>
+                    <td>
+                        <textarea *ngIf="editableTestScript!=testScript"
+                            id="{{'testScriptsCategory'+ testScript.testScriptsId}}" name="{{'testScriptCategory'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" [(ngModel)]=testScript.testScriptsCategory
+                            [disabled]="editableTestScript!=testScript">
+                                 </textarea>
+                        <textarea #testScriptsCategory *ngIf="editableTestScript==testScript"
+                            id="{{'testScripts'+ testScript.testScriptsId}}" name="{{'testScripts'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" value={{testScript.testScriptsCategory}}
+                            [disabled]="editableTestScript!=testScript"
+                            (change)="updateExistingTestscriptFieldDetails($event, testScript)">
+                                </textarea>
+                    </td>
+
+                    <td>
+                        <textarea *ngIf="editableTestScript!=testScript"
+                            id="{{'testScriptsDescription'+ testScript.testScriptsId}}"
+                            name="{{'testScriptsDescription'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" [(ngModel)]=testScript.testScriptsDescription
+                            [disabled]="editableTestScript!=testScript">  </textarea>
+                        <textarea #testScriptsDescription *ngIf="editableTestScript==testScript"
+                            id="{{'testScriptsDescription'+ testScript.testScriptsId}}"
+                            name="{{'testScriptsDescription'}}"
+                            [ngClass]="{'table-textarea': editableTestScript!=testScript, 'table-textarea-highlight': editableTestScript===testScript}"
+                            type="text" value={{testScript.testScriptsDescription}}
+                            [disabled]="editableTestScript!=testScript"
+                            (change)="updateExistingTestscriptFieldDetails($event, testScript)">  </textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
 </div>
+<ng-template #myTestData>
+    <div class="modal-header">
+        Test Data
+    </div>
+    <div class="m-2">
+    <app-my-test-data-search>
+    </app-my-test-data-search>
+    <app-my-test-data-results>
+    </app-my-test-data-results>
+</div>
+</ng-template>

@@ -2,6 +2,7 @@ export class TestDataMetaDropdownValues
 {
     constructor(
         public testDataMetaId?:number[],
+        public testTables?:string[],
         public testCaseId?:string[],
         public jiraId?:string[],
         public runFlag?:string[],

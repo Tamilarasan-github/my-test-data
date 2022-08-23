@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backendBaseURL: "http://localhost:8080"
+  //backendBaseURL: "http://ec2-100-24-59-161.compute-1.amazonaws.com:8080"
 };
 
 /*

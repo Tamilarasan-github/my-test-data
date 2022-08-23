@@ -12,7 +12,7 @@ export class MyTestExecutionSearchComponent implements OnInit {
 
   constructor(private testExecutionSummaryService:TestExecutionSummaryService) { }
 
-  showSearch:boolean=true;
+  showSearch:boolean=false;
 
   searchDropdownSettings:IDropdownSettings={};
 

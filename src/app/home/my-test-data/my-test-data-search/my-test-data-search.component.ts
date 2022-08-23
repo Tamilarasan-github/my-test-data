@@ -14,20 +14,6 @@ import { ApplicationTableInfoService } from '../../my-header/my-application-tabl
 })
 export class MyTestDataSearchComponent implements OnInit {
 
-  constructor(private testDataService: TestDataService, 
-    private applicationTableInfoService:ApplicationTableInfoService) 
-  {
-    console.log("TestDataSearch Constructor triggered!!!!");
-    this.testDataService.testDataMetaDropdownValuesAsObservable.subscribe(
-      {
-        next:(value)=>
-        {
-          this.setDropdownValues(value);
-        }
-      }
-    )
-  }
-
   @Output() 
   listOfTestDataSearchResults= new EventEmitter<TestDataMeta[]>();
   
@@ -36,11 +22,15 @@ export class MyTestDataSearchComponent implements OnInit {
   showSearch: boolean = true;
  
   searchDropdownSettings: IDropdownSettings = {};
+  tableSelectionDropdownSettings: IDropdownSettings = {};
 
   testDataMetaIdDropdownList: number[] = [];
   testDataMetaIdSelectedList: number[]= [];
 
-  testTableId: number=0;
+  selectedTestTableId: number=0;
+
+  testTablesDropdownList: any[] = [];
+  testTablesSelectedList: number[] = [];
 
   testCaseIdDropdownList: any[] = [];
   testCaseIdSelectedList: any = [];
@@ -76,11 +66,61 @@ export class MyTestDataSearchComponent implements OnInit {
   testDataUpdatedDateTo: any = new Date(); 
 
 
+  constructor(private testDataService: TestDataService, 
+    private applicationTableInfoService:ApplicationTableInfoService) 
+  {
+    console.log("TestDataSearch Constructor triggered!!!!");
+
+    this.testDataService.tableListAsObservable.subscribe(
+      {
+        next:(value) =>{
+          let tableList: any[]=[];
+          value.forEach(element=>
+            {
+              let obj={ item_id: element.tableId, item_text: element.tableName }
+              tableList.push(obj);
+           
+            })
+            this.testTablesDropdownList=tableList;
+         // console.log("Test Table List: "+JSON.stringify(this.testTablesDropdownList));
+        }
+      }
+    )
+
+    this.testDataService.tableSelectedAsObservable.subscribe(
+      {
+        next:(value) =>{
+        this.selectedTestTableId=value
+        }
+      })
+
+    this.testDataService.testDataMetaDropdownValuesAsObservable.subscribe(
+      {
+        next:(value)=>
+        {
+          this.setDropdownValues(value);
+        }
+      }
+    )
+  }
+
 
   ngOnInit(): void {
-    console.log("TestDataSearch ngOnInit() triggered!!!")
+    //console.log("TestDataSearch ngOnInit() triggered!!!")
+
     this.searchDropdownSettings = {
       singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+      clearSearchFilter: true,
+    };
+
+    this.tableSelectionDropdownSettings = {
+      singleSelection: true,
       idField: 'item_id',
       textField: 'item_text',
       selectAllText: 'Select All',
@@ -120,11 +160,30 @@ export class MyTestDataSearchComponent implements OnInit {
   //   console.log("TestDataSearch ngOnDestroy() triggered!!!!")
   // }
   
+  onTableSelection(event: any)
+  {
+    let tableIdSelected: number=event.item_id;
+    
+    console.log("Table Selected:"+event.item_id)
+    this.testTablesSelectedList=[tableIdSelected];
+    this.testDataService.setTable(tableIdSelected);  
+   
+  }
+
+  onTableDeSelection(event: any)
+  {
+    let tableIdSelected: number=event.item_id;
+    
+    console.log("Table DeSelected:"+event.item_id)
+    this.setDropdownValues(new TestDataMetaDropdownValues());
+   
+  }
+
   
   
   setDropdownValues(newValues: TestDataMetaDropdownValues)
   {
-    console.log("Setting drop down values in component" +JSON.stringify(newValues));
+    //console.log("Setting drop down values in component" +JSON.stringify(newValues));
           this.testDataMetaIdDropdownList = newValues.testDataMetaId!;
           this.testCaseIdDropdownList = newValues.testCaseId!;
           this.testScriptNamesDropdownList = newValues.testScriptName!;
@@ -138,11 +197,11 @@ export class MyTestDataSearchComponent implements OnInit {
   }
 
   onItemSelect(event: any) {
-    console.log('Dropdown Item Select Event: ' + event);
+   // console.log('Dropdown Item Select Event: ' + event);
   }
 
   onSelectAll(event: any) {
-    console.log('Dropdown Select All Event: ' + event);
+   // console.log('Dropdown Select All Event: ' + event);
   }
 
   showSeachContainer() {
@@ -151,13 +210,10 @@ export class MyTestDataSearchComponent implements OnInit {
 
   
   fetchTestData() {
-  
-    const testTableId=this.applicationTableInfoService.getSeletedTable();
     const applicationId=this.applicationTableInfoService.getSeletedApplication();
 
     const testDataSearchCriteria: TestDataSearchCriteria= new TestDataSearchCriteria(
-      this.testDataMetaIdSelectedList,
-      testTableId, 
+      this.testDataMetaIdSelectedList, 
       this.testCaseIdSelectedList,
       this.jiraIdSelectedList,
       this.testRunFlagSelectedList, 
@@ -174,7 +230,7 @@ export class MyTestDataSearchComponent implements OnInit {
 
      
     console.log('Test data request : ' + JSON.stringify(testDataSearchCriteria));
-    this.testDataService.fetchTestDataMetaFromBackend(applicationId, testTableId, testDataSearchCriteria);
+    this.testDataService.fetchTestDataMetaFromBackend(applicationId, this.selectedTestTableId, testDataSearchCriteria);
     
     console.log(this.listOfTestDataSearchResults)
   }

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome' 
 
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MyHeaderComponent } from './home/my-header/my-header.component';
@@ -22,7 +21,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
-import { TestScriptService } from './home/my-test-scripts/my-test-script-service';
+import { TestScriptsService } from './home/my-test-scripts/my-test-script-service';
 
 import { MyTestReportsComponent } from './home/my-test-reports/my-test-reports.component';
 
@@ -32,19 +31,33 @@ import { MyTestDataComponent } from './home/my-test-data/my-test-data.component'
 import { MyTestExecutionSummaryComponent } from './home/my-test-execution-summary/my-test-execution-summary.component';
 import { MyTestDataResultsComponent } from './home/my-test-data/my-test-data-results/my-test-data-results.component';
 import { MyTestDataSearchComponent } from './home/my-test-data/my-test-data-search/my-test-data-search.component';
-import { MyTestExecutionResultsComponent } from './home/my-test-execution-summary/my-test-execution-results/my-test-execution-results.component';
-import { MyTestExecutionSearchComponent } from './home/my-test-execution-summary/my-test-execution-search/my-test-execution-search.component';
+import { MyTestExecutionResultsComponent } from './home/my-test-execution-summary/my-test-data-execution-history/my-test-data-execution-history.component';
+import { MyTestExecutionSearchComponent } from './home/my-test-execution-summary/my-test-data-execution-search/my-test-execution-search.component';
 import { MyBulkUpdatesComponent } from './home/my-test-data/my-bulk-updates/my-bulk-updates.component';
 import { TestDataService } from './home/my-test-data/my-test-data.service';
 import { TestExecutionSummaryService } from './home/my-test-execution-summary/my-test-execution-summary-service';
 import { ApplicationTableInfoService } from './home/my-header/my-application-table-info-service';
 import { TestFieldsInfoService } from './home/my-test-data/my-test-fields-service';
+import { MySuiteExecutionHistoryComponent } from './home/my-test-execution-summary/my-suite-execution-history/my-suite-execution-history.component';
+import { MyTestScriptsExecutionHistoryComponent } from './home/my-test-execution-summary/my-test-scripts-execution-history/my-test-scripts-execution-history.component';
+import { NgbModalService } from './home/ngbModalService';
+
 
 const appRoute=[  
   { path: 'test-scripts', component: MyTestScriptsComponent }, 
   { path: 'test-data', component: MyTestDataComponent },
   { path: 'test-execution-summary', component: MyTestExecutionSummaryComponent },
-  { path: 'test-reports', component: MyTestReportsComponent }
+  { 
+    path: 'test-reports/:suiteId', 
+    component: MyTestReportsComponent,
+    // children: 
+    // [
+    //   {
+    //       path: '**',
+    //       component: MyTestReportsComponent
+    //   }            
+    // ] 
+}
  
  ];
 
@@ -61,7 +74,9 @@ const appRoute=[
     MyTestExecutionSearchComponent,
     MyTestExecutionResultsComponent,
     MyTestReportsComponent,
-    MyBulkUpdatesComponent
+    MyBulkUpdatesComponent,
+    MySuiteExecutionHistoryComponent,
+    MyTestScriptsExecutionHistoryComponent
   ],
 
 
@@ -70,7 +85,6 @@ const appRoute=[
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -83,11 +97,13 @@ const appRoute=[
       
   ],
   providers: [ApiHttpService, 
-    TestScriptService, 
+    TestScriptsService, 
     TestDataService, 
     TestExecutionSummaryService, 
     ApplicationTableInfoService,
-    TestFieldsInfoService],
+    TestFieldsInfoService,
+    NgbModalService
+  ],
   bootstrap: [AppComponent],
   
 })

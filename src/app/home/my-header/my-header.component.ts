@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { TestScriptsService } from '../my-test-scripts/my-test-script-service';
 import { ApplicationTableInfoService } from './my-application-table-info-service';
 import { TestApplicationInfo } from './my-test-applications-info';
 import { TestTableInfo } from './my-test-tables-info';
@@ -16,9 +17,10 @@ export class MyHeaderComponent
   @Output() featureSelected=new EventEmitter<string>();
 
   highlightFeature:string='';
-
-  constructor(private router:Router, private applicationTableInfoService:ApplicationTableInfoService) {
-    this.applicationTableInfoService.retrieveApplicationsList();
+  applicationIdSelected: number;
+  showSideBar: boolean=false;
+  constructor(private router:Router, private applicationTableInfoService:ApplicationTableInfoService, private testScriptsService:TestScriptsService) {
+    this.applicationIdSelected=1001;
    }
 
   ngOnInit(): void {
@@ -62,10 +64,7 @@ export class MyHeaderComponent
     return this.applicationTableInfoService.getApplicationList();
   }
 
-  getTableList() : TestTableInfo[]
-  {
-    return this.applicationTableInfoService.getTableList();
-  }
+  
 
   navigateToHome()
   {
@@ -91,35 +90,26 @@ export class MyHeaderComponent
   {
     console.log("Switched to application:" +(<HTMLInputElement>event.target).value);
     let applicationNameSelected=(<HTMLInputElement>event.target).value;
-    let applicationIdSelected: number;
-
+    
     this.applicationTableInfoService.getApplicationList().forEach(element => {
       console.log("app names:"+element.applicationName);
       if(element.applicationName===applicationNameSelected)
       {
-        applicationIdSelected=element.applicationId;
-        this.applicationTableInfoService.setApplication(applicationIdSelected);
+        this.applicationIdSelected=element.applicationId;
+        this.applicationTableInfoService.setApplication(this.applicationIdSelected);
         
       }
     });
   }
 
-  changeTable(event: Event)
+  fetchTestScriptsDropdownValues()
   {
-    let tableNameSelected=(<HTMLInputElement>event.target).value;
-    let tableIdSelected: number=0;
+    this.testScriptsService.fetchTestScriptsDropdownValues(this.applicationIdSelected);
+  }
 
-    this.applicationTableInfoService.getTableList().forEach(element => {
-     
-      if(element.tableName===tableNameSelected)
-      {
-        console.log(JSON.stringify(element));
-        console.log("Table name:"+element.tableName+ "Table ID:"+element.tableId);
-
-        tableIdSelected=element.tableId;
-        this.applicationTableInfoService.setTable(tableIdSelected);      
-      }
-    });
+  toggleSideBar()
+  {
+    this.showSideBar=!this.showSideBar;
   }
 
 }

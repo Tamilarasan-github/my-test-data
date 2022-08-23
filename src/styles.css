@@ -1,4 +1,169 @@
 /* You can add global styles to this file, and also import other style files */
+/*======================NEW====================================*/
+:root {
+    --hue-color: 221;
+
+    --primary-bg-color: hsl(var(--hue-color), 60%, 28%);
+    --primary-bg-color-lighter: hsl(var(--hue-color), 56%, 66%);
+    --primary-bg-color-darker: hsl(var(--hue-color), 56%, 1%);
+
+    --secondary-bg-color: hsl(var(--hue-color), 34%, 30%);
+    --secondary-bg-color-lighter: hsl(var(--hue-color), 69%, 58%);
+    --secondary-bg-color-darker: hsl(var(--hue-color), 69%, 58%);
+
+    --third-bg-color: hsl(var(--hue-color), 69%, 58%);
+    --third-bg-color-lighter: hsl(var(--hue-color), 69%, 58%);
+    --third-bg-color-darker: hsl(var(--hue-color), 69%, 58%);
+
+    --button-primary-bg-color: hsl(118, 41%, 38%);
+    --button-secondary-bg-color: hsl(224, 37%, 48%);
+    --button-third-bg-color: hsl(var(--hue-color), 69%, 58%);
+
+    --button-primary-text-color: hsl(var(--hue-color), 0%, 100%);
+    --button-secondary-text-color: hsl(var(--hue-color), 0%, 100%);
+    --button-third-text-color: hsl(var(--hue-color), 0%, 100%);
+
+    --info-bg-color:hsl(var(--hue-color), 20%, 28%);
+
+    --title-color: hsl(var(--hue-color), 0%, 100%);
+
+    --menu-text-color: hsl(var(--hue-color), 0%, 100%);
+
+    --text-color: hsl(var(--hue-color), 69%, 58%);
+    --text-color-lighter: hsl(var(--hue-color), 69%, 58%);
+    --text-color-darker: hsl(var(--hue-color), 69%, 58%);
+
+    --label-primary-color: hsl(var(--hue-color), 22%, 67%);
+    --label-secondary-color-lighter: hsl(var(--hue-color), 69%, 58%);
+    --label-third-color-darker: hsl(var(--hue-color), 69%, 58%);
+
+    --input-primary-color: hsl(var(--hue-color), 69%, 58%);
+    --input-secondary-color-lighter: hsl(var(--hue-color), 69%, 58%);
+    --input-third-color-darker: hsl(var(--hue-color), 69%, 58%);
+
+    --scroll-bar-color: hsl(var(--hue-color), 15%, 85%);
+    --scroll-bar-thumb-color: hsl(var(--hue-color), 15%, 70%);
+
+    --table-header-bg-color: var(--primary-bg-color);
+    --table-header-text-color:hsl(var(--hue-color), 0%, 100%);
+    --table-body-bg-color:hsl(var(--hue-color), 38%, 72%);
+    --table-row-bg-color:hsl(var(--hue-color), 0%, 100%);;
+    --table-row-text-color:var(--primary-bg-color);
+
+    /*======================FONTS===========================*/
+
+    --title-font: 'Maven Pro', sans-serif;
+    --menu-font: 'Maven Pro', sans-serif;
+    --sub-menu-font: 'Maven Pro', sans-serif;
+
+    --h1-font: 'Poppins', sans-serif;
+    --h2-font: 'Poppins', sans-serif;
+    --h3-font: 'Poppins', sans-serif;
+    --body-font: 'Maven Pro', sans-serif;
+    --label-font: 'Maven Pro', sans-serif;
+    --input-font: 'Maven Pro', sans-serif;
+    --button-font: 'Maven Pro', sans-serif;
+
+    --gullible-font: 'Maven Pro', sans-serif;
+    --body-font: 'Poppins', sans-serif;
+    --roboto-font: 'Roboto', sans-serif;
+    --roboto-mono-font: 'Roboto', monospace;
+    --big-fat-font: 'Russo One', sans-serif;
+
+    /*======================FONTS WEIGHT===========================*/
+    --title-font-size: 1.2rem;
+    --menu-font-size: 1.0rem;
+    --sub-menu-font-size: 1.25rem;
+
+    --h1-font-size: 1.5rem;
+    --h2-font-size: 1.25rem;
+    --h3-font-size: 1.125rem;
+    --body-font-size: 14px;
+    --label-font-size: 14px;
+    --input-font-size: 14px;
+    --button-font-size: 14px;
+
+    /*==============================BUTTON==========================*/
+    --button-border-radius: 4px;
+    --button-primary-size:60px;
+}
+
+
+.primary-color {
+    background-color: var(--primary-bg-color);
+}
+
+.secondary-color {
+    background-color: var(--secondary-bg-color);
+}
+
+.third-color {
+    background-color: var(--third-bg-color);
+}
+
+.label {
+    font-family: var(--label-font);
+    font-weight: var(--label-font-size);
+    color: var(--label-primary-color);
+    padding: 2px;
+}
+
+.menu-links:hover{
+    transform: translateX(1px);
+}
+
+.menu-links:active{
+    transform: translateX(1px);
+}
+
+.icon-effects:hover
+{
+    transform: translateY(-1px);
+}
+
+.primary-btn{
+    background-color: var(--button-primary-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--button-font-size);
+    border: none;
+    color: var(--button-primary-text-color);
+    border-radius: var(--button-border-radius);
+    padding: 10px 25px;
+    margin: 3px;
+}
+
+.primary-btn:hover, .secondary-btn:hover, .third-btn:hover
+{
+    background-color: var(--primary-bg-color-darker);
+    transform: translateY(-1px);
+}
+
+.primary-btn:active, .secondary-btn:active, .third-btn:active
+{
+    transform: translateY(1px);
+}
+
+.secondary-btn {
+    background-color: var(--button-secondary-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--button-font-size);
+    border: none;
+    color: var(--button-primary-text-color);
+    border-radius: var(--button-border-radius);
+    padding: 10px 25px;
+    margin: 3px;
+}
+
+.third-btn {
+    background-color: var(--button-third-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--button-font-size);
+    border: none;
+    color: var(--button-primary-text-color);
+    border-radius: var(--button-border-radius);
+    padding: 10px 25px;
+    margin: 3px;
+}
 
 .button-defaults {
     /* font-family: sans-Tahoma; */
@@ -7,36 +172,87 @@
     background-color: rgb(10, 10, 10);
     font-weight: bold;
     padding: 5px;
-    font-size: 13px;
+    font-size: 16px;
     color: white;
+}
+
+.queued{
+    background-color: #a2a861;
+    color: rgb(247, 244, 244);
+    font-family: var(--button-font);
+    font-size:small;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--button-border-radius);
+    padding: 2px 12px;
+}
+
+.completed{
+    background-color: green;
+    color: rgb(247, 244, 244);
+    font-family: var(--button-font);
+    font-size:small;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--button-border-radius);
+    padding: 2px 12px;
+}
+
+.error{
+    background-color: rgb(122, 7, 7);
+    color: rgb(247, 244, 244);
+    font-family: var(--button-font);
+    font-size:small;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--button-border-radius);
+    padding: 2px 12px;
+}
+
+.inprogress{
+    background-color: rgb(12, 12, 131);
+    color: rgb(247, 244, 244);
+    font-family: var(--button-font);
+    font-size:small;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--button-border-radius);
+    padding: 2px 12px;
 }
 
 .table-header {
-    background-color: rgb(10, 10, 10);
-    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--table-header-bg-color);
     position: sticky;
-    font-size: 14px;
-    font-weight: lighter;
-    color: white;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    
 }
 
-thead th {
+.table-header-cols{
+    font-family: var(--h3-font);
+    font-weight: var(--h3-font-size);;
+    color: var(--table-header-text-color);
     padding: 10px;
 }
 
-* {
-    font-family: Whitney, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, FontAwesome;
-    -webkit-font-smoothing: antialiased;
-    margin: 0px;
-    padding: 0px;
+.table-body
+{
+    background-color: var(--table-body-bg-color);
 }
+
+
+ng-multiselect-dropdown {
+    border-style: hidden;
+}
+
 
 /* ::-webkit-scrollbar {
     width: 15px;
     height: 20px;
     color: rgb(10, 10, 10);
     background-color: transparent;
-} */
+}   -webkit-font-smoothing: antialiased;*/
 
 
 /* Handle on hover */
@@ -49,25 +265,24 @@ thead th {
     background: #555;
 }
 
-html,
-body {
-    height: 100%;
-}
 
-body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+
+.collapsible-button {
+    border: none;
+    outline: none;
 }
 
 .collapsible {
     cursor: pointer;
     width: 100%;
     text-align: left;
+    padding: 2px;
+    background-color: var(--primary-bg-color);
+    color: #F7F7F7;
+    font-family: var(--h2-font);
+    font-size: var(--h3-font-size);
+    outline: none;
     border: none;
-    padding: 10px;
-    background-color: rgb(36, 40, 44);
-    color: white;
-    font-weight: bold;
 }
 
 .table-textarea {
@@ -88,3 +303,32 @@ body {
     display: none;
 }
 
+.btn-transparent {
+    background-color: transparent;
+    color: #3484F0;
+    border: 1px solid #3484F0;
+}
+
+.info{
+    border: #141516;
+    background-color: var(--info-bg-color);
+    font-family: var(--label-font);
+    font-weight: var(--label-font-size);
+    color: var(--label-primary-color);
+    padding: 10px;
+}
+
+.xlModal .modal-dialog
+{
+    max-width: 1300px;
+}
+
+.button-div
+{
+    position: relative;
+}
+
+.dropdown-div
+{
+    position: absolute;
+}

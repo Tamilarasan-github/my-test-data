@@ -1,10 +1,10 @@
-import { TestScriptData } from "./test-script-data";
+import { TestScript } from "./test-scripts";
 
 export class NewGroup
 {
     constructor(
         public groupName:string,
-        public testScriptData: TestScriptData[]
+        public testScriptData: TestScript[]
     )
     {
         

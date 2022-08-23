@@ -1,10 +1,10 @@
-<button class="collapsible my-2" (click)="showBulkUpdateContainer()">Bulk Updates</button>
+<button class="collapsible" (click)="showBulkUpdateContainer()">Bulk Updates</button>
 <div class="container">
     <div *ngIf="showBulkUpdate">
-        <div class="row">
+        <div class="row mt-3">
 
             <div class="col-sm-5">
-                <label class="py-1">Select field to update</label>
+                <label class="label py-1">Select field to update</label>
                 <select class="form-select" [(ngModel)]="fieldNameToBeUpdated" aria-label="Default select example">
                     <option selected>Select</option>
                     <option *ngFor="let fieldName of fields| keyvalue" value={{fieldName.key}}>{{fieldName.value}}</option>
@@ -12,12 +12,12 @@
             </div>
 
             <div class="col-sm-5">
-                <label class="py-1">Enter Value to be updated</label>
+                <label class="label py-1">Enter Value to be updated</label>
                 <input type="text" class="form-control" [(ngModel)]="fieldValueToBeUpdated">
             </div>
 
             <div class="col-1">
-                <label class="py-1">Conditions</label>
+                <label class="label py-1">Conditions</label>
                 <button type="button" class="btn btn-success" (click)="addBulkUpdateCondition()"><i
                         class="fas fa-plus"></i></button>
             </div>
@@ -26,7 +26,7 @@
 
         <div *ngFor="let conditionConnector of conditions.$conditionsConnector">
 
-            <label class="col-sm-1 my-1">Condition {{conditionConnector.$conditionIndex}}</label>
+            <label class="label col-sm-1 my-1">Condition {{conditionConnector.$conditionIndex}}</label>
             <div class="row">
                 <div *ngFor="let subCondition of conditionConnector.$subConditionsConnector">
 
@@ -97,10 +97,10 @@
                     </div>
                     <div class="col-sm-1 d-flex justify-content-md-evenly">
 
-                        <button type="button" class="btn btn-success m-1" (click)="addBulkUpdateCondition()"><i
+                        <button type="button" class="primary-btn" (click)="addBulkUpdateCondition()"><i
                                 class="fas fa-plus"></i></button>
 
-                        <button type="button" class="btn btn-danger m-1"
+                        <button type="button" class="secondary-btn"
                             (click)="removeBulkUpdateCondition(conditionConnector.$conditionIndex)"><i class="fas fa-remove"> -
                             </i></button>
                     </div>
@@ -109,18 +109,18 @@
 
             </div>
         </div>
-        <div class="row mt-3 mb-1">
+        <div class="row mt-3 mb-3">
             <div class="d-flex justify-content-center">
                 <div class="px-2">
-                    <button type="button" class="btn btn-primary" (click)="onBulkUpdate()">Update</button>
+                    <button type="button" class="primary-btn" (click)="onBulkUpdate()">Update</button>
                 </div>
 
                 <div class="px-2">
-                    <button type="button" class="btn btn-success" (click)="onSearch()">Search</button>
+                    <button type="button" class="primary-btn" (click)="onSearch()">Search</button>
                 </div>
               
                 <div class="px-2">
-                    <button type="button" class="btn btn-secondary" (click)="clearBulkUpdateConditions()">Clear</button>
+                    <button type="button" class="secondary-btn" (click)="clearBulkUpdateConditions()">Clear</button>
                 </div>
 
                

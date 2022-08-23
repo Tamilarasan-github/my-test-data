@@ -4,8 +4,9 @@ export class TestFieldsInfo
 	public  field_name: string='';
 	public  field_name_api: string='';
 	public  field_name_db: string='';
+    public  ui_screen_name: string='';
 	public  field_data_type: string='';
-	public  table_name: string='';
+	public  table_id: number=0;
 	public  field_order: string='';
 	public  delete_flag: string='';
 	public  created_by: string='';
@@ -49,6 +50,14 @@ export class TestFieldsInfo
 		return this.field_name_db;
 	}
 
+     /**
+     * Getter $field_name_db
+     * @return {string}
+     */
+	public get $ui_screen_name(): string {
+		return this.ui_screen_name;
+	}
+
     /**
      * Getter $field_data_type
      * @return {string}
@@ -61,8 +70,8 @@ export class TestFieldsInfo
      * Getter $table_name
      * @return {string}
      */
-	public get $table_name(): string {
-		return this.table_name;
+	public get $table_id(): number {
+		return this.table_id;
 	}
 
     /**
@@ -157,8 +166,8 @@ export class TestFieldsInfo
      * Setter $table_name
      * @param {string} value
      */
-	public set $table_name(value: string) {
-		this.table_name = value;
+	public set $table_id(value: number) {
+		this.table_id = value;
 	}
 
     /**

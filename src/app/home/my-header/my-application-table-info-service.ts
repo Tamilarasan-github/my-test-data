@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { TestDataService } from "../my-test-data/my-test-data.service";
+import { TestFieldsInfo } from "../my-test-data/my-test-fields-info";
 import { TestApplicationInfo } from "./my-test-applications-info";
 import { TestTableInfo } from "./my-test-tables-info";
 
@@ -13,15 +14,13 @@ export class ApplicationTableInfoService {
     private applicationListAsObservable: Observable<TestApplicationInfo[]>;
 
     private applicationSelectedBehaviorSub : BehaviorSubject<number>;
-    private applicationSelectedAsObservable: Observable<number>;
+    public applicationSelectedAsObservable: Observable<number>;
 
-    private tableListBehaviorSub: BehaviorSubject<TestTableInfo[]>;
-    private tableListAsObservable: Observable<TestTableInfo[]>;
+    public applicationSelected:number=0;
 
-    private tableSelectedBehaviorSub : BehaviorSubject<number>;
-    private tableSelectedAsObservable: Observable<number>;
+   
 
-constructor(private httpClient: HttpClient, private testDataService:TestDataService)
+constructor(private httpClient: HttpClient)
 {
   this.applicationListBehaviorSub = new BehaviorSubject<TestApplicationInfo[]>([]);
   this.applicationListAsObservable = this.applicationListBehaviorSub.asObservable();
@@ -29,11 +28,11 @@ constructor(private httpClient: HttpClient, private testDataService:TestDataServ
   this.applicationSelectedBehaviorSub = new BehaviorSubject<number>(0);
   this.applicationSelectedAsObservable = this.applicationSelectedBehaviorSub.asObservable();
 
-  this.tableListBehaviorSub = new BehaviorSubject<TestTableInfo[]>([]);
-  this.tableListAsObservable = this.tableListBehaviorSub.asObservable();
-
-  this.tableSelectedBehaviorSub = new BehaviorSubject<number>(0);
-  this.tableSelectedAsObservable = this.tableSelectedBehaviorSub.asObservable();
+  this.applicationSelectedAsObservable.subscribe(
+    {
+      next:(value)=>this.applicationSelected=value
+    }
+  )
 }
 
 
@@ -46,85 +45,21 @@ retrieveApplicationsList()
     .subscribe(
       {
         next : (responseBody) => {
-          this.emitApplicationList(responseBody);
+          this.applicationListBehaviorSub.next(responseBody);
+          const firstApp=this.getApplicationList()[0].applicationId;
+          this.setApplication(firstApp);
           console.log("Retrieved Apllication List:" +JSON.stringify(responseBody));
         }
       }
     )
 }
 
-retrieveRespectiveTables()
-{
-    const headers={'content-type':'application/json'}
-   
-    return this.httpClient.get<TestTableInfo[]>(environment.backendBaseURL+"/applications/"+this.getSeletedApplication()+"/tables", {'headers':headers})
-    .subscribe(
-      {
-        next : (responseBody) => {
-          this.emitTableList(responseBody);
-        },
-        error :(e)=> {
-            console.log("Tables fetching error:"+e);
-            console.error()
-        }
-       
-      }
-    )
-}
-
-retrieveTablesList(applicationId:number)
-{
-   
-    const headers={'content-type':'application/json'}
-  
-    return this.httpClient.get<TestTableInfo[]>(environment.backendBaseURL+"/applications/"+applicationId+"/tables", {'headers':headers})
-    .subscribe(
-      {
-        next : (responseBody) => {
-          this.emitTableList(responseBody);
-        },
-        error :(e)=> {
-            console.log("Tables fetching error:"+e);
-            console.error()
-        }
-       
-      }
-    )
-}
-
-emitApplicationList(testApplicationInfo: TestApplicationInfo[])
-{
-  this.applicationListBehaviorSub.next(testApplicationInfo);
-  console.log("New Applications List:"+testApplicationInfo);
-}
-
-emitTableList(testTableInfo: TestTableInfo[])
-{
-  this.tableListBehaviorSub.next(testTableInfo);
-  console.log("New Applications List:"+JSON.stringify(testTableInfo));
-}
 
 setApplication(applicationId:number)
 {
     this.applicationSelectedBehaviorSub.next(applicationId);
-
-    this.applicationSelectedAsObservable.subscribe(
-      {
-        next:(value) =>
-        {
-        this.retrieveTablesList(value);
-        }
-      })
 }
     
-
-setTable(tableId:number)
-{
-    console.log("Setting Table Id to "+tableId);
-    this.tableSelectedBehaviorSub.next(tableId);
-    this.testDataService.fetchDropdownValuesFromBackEnd(this.getSeletedApplication(), this.getSeletedTable());
-}
-
 getApplicationList(): TestApplicationInfo[]
 {
   let applicationList:TestApplicationInfo[]=[];
@@ -136,20 +71,6 @@ getApplicationList(): TestApplicationInfo[]
       }
     })
     return applicationList;
-}
-
-getTableList(): TestTableInfo[]
-{
-  let tableList : TestTableInfo[]= [];
-  this.tableListAsObservable.subscribe(
-    {
-      next:(value) =>
-      {
-        tableList=value;
-      }
-    });
-  
-    return tableList;
 }
 
 getSeletedApplication(): number
@@ -167,19 +88,6 @@ getSeletedApplication(): number
     return applicationSelected;
 }
 
-getSeletedTable(): number
-{
-  let tableSelected = 0;
-  this.tableSelectedAsObservable.subscribe(
-    {
-      next:(value) =>
-      {
-        tableSelected=value;
-        console.log("getSeletedTable() Table Selected:" +tableSelected);
-      }
-    });
-    console.log("getSeletedTable() Table Selected:" +tableSelected);
-    return tableSelected;
-}
+
 
 }

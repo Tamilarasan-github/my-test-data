@@ -11,19 +11,20 @@ import { TestFieldsInfoService } from './my-test-fields-service';
 })
 export class MyTestDataComponent implements OnInit {
 
-  testFieldsInfo: TestFieldsInfo[];
+ 
+
+  testFieldsInfoTableMap:Map<number, TestFieldsInfo[]>;
   
   constructor(private testFieldsInfoService:TestFieldsInfoService) {
-    this.testFieldsInfo=[];
+   
+    this.testFieldsInfoTableMap=new Map<number, TestFieldsInfo[]>();
 
-    this.testFieldsInfoService.getFieldsInfo();
-
-    this.testFieldsInfoService.testFieldsInfoAsObservable.subscribe(
+    this.testFieldsInfoService.testFieldsTableWiseAsObservable.subscribe(
       {
         next:(value)=>
         {
-          this.testFieldsInfo=value
-          console.log("Test Fields Info in MyTestDataComponent:"+this.testFieldsInfo.length);
+          this.testFieldsInfoTableMap=value
+          console.log("testFieldsInfoTableMap in MyTestDataComponent:"+JSON.stringify(this.testFieldsInfoTableMap));
         }
       }
     )
@@ -31,5 +32,7 @@ export class MyTestDataComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  
 
 }
