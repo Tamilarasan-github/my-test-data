@@ -1,1 +1,6 @@
 <app-home></app-home>
+<ng-container *ngIf="showSpinner">
+    <div class="overlay">
+    </div>
+    <div class="overlay-text">Processing... Please wait...</div>
+</ng-container>

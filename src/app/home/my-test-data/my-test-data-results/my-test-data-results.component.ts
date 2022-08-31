@@ -708,11 +708,12 @@ export class MyTestDataResultsComponent implements OnInit {
 
   downloadTestDataTemplate()
   {
-
+    this.dismissModal()
   }
 
   exportTestDataSearchResults()
   {
-
+    this.dismissModal()
+    this.testDataService.downloadTestDataExcel(this.testApplicationId, this.selectedTestTableId);
   }
 }

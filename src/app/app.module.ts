@@ -4,13 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyHeaderComponent } from './home/my-header/my-header.component';
 import { MyTestScriptsComponent } from './home/my-test-scripts/my-test-scripts.component';
 
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -20,12 +20,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 import { TestScriptsService } from './home/my-test-scripts/my-test-script-service';
 
 import { MyTestReportsComponent } from './home/my-test-reports/my-test-reports.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiHttpService } from './api-http-service';
 import { MyTestDataComponent } from './home/my-test-data/my-test-data.component';
 import { MyTestExecutionSummaryComponent } from './home/my-test-execution-summary/my-test-execution-summary.component';
@@ -41,25 +40,28 @@ import { TestFieldsInfoService } from './home/my-test-data/my-test-fields-servic
 import { MySuiteExecutionHistoryComponent } from './home/my-test-execution-summary/my-suite-execution-history/my-suite-execution-history.component';
 import { MyTestScriptsExecutionHistoryComponent } from './home/my-test-execution-summary/my-test-scripts-execution-history/my-test-scripts-execution-history.component';
 import { NgbModalService } from './home/ngbModalService';
+import { SpinnerService } from './spinner-service';
+import { HttpRequestResponseInterceptor } from './http-request-response-interceptor';
 
-
-const appRoute=[  
-  { path: 'test-scripts', component: MyTestScriptsComponent }, 
+const appRoute = [
+  { path: 'test-scripts', component: MyTestScriptsComponent },
   { path: 'test-data', component: MyTestDataComponent },
-  { path: 'test-execution-summary', component: MyTestExecutionSummaryComponent },
-  { 
-    path: 'test-reports/:suiteId', 
+  {
+    path: 'test-execution-summary',
+    component: MyTestExecutionSummaryComponent,
+  },
+  {
+    path: 'test-reports/:suiteId',
     component: MyTestReportsComponent,
-    // children: 
+    // children:
     // [
     //   {
     //       path: '**',
     //       component: MyTestReportsComponent
-    //   }            
-    // ] 
-}
- 
- ];
+    //   }
+    // ]
+  },
+];
 
 @NgModule({
   declarations: [
@@ -76,11 +78,8 @@ const appRoute=[
     MyTestReportsComponent,
     MyBulkUpdatesComponent,
     MySuiteExecutionHistoryComponent,
-    MyTestScriptsExecutionHistoryComponent
+    MyTestScriptsExecutionHistoryComponent,
   ],
-
-
-  
 
   imports: [
     BrowserModule,
@@ -94,17 +93,23 @@ const appRoute=[
     NgbModule,
     HttpClientModule,
     RouterModule.forRoot(appRoute),
-      
   ],
-  providers: [ApiHttpService, 
-    TestScriptsService, 
-    TestDataService, 
-    TestExecutionSummaryService, 
-    ApplicationTableInfoService,
-    TestFieldsInfoService,
-    NgbModalService
+  providers: [
+    { provide: ApiHttpService },
+    { provide: TestScriptsService },
+    { provide: TestDataService },
+    { provide: TestExecutionSummaryService },
+    { provide: ApplicationTableInfoService },
+    { provide: TestFieldsInfoService },
+    { provide: NgbModalService },
+    { provide: SpinnerService },
+
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestResponseInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
-  
 })
-export class AppModule { }
+export class AppModule {}

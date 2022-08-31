@@ -1,4 +1,6 @@
+import { FnParam } from '@angular/compiler/src/output/output_ast';
 import { Component } from '@angular/core';
+import { SpinnerService } from './spinner-service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-front-end';
+  showSpinner:boolean=false;
+
+  constructor(private spinnerService:SpinnerService)
+  {
+    this.spinnerService.showSpinnerAsObservable.subscribe(
+      {
+      next:(value)=>this.showSpinner=value
+      }
+    )
+  }
+
 }
+
+

@@ -1,192 +1,233 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { ApiHttpService } from "src/app/api-http-service";
-import { environment } from "src/environments/environment";
-import { ApplicationTableInfoService } from "../my-header/my-application-table-info-service";
-import { TestTableInfo } from "../my-header/my-test-tables-info";
-import { TestDataMeta } from "./my-test-data-results/my-test-data-meta";
-import { TestDataMetaDropdownValues } from "./my-test-data-search/my-test-data-meta-dropdown-values";
-import { TestDataSearchCriteria } from "./my-test-data-search/my-test-data-search-criteria";
-import { TestFieldsInfo } from "./my-test-fields-info";
-
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { ApiHttpService } from 'src/app/api-http-service';
+import { environment } from 'src/environments/environment';
+import { ApplicationTableInfoService } from '../my-header/my-application-table-info-service';
+import { TestTableInfo } from '../my-header/my-test-tables-info';
+import { TestDataMeta } from './my-test-data-results/my-test-data-meta';
+import { TestDataMetaDropdownValues } from './my-test-data-search/my-test-data-meta-dropdown-values';
+import { TestDataSearchCriteria } from './my-test-data-search/my-test-data-search-criteria';
+import { TestFieldsInfo } from './my-test-fields-info';
 
 @Injectable()
 export class TestDataService {
-
   private applicationSelectedId: number;
 
   private tableListBehaviorSub: BehaviorSubject<TestTableInfo[]>;
   public tableListAsObservable: Observable<TestTableInfo[]>;
 
-  private tableSelectedBehaviorSub : BehaviorSubject<number>;
+  private tableSelectedBehaviorSub: BehaviorSubject<number>;
   public tableSelectedAsObservable: Observable<number>;
 
   // private testDataSearchCriteriaBehaviorSub : BehaviorSubject<TestDataSearchCriteria>;
   // public testDataSearchCriteriaAsObservable: Observable<TestDataSearchCriteria>;
 
-  private testDataMetaAppOneFieldsInfoBehaviorSub : BehaviorSubject<TestFieldsInfo[]>;
+  private testDataMetaAppOneFieldsInfoBehaviorSub: BehaviorSubject<
+    TestFieldsInfo[]
+  >;
   public testDataMetaAppOneFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
 
-  private testDataAppOneTableOneFieldsInfoBehaviorSub : BehaviorSubject<TestFieldsInfo[]>;
-  public testDataAppOneTableOneFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
+  private testDataAppOneTableOneFieldsInfoBehaviorSub: BehaviorSubject<
+    TestFieldsInfo[]
+  >;
+  public testDataAppOneTableOneFieldsInfoAsObservable: Observable<
+    TestFieldsInfo[]
+  >;
 
-  private testDataAppOneTableTwoFieldsInfoBehaviorSub : BehaviorSubject<TestFieldsInfo[]>;
-  public testDataAppOneTableTwoFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
+  private testDataAppOneTableTwoFieldsInfoBehaviorSub: BehaviorSubject<
+    TestFieldsInfo[]
+  >;
+  public testDataAppOneTableTwoFieldsInfoAsObservable: Observable<
+    TestFieldsInfo[]
+  >;
 
- private testDataMetaDropdownValuesBehaviorSub: BehaviorSubject<TestDataMetaDropdownValues>;
- public testDataMetaDropdownValuesAsObservable: Observable<TestDataMetaDropdownValues>;
+  private testDataMetaDropdownValuesBehaviorSub: BehaviorSubject<TestDataMetaDropdownValues>;
+  public testDataMetaDropdownValuesAsObservable: Observable<TestDataMetaDropdownValues>;
 
- private testDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
- public testDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
+  private testDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
+  public testDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
 
- private clonedTestDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
- public clonedTestDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
+  private clonedTestDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
+  public clonedTestDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
 
- private testFieldsBehaviorSub: BehaviorSubject<Map<string, string>>;
- public testFieldsAsObservable: Observable<Map<string, string>>;
+  private testFieldsBehaviorSub: BehaviorSubject<Map<string, string>>;
+  public testFieldsAsObservable: Observable<Map<string, string>>;
 
- private testFieldOrderBehaviorSub: BehaviorSubject<Map<string, number>>;
- public testFieldOrderAsObservable: Observable<Map<string, number>>;
+  private testFieldOrderBehaviorSub: BehaviorSubject<Map<string, number>>;
+  public testFieldOrderAsObservable: Observable<Map<string, number>>;
 
-  constructor(private httpClient: HttpClient, private applicationTableInfoService:ApplicationTableInfoService)
-  {
-    this.applicationSelectedId=0;
+  public lastUsedTestDataSearchCriteria: TestDataSearchCriteria | undefined;
+
+  constructor(
+    private httpClient: HttpClient,
+    private applicationTableInfoService: ApplicationTableInfoService
+  ) {
+    this.applicationSelectedId = 0;
 
     this.tableListBehaviorSub = new BehaviorSubject<TestTableInfo[]>([]);
     this.tableListAsObservable = this.tableListBehaviorSub.asObservable();
 
     this.tableSelectedBehaviorSub = new BehaviorSubject<number>(0);
-    this.tableSelectedAsObservable = this.tableSelectedBehaviorSub.asObservable();
+    this.tableSelectedAsObservable =
+      this.tableSelectedBehaviorSub.asObservable();
 
     // this.testDataSearchCriteriaBehaviorSub = new BehaviorSubject<TestDataSearchCriteria>(0);
     // this.testDataSearchCriteriaAsObservable = this.testDataSearchCriteriaBehaviorSub.asObservable();
 
-    this.testDataMetaAppOneFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
-    this.testDataMetaAppOneFieldsInfoAsObservable = this.testDataMetaAppOneFieldsInfoBehaviorSub.asObservable();
+    this.testDataMetaAppOneFieldsInfoBehaviorSub = new BehaviorSubject<
+      TestFieldsInfo[]
+    >([]);
+    this.testDataMetaAppOneFieldsInfoAsObservable =
+      this.testDataMetaAppOneFieldsInfoBehaviorSub.asObservable();
 
-    this.testDataAppOneTableOneFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
-    this.testDataAppOneTableOneFieldsInfoAsObservable = this.testDataAppOneTableOneFieldsInfoBehaviorSub.asObservable();
+    this.testDataAppOneTableOneFieldsInfoBehaviorSub = new BehaviorSubject<
+      TestFieldsInfo[]
+    >([]);
+    this.testDataAppOneTableOneFieldsInfoAsObservable =
+      this.testDataAppOneTableOneFieldsInfoBehaviorSub.asObservable();
 
-    this.testDataAppOneTableTwoFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
-    this.testDataAppOneTableTwoFieldsInfoAsObservable = this.testDataAppOneTableTwoFieldsInfoBehaviorSub.asObservable();
-    
-    this.testDataMetaDropdownValuesBehaviorSub=new BehaviorSubject<TestDataMetaDropdownValues>(new TestDataMetaDropdownValues());
-    this.testDataMetaDropdownValuesAsObservable=this.testDataMetaDropdownValuesBehaviorSub.asObservable();
-    
-    this.testDataMetaValuesBehaviorSub=new BehaviorSubject<TestDataMeta[]>([]);
-    this.testDataMetaValuesAsObservable=this.testDataMetaValuesBehaviorSub.asObservable();
+    this.testDataAppOneTableTwoFieldsInfoBehaviorSub = new BehaviorSubject<
+      TestFieldsInfo[]
+    >([]);
+    this.testDataAppOneTableTwoFieldsInfoAsObservable =
+      this.testDataAppOneTableTwoFieldsInfoBehaviorSub.asObservable();
 
-    this.clonedTestDataMetaValuesBehaviorSub=new BehaviorSubject<TestDataMeta[]>([]);
-    this.clonedTestDataMetaValuesAsObservable=this.clonedTestDataMetaValuesBehaviorSub.asObservable();
+    this.testDataMetaDropdownValuesBehaviorSub =
+      new BehaviorSubject<TestDataMetaDropdownValues>(
+        new TestDataMetaDropdownValues()
+      );
+    this.testDataMetaDropdownValuesAsObservable =
+      this.testDataMetaDropdownValuesBehaviorSub.asObservable();
 
-    this.testFieldsBehaviorSub=new BehaviorSubject<Map<string, string>>(new Map);
-    this.testFieldsAsObservable=this.testFieldsBehaviorSub.asObservable();
+    this.testDataMetaValuesBehaviorSub = new BehaviorSubject<TestDataMeta[]>(
+      []
+    );
+    this.testDataMetaValuesAsObservable =
+      this.testDataMetaValuesBehaviorSub.asObservable();
 
-    this.testFieldOrderBehaviorSub=new BehaviorSubject<Map<string, number>>(new Map);
-    this.testFieldOrderAsObservable=this.testFieldOrderBehaviorSub.asObservable();
+    this.clonedTestDataMetaValuesBehaviorSub = new BehaviorSubject<
+      TestDataMeta[]
+    >([]);
+    this.clonedTestDataMetaValuesAsObservable =
+      this.clonedTestDataMetaValuesBehaviorSub.asObservable();
 
-    this.applicationTableInfoService.applicationSelectedAsObservable.subscribe(
-      {
-        next:(value)=>
-        {
-          this.applicationSelectedId=value;
-          this.retrieveTablesList(value);
-        }
-      }
-    )
+    this.testFieldsBehaviorSub = new BehaviorSubject<Map<string, string>>(
+      new Map()
+    );
+    this.testFieldsAsObservable = this.testFieldsBehaviorSub.asObservable();
+
+    this.testFieldOrderBehaviorSub = new BehaviorSubject<Map<string, number>>(
+      new Map()
+    );
+    this.testFieldOrderAsObservable =
+      this.testFieldOrderBehaviorSub.asObservable();
+
+    this.applicationTableInfoService.applicationSelectedAsObservable.subscribe({
+      next: (value) => {
+        this.applicationSelectedId = value;
+        this.retrieveTablesList(value);
+      },
+    });
   }
 
+  retrieveTablesList(applicationId: number) {
+    const headers = { 'content-type': 'application/json' };
 
-  retrieveTablesList(applicationId:number)
-  {
-    const headers={'content-type':'application/json'}
-  
-    return this.httpClient.get<TestTableInfo[]>(environment.backendBaseURL+"/applications/"+applicationId+"/tables", {'headers':headers})
-    .subscribe(
-      {
-        next : (responseBody) => {
+    return this.httpClient
+      .get<TestTableInfo[]>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables',
+        { headers: headers }
+      )
+      .subscribe({
+        next: (responseBody) => {
           this.tableListBehaviorSub.next(responseBody);
-          
         },
-        error :(e)=> {
-            console.log("Tables fetching error:"+e);
-            console.error()
-        }
-       
-      }
-    )
-}
+        error: (e) => {
+          console.log('Tables fetching error:' + e);
+          console.error();
+        },
+      });
+  }
 
-  setTable(selectedTableId: number)
-  {
+  setTable(selectedTableId: number) {
     this.tableSelectedBehaviorSub.next(selectedTableId);
     this.getTestDataAppOneFieldsInfo();
     this.getTestDataAppOneTableOneFieldsInfo();
     this.getTestDataAppOneTableTwoFieldsInfo();
-    this.fetchDropdownValuesFromBackEnd(this.applicationSelectedId, selectedTableId)
-  }
-
-  getTestDataAppOneFieldsInfo()
-  {
-    const metaDataAppOneTableID=2000;
-     
-    let testFieldsInfo:TestFieldsInfo[]=[];
-    const headers={'content-type':'application/json'}
-    this.httpClient.get<TestFieldsInfo[]>(environment.backendBaseURL+"/fields/tables/"+metaDataAppOneTableID,{'headers':headers}).subscribe(
-      {
-        next:(value)=> this.testDataMetaAppOneFieldsInfoBehaviorSub.next(value)
-      }
-    ); 
-  }
-
-  getTestDataAppOneTableOneFieldsInfo()
-  {
-    const testDataAppOneTableOneId=2001;
-    this.getTestFieldsInfo(testDataAppOneTableOneId).subscribe(
-      {
-        next:(value)=> {
-          this.testDataAppOneTableOneFieldsInfoBehaviorSub.next(value)
-          console.log("Fetched Fields Table 1: "+JSON.stringify(value))
-        }
-      }
+    this.fetchDropdownValuesFromBackEnd(
+      this.applicationSelectedId,
+      selectedTableId
     );
   }
 
-  getTestDataAppOneTableTwoFieldsInfo()
-  {
-    const testDataAppOneTableTwoId=2002;
-    this.getTestFieldsInfo(testDataAppOneTableTwoId).subscribe(
-      {
-        next:(value)=> {
-          this.testDataAppOneTableTwoFieldsInfoBehaviorSub.next(value)
-          console.log("Fetched Fields Table 2: "+JSON.stringify(value))
-        }
-      }
+  getTestDataAppOneFieldsInfo() {
+    const metaDataAppOneTableID = 2000;
+
+    let testFieldsInfo: TestFieldsInfo[] = [];
+    const headers = { 'content-type': 'application/json' };
+    this.httpClient
+      .get<TestFieldsInfo[]>(
+        environment.backendBaseURL + '/fields/tables/' + metaDataAppOneTableID,
+        { headers: headers }
+      )
+      .subscribe({
+        next: (value) =>
+          this.testDataMetaAppOneFieldsInfoBehaviorSub.next(value),
+      });
+  }
+
+  getTestDataAppOneTableOneFieldsInfo() {
+    const testDataAppOneTableOneId = 2001;
+    this.getTestFieldsInfo(testDataAppOneTableOneId).subscribe({
+      next: (value) => {
+        this.testDataAppOneTableOneFieldsInfoBehaviorSub.next(value);
+        console.log('Fetched Fields Table 1: ' + JSON.stringify(value));
+      },
+    });
+  }
+
+  getTestDataAppOneTableTwoFieldsInfo() {
+    const testDataAppOneTableTwoId = 2002;
+    this.getTestFieldsInfo(testDataAppOneTableTwoId).subscribe({
+      next: (value) => {
+        this.testDataAppOneTableTwoFieldsInfoBehaviorSub.next(value);
+        console.log('Fetched Fields Table 2: ' + JSON.stringify(value));
+      },
+    });
+  }
+
+  getTestFieldsInfo(tableId: number): Observable<TestFieldsInfo[]> {
+    let testFieldsInfo: TestFieldsInfo[] = [];
+    const headers = { 'content-type': 'application/json' };
+    return this.httpClient.get<TestFieldsInfo[]>(
+      environment.backendBaseURL + '/fields/tables/' + tableId,
+      { headers: headers }
     );
   }
 
-  getTestFieldsInfo(tableId: number):Observable<TestFieldsInfo[]>
-  {
-    let testFieldsInfo:TestFieldsInfo[]=[];
-    const headers={'content-type':'application/json'}
-    return this.httpClient.get<TestFieldsInfo[]>(environment.backendBaseURL+"/fields/tables/"+tableId,{'headers':headers}); 
-  }
-
-
-  fetchDropdownValuesFromBackEnd(applicationId:number, tableId: number): any {
-    const headers={'content-type':'application/json'}
-    console.log("tableId: "+tableId)
-    return this.httpClient.get<TestDataMetaDropdownValues>(environment.backendBaseURL+"/applications/"+applicationId+"/tables/"+tableId+"/dropdownvalues", {'headers':headers})
-    .subscribe(
-      {
-        next : (responseBody) => {
+  fetchDropdownValuesFromBackEnd(applicationId: number, tableId: number): any {
+    const headers = { 'content-type': 'application/json' };
+    console.log('tableId: ' + tableId);
+    return this.httpClient
+      .get<TestDataMetaDropdownValues>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/dropdownvalues',
+        { headers: headers }
+      )
+      .subscribe({
+        next: (responseBody) => {
           this.testDataMetaDropdownValuesBehaviorSub.next(responseBody);
-         // console.log("Fetched drop down values from back end" +JSON.stringify(responseBody));
-        }
-      }
-    )
-   
+          // console.log("Fetched drop down values from back end" +JSON.stringify(responseBody));
+        },
+      });
   }
 
   // setTestDataSearchcriteria(testDataSearchCriteria: TestDataSearchCriteria)
@@ -194,159 +235,197 @@ export class TestDataService {
   //   this.testDataSearchCriteriaBehaviorSub.next(testDataSearchCriteria);
   // }
 
-  getTestDataDropdownValuesAsObservable() :TestDataMetaDropdownValues
-  {
-    let testDataDropdownValues:TestDataMetaDropdownValues=new TestDataMetaDropdownValues();
-    this.testDataMetaDropdownValuesAsObservable.subscribe(
-      {
-        next:(value)=>
-        {
-          testDataDropdownValues=value;
-        }
-      }
-    )
+  getTestDataDropdownValuesAsObservable(): TestDataMetaDropdownValues {
+    let testDataDropdownValues: TestDataMetaDropdownValues =
+      new TestDataMetaDropdownValues();
+    this.testDataMetaDropdownValuesAsObservable.subscribe({
+      next: (value) => {
+        testDataDropdownValues = value;
+      },
+    });
     return testDataDropdownValues;
   }
 
-  getTestDataMetaValuesAsObservable() : TestDataMeta[]
-  {
-    let testDataMeta: TestDataMeta[]=[];
-    
-    this.testDataMetaValuesAsObservable.subscribe(
-      {
-        next:(v)=>
-        {
-          testDataMeta=v;
-         // console.log("getTestDataMetaValuesAsObservable() Test Data Meta:"+JSON.stringify(testDataMeta))
-        }
-      }
-    )
+  getTestDataMetaValuesAsObservable(): TestDataMeta[] {
+    let testDataMeta: TestDataMeta[] = [];
+
+    this.testDataMetaValuesAsObservable.subscribe({
+      next: (v) => {
+        testDataMeta = v;
+        // console.log("getTestDataMetaValuesAsObservable() Test Data Meta:"+JSON.stringify(testDataMeta))
+      },
+    });
 
     return testDataMeta;
   }
 
-  objectToMap(object: any): Map<string, any>
-  {
-     const map = new Map(Object.entries(object));
-     console.log("Object to map:"+JSON.stringify(map))
-     return map;
+  objectToMap(object: any): Map<string, any> {
+    const map = new Map(Object.entries(object));
+    console.log('Object to map:' + JSON.stringify(map));
+    return map;
   }
 
- 
+  fetchTestDataMetaFromBackend(
+    applicationId: number,
+    tableId: number,
+    testDataSearchCriteria: TestDataSearchCriteria
+  ) {
 
-  fetchTestDataMetaFromBackend(applicationId:number, tableId: number, testDataSearchCriteria: TestDataSearchCriteria) 
-  {
-    const headers={'content-type':'application/json'}
-    const request=JSON.stringify(testDataSearchCriteria);
+    this.lastUsedTestDataSearchCriteria=testDataSearchCriteria;
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(testDataSearchCriteria);
 
-    console.log("Search request in Service:"+request);
+    console.log('Search request in Service:' + request);
 
-    console.log("Table ID requested before sending to backend:"+tableId);
-    
-      this.httpClient.post<TestDataMeta[]>(environment.backendBaseURL+"/applications/"+applicationId+"/tables/"+tableId+"/search", testDataSearchCriteria, {'headers':headers}).subscribe({
+    console.log('Table ID requested before sending to backend:' + tableId);
+
+    this.httpClient
+      .post<TestDataMeta[]>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/search',
+        testDataSearchCriteria,
+        { headers: headers }
+      )
+      .subscribe({
         next: (responseBody) => {
           this.testDataMetaValuesBehaviorSub.next(responseBody);
-         console.log("ResponseData:"+responseBody+" : "+JSON.stringify(responseBody));
+          console.log(
+            'ResponseData:' +
+              responseBody +
+              ' : ' +
+              JSON.stringify(responseBody)
+          );
         },
         error: (e) => console.error(e),
-        complete: () => console.info('Searched values loaded successfully') 
-      }
-      );
-
+        complete: () => console.info('Searched values loaded successfully'),
+      });
   }
 
-  cloneTestData(applicationId:number, tableId: number, testDataMeta: TestDataMeta[]) 
-  {
-    const headers={'content-type':'application/json'}
-    const request=JSON.stringify(testDataMeta);
+  cloneTestData(
+    applicationId: number,
+    tableId: number,
+    testDataMeta: TestDataMeta[]
+  ) {
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(testDataMeta);
 
-    
-      this.httpClient.post<TestDataMeta[]>(environment.backendBaseURL+"/applications/"+applicationId+"/tables/"+tableId+"/clone", request, 
-      {'headers':headers}).subscribe({
+    this.httpClient
+      .post<TestDataMeta[]>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/clone',
+        request,
+        { headers: headers }
+      )
+      .subscribe({
         next: (responseBody) => {
-          
           this.clonedTestDataMetaValuesBehaviorSub.next(responseBody);
-          console.log("ResponseData:"+responseBody+" : "+JSON.stringify(responseBody));
+          console.log(
+            'ResponseData:' +
+              responseBody +
+              ' : ' +
+              JSON.stringify(responseBody)
+          );
 
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
         },
         error: (e) => console.error(e),
-        complete: () => console.info('Cloning completed successfully & dropdown updated') 
-      }
-      );
-
+        complete: () =>
+          console.info('Cloning completed successfully & dropdown updated'),
+      });
   }
 
-  deleteTestData(applicationId:number, tableId: number, testDataMeta: TestDataMeta[])
-  {
-    const headers={'content-type':'application/json'}
-    const request=JSON.stringify(testDataMeta);
+  deleteTestData(
+    applicationId: number,
+    tableId: number,
+    testDataMeta: TestDataMeta[]
+  ) {
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(testDataMeta);
 
-     this.httpClient.put<string>(environment.backendBaseURL+"/applications/"+applicationId+"/tables/"+tableId+"/delete", request, 
-      {'headers':headers}).subscribe({
+    this.httpClient
+      .put<string>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/delete',
+        request,
+        { headers: headers }
+      )
+      .subscribe({
         next: (responseBody) => {
-          console.log("Deleted: "+responseBody);
-          console.log("Deleted: "+JSON.stringify(responseBody));
+          console.log('Deleted: ' + responseBody);
+          console.log('Deleted: ' + JSON.stringify(responseBody));
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
           alert(responseBody);
-         
         },
-        error: (e) => 
-        {
-          console.error(e)
-          console.log("Deleted: "+e);
-          console.log("Deleted: "+JSON.stringify(e));
+        error: (e) => {
+          console.error(e);
+          console.log('Deleted: ' + e);
+          console.log('Deleted: ' + JSON.stringify(e));
         },
-        complete: () => console.info('Deleted successfully & dropdown updated') 
-      }
-      );
-
+        complete: () => console.info('Deleted successfully & dropdown updated'),
+      });
   }
 
-  updateTestData(applicationId:number, tableId: number, testDataMeta: TestDataMeta)
-  {
-    const headers={'content-type':'application/json'}
-    const request=JSON.stringify(testDataMeta);
+  updateTestData(
+    applicationId: number,
+    tableId: number,
+    testDataMeta: TestDataMeta
+  ) {
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(testDataMeta);
 
-     this.httpClient.patch<TestDataMeta>(environment.backendBaseURL+"/applications/"+applicationId+"/tables/"+tableId+"/update", request, 
-      {'headers':headers}).subscribe({
+    this.httpClient
+      .patch<TestDataMeta>(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/update',
+        request,
+        { headers: headers }
+      )
+      .subscribe({
         next: (responseBody) => {
-          console.log("Update response: "+JSON.stringify(responseBody));
-          
+          console.log('Update response: ' + JSON.stringify(responseBody));
+
           alert(responseBody);
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
-         
         },
-        error: (e) => 
-        {
-          console.error(e)
-          console.log("Update response: "+e);
-          console.log("Update response: "+JSON.stringify(e));
-          alert("Update error:"+JSON.stringify(e))
+        error: (e) => {
+          console.error(e);
+          console.log('Update response: ' + e);
+          console.log('Update response: ' + JSON.stringify(e));
+          alert('Update error:' + JSON.stringify(e));
         },
-        complete: () => console.info('Updated successfully & dropdown updated') 
-      }
-      );
-
+        complete: () => console.info('Updated successfully & dropdown updated'),
+      });
   }
 
-  subscriber(observerable: Observable<any>)
-  {
+  subscriber(observerable: Observable<any>) {
     let responseData;
     observerable.subscribe({
       next: (responseBody) => {
-        responseData=JSON.stringify(responseBody);
-        console.log("ResponseData:"+responseData)
+        responseData = JSON.stringify(responseBody);
+        console.log('ResponseData:' + responseData);
       },
       error: (e) => console.error(e),
-      complete: () => console.info('API call completed successfully') 
-    }
-    );
-    console.log("res",responseData);
+      complete: () => console.info('API call completed successfully'),
+    });
+    console.log('res', responseData);
     return responseData;
   }
-
- 
 
   getTestDataMetaFields(): Map<string, string> {
     const testDataMetaColumns: Map<string, string> = new Map<string, string>();
@@ -368,9 +447,57 @@ export class TestDataService {
     return testDataMetaColumns;
   }
 
-  
-}
+  downloadTestDataExcel(applicationId: number, tableId: number) {
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(this.lastUsedTestDataSearchCriteria);
 
-function API_DOMAIN_NAME(API_DOMAIN_NAME: any, testDataSearchCriteria: TestDataSearchCriteria) {
-  throw new Error("Function not implemented.");
+    this.httpClient
+      .post(
+        environment.backendBaseURL +
+          '/applications/' +
+          applicationId +
+          '/tables/' +
+          tableId +
+          '/exportExcel',
+        request,
+        { responseType: 'blob', observe: 'response', headers: headers }
+      )
+      .subscribe(response =>{
+        const fileName = response.headers.get('fileName')!;
+
+        console.log("Header Keys:"+response.headers.keys());
+        console.log("FileName:"+fileName)
+
+
+          var binaryData = [];
+          binaryData.push(response.body!);
+          console.log("Excel value:"+response);
+          const url = window.URL.createObjectURL(
+            new Blob(binaryData, { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"})
+          ); // <-- work with blob directly
+
+          // create hidden dom element (so it works in all browsers)
+          const a = document.createElement('a');
+          a.setAttribute('style', 'display:none;');
+          document.body.appendChild(a);
+
+          // create file, attach to hidden element and open hidden element
+          a.href = url;
+          a.download = fileName;
+          a.click();
+
+          this.deleteGeneratedExcel(applicationId,fileName);
+        },
+      );
+  }
+
+  deleteGeneratedExcel(applicationId:number, fileName:string)
+  {
+    this.httpClient.delete(environment.backendBaseURL +'/applications/' + applicationId +'/deleteExcel/'+fileName).subscribe({
+      next:(response)=>
+      {
+        console.log("Delete the generated file:"+response.toString);
+      }
+    });
+  }
 }

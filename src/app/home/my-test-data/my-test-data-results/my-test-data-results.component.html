@@ -8,9 +8,7 @@
             <i class="bi bi-plus-square-fill"></i>
         </button>
 
-        <button type="button" class="secondary-btn" (click)="openModal(cloneSelectedTestDataModal)">
-            <i class="bi bi-clipboard-check"></i>
-        </button>
+
         <ng-template #cloneSelectedTestDataModal>
             <div class="modal-header">
                 Clone Selected Test Data Records
@@ -24,9 +22,7 @@
         </ng-template>
 
 
-        <button type="button" class="secondary-btn" (click)="openModal(deleteSelectedTestDataModal)">
-            <i class="bi bi-trash-fill"></i>
-        </button>
+       
         <ng-template #deleteSelectedTestDataModal>
             <div class="modal-header">
                 Delete Selected Test Data Records
@@ -39,46 +35,39 @@
             </div>
         </ng-template>
 
+
+
         <div ngbDropdown [autoClose]="false">
-        <button type="button" class="secondary-btn" >
-            Update Run Flag
+        <button ngbDropdownToggle type="button" class="secondary-btn" >
+            Selected Records
         </button>
-        <div ngbDropdownMenu class="custom-dropdown"> 
-            <ul ngbDropdownItem class="dropdown-item"> 
-                <li (click)="openModal(updateRunFlagYesSelectedTestDataModal)"> Yes </li>
-                <li (click)="openModal(updateRunFlagNoSelectedTestDataModal)"> No </li>
-            </ul>
+        <div ngbDropdownMenu> 
+            <span ngbDropdownItem (click)="openModal(cloneSelectedTestDataModal)"> Clone </span>
+            <span ngbDropdownItem (click)="openModal(deleteSelectedTestDataModal)"> Delete </span>
+            <span ngbDropdownItem (click)="openModal(updateRunFlagSelectedTestDataModal)"> Update Run Flag </span>
+                     
         </div>
         </div>
-        <ng-template #updateRunFlagYesSelectedTestDataModal>
+        <ng-template #updateRunFlagSelectedTestDataModal>
             <div class="modal-header">
-                Update Run Flag to Yes
+                Update Run Flag
             </div>
             <div class="m-3">
-                Are you sure do you want to update run flag to "Yes" for the selected test data records?
+                <span> Please select the "Run Flag" value to be updated.</span>
+               
+                <input class="radio" type="radio"> <label>Yes</label>
+                <input class="radio" type="radio"> <label>No</label>
             </div>
             <div class="modal-footer">
-                <button type="button" class="primary-btn" (click)="updateRunFlagForSelectedTestData()">Yes</button>
+                <button type="button" class="primary-btn" (click)="updateRunFlagForSelectedTestData()">Update</button>
             </div>
         </ng-template>
-        <ng-template #updateRunFlagNoSelectedTestDataModal>
-            <div class="modal-header">
-                Update Run Flag to "No"
-            </div>
-            <div class="m-3">
-                Are you sure do you want to update run flag to "No" for the selected test data records?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="primary-btn" (click)="updateRunFlagForSelectedTestData()">Yes</button>
-            </div>
-        </ng-template>
-
-
+       
         <div ngbDropdown [autoClose]="false">
             <button ngbDropdownToggle type="button" class="secondary-btn">
                 Select UI Screen Name<i class="fa fa-solid fa-download"></i>
             </button>
-            <div ngbDropdownMenu>
+            <div ngbDropdownMenu class="custom-dropdown">
                 <input class="search-txtbox" type="text " placeholder="Search Columns"
                     (input)="searchColumnsInDropdown($event)">
                 <div ngbDropdownItem class="dropdown-item" *ngFor="let uiScreenName of testDataAppOneUIScreenNamesInfo">
