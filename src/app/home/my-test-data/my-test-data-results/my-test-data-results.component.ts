@@ -2,7 +2,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { elementAt } from 'rxjs';
+
 import { ApplicationTableInfoService } from '../../my-header/my-application-table-info-service';
 import { NgbModalService } from '../../ngbModalService';
 import { TestDataSearchCriteria } from '../my-test-data-search/my-test-data-search-criteria';
@@ -38,9 +38,12 @@ export class MyTestDataResultsComponent implements OnInit {
   selectedTestTableId: number;
 
  
-  dataCollectionSize: number;
-  page: number;
-  pageSize: number;
+  numOfRecordsToShowInAPage: number;
+  totalNumOfRecords: number;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 
   
   selectColumnsDropdownSettings: IDropdownSettings = {};
@@ -56,11 +59,11 @@ export class MyTestDataResultsComponent implements OnInit {
   enableColumnDropdown: boolean = false;
   enableExportDropdown: boolean = false;
 
-  testDataSearchCriteria: TestDataSearchCriteria;
+  testDataSearchedCriteria: TestDataSearchCriteria;
 
   constructor(private testDataService: TestDataService, private applicationTableInfoService: ApplicationTableInfoService, private ngbModalService:NgbModalService) { 
     
-    this.testDataSearchCriteria=new TestDataSearchCriteria([],[],[],[],[],[],[],[],[],new Date,new Date,[],new Date,new Date);
+    this.testDataSearchedCriteria=new TestDataSearchCriteria([],[],[],[],[],[],[],[],[],new Date,new Date,[],new Date,new Date);
 
    this.testDataMetaValuesAsObjectList=[];
    this.clonedTestDataMetaValuesAsObject=[];
@@ -78,6 +81,13 @@ export class MyTestDataResultsComponent implements OnInit {
     
     this.selectedTestTableId=0;
     this.testApplicationId=0;
+
+    this.numOfRecordsToShowInAPage=10;
+    this.totalNumOfRecords= 0;
+    this.currentPage= 0;
+    this.totalPages= 0;
+    this.hasNextPage= false;
+    this.hasPreviousPage= false;
 
     this.testDataService.tableSelectedAsObservable.subscribe(
       {
@@ -162,14 +172,60 @@ export class MyTestDataResultsComponent implements OnInit {
         next:(v)=>
         {
           this.testDataMetaValuesAsObjectList=v;
-          this.dataCollectionSize= this.testDataMetaValuesAsObjectList.length;
-         // console.log("getTestDataMetaValuesAsObservable() Test Data Meta:"+JSON.stringify(this.testDataMetaValuesAsObjectList))
+          //this.dataCollectionSize= this.testDataMetaValuesAsObjectList.length;
+          //console.log("getTestDataMetaValuesAsObservable() Test Data Meta:"+JSON.stringify(this.testDataMetaValuesAsObjectList))
         }
 
       }
     )
 
-   
+    this.testDataService.testDataNumOfElementsAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.totalNumOfRecords=value;
+        console.log("totalNumOfRecords:"+this.totalNumOfRecords);
+      }
+    })
+
+    this.testDataService.testDataTotalPagesAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.totalPages=value;
+        console.log("totalPages:"+this.totalPages);
+      }
+    })
+
+    this.testDataService.testDataHasNextAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.hasNextPage=value;
+        console.log("hasNextPage:"+this.hasNextPage);
+      }
+    })
+
+    this.testDataService.testDataHasPreviousAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.hasPreviousPage=value;
+        console.log("hasPreviousPage:"+this.hasPreviousPage);
+      }
+    }) 
+
+    this.testDataService.testDataCurrentPageAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.currentPage=value;
+        console.log("currentPage:"+this.currentPage);
+      }
+    })
+
+    this.testDataService.testDataSearchCriteriaAsObservable.subscribe({
+      next:(value)=>
+      {
+        this.testDataSearchedCriteria=value;
+        console.log("Searched Criteria:"+this.testDataSearchedCriteria);
+      }
+    })
 
     this.testDataService.clonedTestDataMetaValuesAsObservable.subscribe({
       next:(value)=>
@@ -179,9 +235,7 @@ export class MyTestDataResultsComponent implements OnInit {
       }
     })
 
-    this.dataCollectionSize= this.testDataMetaValuesAsObjectList.length;
-    this.page = 1;
-    this.pageSize = 10;
+    
 
     this.selectColumnsDropdownSettings = {
       singleSelection: false,
@@ -312,8 +366,10 @@ export class MyTestDataResultsComponent implements OnInit {
 
 
   onDelete(event: any, testDataMeta:TestDataMeta, testData: TestDataAppOneTableOne) {
-    if (confirm('Are you sure? Do you want to delete selected rows?')) {
-      alert('Deleted successfully!');
+    if(confirm("Are you sure do you want to delete this record?"))
+    {
+    const testDataToBeDeleted: TestDataMeta[] = [testDataMeta];
+    this.testDataService.deleteTestData(this.testApplicationId, this.selectedTestTableId, testDataToBeDeleted)
     }
   }
 
@@ -526,10 +582,6 @@ export class MyTestDataResultsComponent implements OnInit {
 
   
 
-  pageChange() {
-
-  }
-
   deleteSelectedTestData() {
    
     this.dismissModal();
@@ -715,5 +767,21 @@ export class MyTestDataResultsComponent implements OnInit {
   {
     this.dismissModal()
     this.testDataService.downloadTestDataExcel(this.testApplicationId, this.selectedTestTableId);
+  }
+
+  getTestDataPage()
+  {
+    this.testDataService.fetchTestDataMetaFromBackend(this.testApplicationId, this.selectedTestTableId , this.testDataSearchedCriteria, this.currentPage+1, this.numOfRecordsToShowInAPage, 'testDataMetaId');
+  }
+
+  fetchPreviousPageTestData()
+  {
+    this.testDataService.fetchTestDataMetaFromBackend(this.testApplicationId, this.selectedTestTableId , this.testDataSearchedCriteria, this.currentPage-2, this.numOfRecordsToShowInAPage, 'testDataMetaId');
+  }
+
+  fetchNextPageTestData()
+  {
+    console.log("Current Page:"+this.currentPage);
+    this.testDataService.fetchTestDataMetaFromBackend(this.testApplicationId, this.selectedTestTableId , this.testDataSearchedCriteria, this.currentPage, this.numOfRecordsToShowInAPage, 'testDataMetaId');
   }
 }

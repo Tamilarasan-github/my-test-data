@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ApiHttpService } from 'src/app/api-http-service';
 import { environment } from 'src/environments/environment';
 import { ApplicationTableInfoService } from '../my-header/my-application-table-info-service';
 import { TestTableInfo } from '../my-header/my-test-tables-info';
+import { SearchCriteria } from './my-bulk-updates/my-search-criteria';
 import { TestDataMeta } from './my-test-data-results/my-test-data-meta';
 import { TestDataMetaDropdownValues } from './my-test-data-search/my-test-data-meta-dropdown-values';
 import { TestDataSearchCriteria } from './my-test-data-search/my-test-data-search-criteria';
@@ -20,33 +21,38 @@ export class TestDataService {
   private tableSelectedBehaviorSub: BehaviorSubject<number>;
   public tableSelectedAsObservable: Observable<number>;
 
-  // private testDataSearchCriteriaBehaviorSub : BehaviorSubject<TestDataSearchCriteria>;
-  // public testDataSearchCriteriaAsObservable: Observable<TestDataSearchCriteria>;
+  private testDataSearchCriteriaBehaviorSub : BehaviorSubject<TestDataSearchCriteria>;
+  public testDataSearchCriteriaAsObservable: Observable<TestDataSearchCriteria>;
 
-  private testDataMetaAppOneFieldsInfoBehaviorSub: BehaviorSubject<
-    TestFieldsInfo[]
-  >;
+  private testDataMetaAppOneFieldsInfoBehaviorSub: BehaviorSubject<TestFieldsInfo[]>;
   public testDataMetaAppOneFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
 
-  private testDataAppOneTableOneFieldsInfoBehaviorSub: BehaviorSubject<
-    TestFieldsInfo[]
-  >;
-  public testDataAppOneTableOneFieldsInfoAsObservable: Observable<
-    TestFieldsInfo[]
-  >;
+  private testDataAppOneTableOneFieldsInfoBehaviorSub: BehaviorSubject<TestFieldsInfo[]>;
+  public testDataAppOneTableOneFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
 
-  private testDataAppOneTableTwoFieldsInfoBehaviorSub: BehaviorSubject<
-    TestFieldsInfo[]
-  >;
-  public testDataAppOneTableTwoFieldsInfoAsObservable: Observable<
-    TestFieldsInfo[]
-  >;
+  private testDataAppOneTableTwoFieldsInfoBehaviorSub: BehaviorSubject<TestFieldsInfo[]>;
+  public testDataAppOneTableTwoFieldsInfoAsObservable: Observable<TestFieldsInfo[]>;
 
   private testDataMetaDropdownValuesBehaviorSub: BehaviorSubject<TestDataMetaDropdownValues>;
   public testDataMetaDropdownValuesAsObservable: Observable<TestDataMetaDropdownValues>;
 
   private testDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
   public testDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
+
+  private testDataTotalPagesBehaviorSub: BehaviorSubject<number>;
+  public testDataTotalPagesAsObservable: Observable<number>;
+
+  private testDataNumOfElementsBehaviorSub: BehaviorSubject<number>;
+  public testDataNumOfElementsAsObservable: Observable<number>;
+
+  private testDataHasNextBehaviorSub: BehaviorSubject<boolean>;
+  public testDataHasNextAsObservable: Observable<boolean>;
+
+  private testDataHasPreviousBehaviorSub: BehaviorSubject<boolean>;
+  public testDataHasPreviousAsObservable: Observable<boolean>;
+
+  private testDataCurrentPageBehaviorSub: BehaviorSubject<number>;
+  public testDataCurrentPageAsObservable: Observable<number>;
 
   private clonedTestDataMetaValuesBehaviorSub: BehaviorSubject<TestDataMeta[]>;
   public clonedTestDataMetaValuesAsObservable: Observable<TestDataMeta[]>;
@@ -62,7 +68,8 @@ export class TestDataService {
   constructor(
     private httpClient: HttpClient,
     private applicationTableInfoService: ApplicationTableInfoService
-  ) {
+  ) 
+  {
     this.applicationSelectedId = 0;
 
     this.tableListBehaviorSub = new BehaviorSubject<TestTableInfo[]>([]);
@@ -72,56 +79,47 @@ export class TestDataService {
     this.tableSelectedAsObservable =
       this.tableSelectedBehaviorSub.asObservable();
 
-    // this.testDataSearchCriteriaBehaviorSub = new BehaviorSubject<TestDataSearchCriteria>(0);
-    // this.testDataSearchCriteriaAsObservable = this.testDataSearchCriteriaBehaviorSub.asObservable();
+    this.testDataSearchCriteriaBehaviorSub = new BehaviorSubject<TestDataSearchCriteria>(new TestDataSearchCriteria([],[],[],[],[],[],[],[],[],new Date,new Date,[],new Date,new Date));
+    this.testDataSearchCriteriaAsObservable = this.testDataSearchCriteriaBehaviorSub.asObservable();
 
-    this.testDataMetaAppOneFieldsInfoBehaviorSub = new BehaviorSubject<
-      TestFieldsInfo[]
-    >([]);
-    this.testDataMetaAppOneFieldsInfoAsObservable =
-      this.testDataMetaAppOneFieldsInfoBehaviorSub.asObservable();
+    this.testDataMetaAppOneFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
+    this.testDataMetaAppOneFieldsInfoAsObservable =this.testDataMetaAppOneFieldsInfoBehaviorSub.asObservable();
 
-    this.testDataAppOneTableOneFieldsInfoBehaviorSub = new BehaviorSubject<
-      TestFieldsInfo[]
-    >([]);
-    this.testDataAppOneTableOneFieldsInfoAsObservable =
-      this.testDataAppOneTableOneFieldsInfoBehaviorSub.asObservable();
+    this.testDataAppOneTableOneFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
+    this.testDataAppOneTableOneFieldsInfoAsObservable =this.testDataAppOneTableOneFieldsInfoBehaviorSub.asObservable();
 
-    this.testDataAppOneTableTwoFieldsInfoBehaviorSub = new BehaviorSubject<
-      TestFieldsInfo[]
-    >([]);
-    this.testDataAppOneTableTwoFieldsInfoAsObservable =
-      this.testDataAppOneTableTwoFieldsInfoBehaviorSub.asObservable();
+    this.testDataAppOneTableTwoFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
+    this.testDataAppOneTableTwoFieldsInfoAsObservable =this.testDataAppOneTableTwoFieldsInfoBehaviorSub.asObservable();
 
-    this.testDataMetaDropdownValuesBehaviorSub =
-      new BehaviorSubject<TestDataMetaDropdownValues>(
-        new TestDataMetaDropdownValues()
-      );
-    this.testDataMetaDropdownValuesAsObservable =
-      this.testDataMetaDropdownValuesBehaviorSub.asObservable();
+    this.testDataMetaDropdownValuesBehaviorSub =new BehaviorSubject<TestDataMetaDropdownValues>(new TestDataMetaDropdownValues());
+    this.testDataMetaDropdownValuesAsObservable =this.testDataMetaDropdownValuesBehaviorSub.asObservable();
 
-    this.testDataMetaValuesBehaviorSub = new BehaviorSubject<TestDataMeta[]>(
-      []
-    );
-    this.testDataMetaValuesAsObservable =
-      this.testDataMetaValuesBehaviorSub.asObservable();
+    this.testDataMetaValuesBehaviorSub = new BehaviorSubject<TestDataMeta[]>([]);
+    this.testDataMetaValuesAsObservable =this.testDataMetaValuesBehaviorSub.asObservable();
 
-    this.clonedTestDataMetaValuesBehaviorSub = new BehaviorSubject<
-      TestDataMeta[]
-    >([]);
-    this.clonedTestDataMetaValuesAsObservable =
-      this.clonedTestDataMetaValuesBehaviorSub.asObservable();
+    this.testDataTotalPagesBehaviorSub= new BehaviorSubject<number>(0);
+  this.testDataTotalPagesAsObservable= this.testDataTotalPagesBehaviorSub.asObservable();
 
-    this.testFieldsBehaviorSub = new BehaviorSubject<Map<string, string>>(
-      new Map()
-    );
+  this.testDataNumOfElementsBehaviorSub= new BehaviorSubject<number>(0);
+  this.testDataNumOfElementsAsObservable= this.testDataNumOfElementsBehaviorSub.asObservable();
+
+  this.testDataHasNextBehaviorSub= new BehaviorSubject<boolean>(false);
+  this.testDataHasNextAsObservable= this.testDataHasNextBehaviorSub.asObservable();
+
+  this.testDataHasPreviousBehaviorSub= new BehaviorSubject<boolean>(false);
+  this.testDataHasPreviousAsObservable= this.testDataHasPreviousBehaviorSub.asObservable();
+
+  this.testDataCurrentPageBehaviorSub= new BehaviorSubject<number>(0);
+  this.testDataCurrentPageAsObservable= this.testDataCurrentPageBehaviorSub.asObservable();
+
+    this.clonedTestDataMetaValuesBehaviorSub = new BehaviorSubject<TestDataMeta[]>([]);
+    this.clonedTestDataMetaValuesAsObservable =this.clonedTestDataMetaValuesBehaviorSub.asObservable();
+
+    this.testFieldsBehaviorSub = new BehaviorSubject<Map<string, string>>(new Map());
     this.testFieldsAsObservable = this.testFieldsBehaviorSub.asObservable();
 
-    this.testFieldOrderBehaviorSub = new BehaviorSubject<Map<string, number>>(
-      new Map()
-    );
-    this.testFieldOrderAsObservable =
-      this.testFieldOrderBehaviorSub.asObservable();
+    this.testFieldOrderBehaviorSub = new BehaviorSubject<Map<string, number>>(new Map());
+    this.testFieldOrderAsObservable =this.testFieldOrderBehaviorSub.asObservable();
 
     this.applicationTableInfoService.applicationSelectedAsObservable.subscribe({
       next: (value) => {
@@ -268,11 +266,17 @@ export class TestDataService {
   fetchTestDataMetaFromBackend(
     applicationId: number,
     tableId: number,
-    testDataSearchCriteria: TestDataSearchCriteria
+    testDataSearchCriteria: TestDataSearchCriteria, pageNumber:number, pageSize:number, sort: string
   ) {
-
+    console.log("Page num requested in service:"+pageNumber);
     this.lastUsedTestDataSearchCriteria=testDataSearchCriteria;
     const headers = { 'content-type': 'application/json' };
+     
+    const params = new HttpParams()
+      .set('page', pageNumber)
+      .set('size', pageSize)
+      .set('sort', sort);
+      
     const request = JSON.stringify(testDataSearchCriteria);
 
     console.log('Search request in Service:' + request);
@@ -281,27 +285,29 @@ export class TestDataService {
 
     this.httpClient
       .post<TestDataMeta[]>(
-        environment.backendBaseURL +
-          '/applications/' +
-          applicationId +
-          '/tables/' +
-          tableId +
-          '/search',
+        environment.backendBaseURL +'/applications/' +applicationId +'/tables/' +tableId +'/search',
         testDataSearchCriteria,
-        { headers: headers }
+        { observe: 'response', headers: headers, params:params }
       )
-      .subscribe({
-        next: (responseBody) => {
-          this.testDataMetaValuesBehaviorSub.next(responseBody);
-          console.log(
-            'ResponseData:' +
-              responseBody +
-              ' : ' +
-              JSON.stringify(responseBody)
-          );
+      .subscribe(
+      {
+        next: (response) => {
+          console.log("Total pages:"+response.headers.get('totalPages'))
+          this.testDataTotalPagesBehaviorSub.next(parseInt(response.headers.get('totalPages')!));
+          this.testDataNumOfElementsBehaviorSub.next(parseInt(response.headers.get('numOfElements')!));
+          this.testDataHasNextBehaviorSub.next(response.headers.get('hasNext') =="true");
+          this.testDataHasPreviousBehaviorSub.next(response.headers.get('hasPrevious') =="true");
+          this.testDataCurrentPageBehaviorSub.next(parseInt(response.headers.get('currentPage')!)+1);
+          
+          this.testDataSearchCriteriaBehaviorSub.next(testDataSearchCriteria);
+
+          this.testDataMetaValuesBehaviorSub.next(response.body!);
+
+          console.log('Test Data Search Results:'+JSON.stringify(response.body));
         },
         error: (e) => console.error(e),
-        complete: () => console.info('Searched values loaded successfully'),
+        complete: () =>
+          console.info('Test Data Search completed successfully'),
       });
   }
 
@@ -333,7 +339,7 @@ export class TestDataService {
               ' : ' +
               JSON.stringify(responseBody)
           );
-
+            this.fetchTestDataMetaFromBackend(applicationId, tableId, this.lastUsedTestDataSearchCriteria!, 0, 10, 'testDataMetaId');
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
         },
         error: (e) => console.error(e),
@@ -365,6 +371,8 @@ export class TestDataService {
         next: (responseBody) => {
           console.log('Deleted: ' + responseBody);
           console.log('Deleted: ' + JSON.stringify(responseBody));
+
+          this.fetchTestDataMetaFromBackend(applicationId, tableId, this.lastUsedTestDataSearchCriteria!, 0, 10, 'testDataMetaId');
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
           alert(responseBody);
         },
@@ -401,6 +409,8 @@ export class TestDataService {
           console.log('Update response: ' + JSON.stringify(responseBody));
 
           alert(responseBody);
+
+          this.fetchTestDataMetaFromBackend(applicationId, tableId, this.lastUsedTestDataSearchCriteria!, 0, 10, 'testDataMetaId');
           this.fetchDropdownValuesFromBackEnd(applicationId, tableId);
         },
         error: (e) => {

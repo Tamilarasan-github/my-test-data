@@ -42,8 +42,14 @@ import { MyTestScriptsExecutionHistoryComponent } from './home/my-test-execution
 import { NgbModalService } from './home/ngbModalService';
 import { SpinnerService } from './spinner-service';
 import { HttpRequestResponseInterceptor } from './http-request-response-interceptor';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+
 
 const appRoute = [
+ 
+  { path: 'login', component: LoginComponent},
+  { path: 'home', component: HomeComponent},
   { path: 'test-scripts', component: MyTestScriptsComponent },
   { path: 'test-data', component: MyTestDataComponent },
   {
@@ -61,6 +67,9 @@ const appRoute = [
     //   }
     // ]
   },
+  { path: 'logout', component: LogoutComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: '**', redirectTo: 'login', pathMatch: 'full'}
 ];
 
 @NgModule({
@@ -79,6 +88,8 @@ const appRoute = [
     MyBulkUpdatesComponent,
     MySuiteExecutionHistoryComponent,
     MyTestScriptsExecutionHistoryComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
 
   imports: [

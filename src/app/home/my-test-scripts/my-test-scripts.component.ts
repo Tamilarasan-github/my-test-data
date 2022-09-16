@@ -60,14 +60,14 @@ export class MyTestScriptsComponent implements OnInit {
   testScriptsCreatedByDropdownList: any[] = [];
   testScriptsCreatedBySelectedList: any = [];
 
-  testScriptCreatedDateFrom: Date = new Date(); ;
-  testScriptCreatedDateTo: Date = new Date(); 
+  testScriptCreatedDateFrom: Date = new Date('2000-01-01'); ;
+  testScriptCreatedDateTo: Date = new Date('2999-01-01'); 
 
   testScriptsUpdatedByDropdownList: any[] = [];
   testScriptsUpdatedBySelectedList: any = [];
 
-  testScriptUpdatedDateFrom: any = new Date(); 
-  testScriptUpdatedDateTo: any = new Date(); 
+  testScriptUpdatedDateFrom: any = new Date('2000-01-01'); 
+  testScriptUpdatedDateTo: any = new Date('2999-01-01'); 
 
   modalOptions:NgbModalOptions;
 
@@ -337,7 +337,7 @@ export class MyTestScriptsComponent implements OnInit {
 
      
     console.log('Test data request : ' + JSON.stringify(testDataSearchCriteria));
-    this.testDataService.fetchTestDataMetaFromBackend(applicationId, 2001, testDataSearchCriteria); 
+    this.testDataService.fetchTestDataMetaFromBackend(applicationId, 2001, testDataSearchCriteria, 0, 10,'testDataMetaId'); 
 
   }
 

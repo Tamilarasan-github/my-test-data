@@ -14,8 +14,8 @@ import { ApplicationTableInfoService } from '../../my-header/my-application-tabl
 })
 export class MyTestDataSearchComponent implements OnInit {
 
-  @Output() 
-  listOfTestDataSearchResults= new EventEmitter<TestDataMeta[]>();
+  // @Output() 
+  // listOfTestDataSearchResults= new EventEmitter<TestDataMeta[]>();
   
   testDataMetaDropdownValues!: TestDataMetaDropdownValues;
 
@@ -56,14 +56,14 @@ export class MyTestDataSearchComponent implements OnInit {
   testDataCreatedByDropdownList: any[] = [];
   testDataCreatedBySelectedList: any = [];
 
-  testDataCreatedDateFrom: Date = new Date(); ;
-  testDataCreatedDateTo: Date = new Date(); 
+  testDataCreatedDateFrom: Date = new Date('2000-01-01');
+  testDataCreatedDateTo: Date = new Date('2999-01-01'); 
 
   testDataUpdatedByDropdownList: any[] = [];
   testDataUpdatedBySelectedList: any = [];
 
-  testDataUpdatedDateFrom: any = new Date(); 
-  testDataUpdatedDateTo: any = new Date(); 
+  testDataUpdatedDateFrom: any = new Date('2000-01-01'); 
+  testDataUpdatedDateTo: any = new Date('2999-01-01'); 
 
 
   constructor(private testDataService: TestDataService, 
@@ -230,9 +230,9 @@ export class MyTestDataSearchComponent implements OnInit {
 
      
     console.log('Test data request : ' + JSON.stringify(testDataSearchCriteria));
-    this.testDataService.fetchTestDataMetaFromBackend(applicationId, this.selectedTestTableId, testDataSearchCriteria);
+    this.testDataService.fetchTestDataMetaFromBackend(applicationId, this.selectedTestTableId, testDataSearchCriteria, 0, 10, 'testDataMetaId');
     
-    console.log(this.listOfTestDataSearchResults)
+  //  console.log(this.listOfTestDataSearchResults)
   }
 
   clearSearch() {

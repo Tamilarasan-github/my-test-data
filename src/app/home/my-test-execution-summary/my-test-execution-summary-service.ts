@@ -78,7 +78,7 @@ export class TestExecutionSummaryService
     {
         const headers={'content-type':'application/json'}
   
-        return this.httpClient.get<TestSuiteExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/testSuite/execution-history", {'headers':headers})
+        return this.httpClient.get<TestSuiteExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/suites", {'headers':headers})
         .subscribe(
           {
             next : (responseBody) => {
@@ -97,12 +97,12 @@ export class TestExecutionSummaryService
     {
         const headers={'content-type':'application/json'}
   
-        return this.httpClient.post<TestScriptsExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/testScripts/execution-history", {'suiteId':suiteId}, {'headers':headers})
+        return this.httpClient.get<TestScriptsExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/suites/"+suiteId+"/testScripts", {'headers':headers})
         .subscribe(
           {
             next : (responseBody) => {
                 this.testScriptsExecutionHistoryBehaviorSub.next(responseBody);
-              console.log(JSON.stringify(responseBody));
+              console.log("TestScripts Execution History:"+JSON.stringify(responseBody));
             },
             error :(e)=> {
                 console.log("Test Scripts Execution History fetching error:"+e);

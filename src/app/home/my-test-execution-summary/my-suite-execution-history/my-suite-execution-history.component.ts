@@ -11,12 +11,14 @@ import { TestSuiteExecutionHistory } from './suite';
 })
 export class MySuiteExecutionHistoryComponent implements OnInit {
 
-  showSuiteSearch: boolean=false;
+  showSuiteSearch: boolean=true;
   showSuiteTable: boolean=true;
   testSuiteExecutionHistory:TestSuiteExecutionHistory[];
   searchDropdownSettings: IDropdownSettings = {};
   suiteStatusSelected: string[]=[];
+  createdBySelected: string[]=[];
   suiteStatusList: string[]=[];
+  createdByList: string[]=[];
   suiteCreatedDateFrom: Date= new Date();
   suiteCreatedDateTo: Date= new Date();
 

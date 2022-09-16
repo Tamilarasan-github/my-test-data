@@ -3,9 +3,10 @@
 
 <button class="collapsible" (click)="showSuiteTableContainer()">Suites</button>
 <div *ngIf="showSuiteTable==true">
-<button class="collapsible" (click)="showSuiteSearchContainer()">Suite Search</button>
+<!-- <button class="collapsible" (click)="showSuiteSearchContainer()">Suite Search</button>
 
-<div *ngIf="showSuiteSearch==true">
+<div *ngIf="showSuiteSearch"> -->
+<div class="container">
 <div class="row p-2">
     <div class="col-sm">
         <input type="text" id="suiteName" placeholder="Search Suite ID/Suite Name/URL" class="form-control">
@@ -18,7 +19,13 @@
         <ng-multiselect-dropdown [placeholder]="'Select Suite Status'" [settings]="searchDropdownSettings"
             [data]="suiteStatusList" [(ngModel)]="suiteStatusSelected">
         </ng-multiselect-dropdown>
+    </div>
 
+    <div class="col-sm">
+        <label class="label">Created By</label>
+        <ng-multiselect-dropdown [placeholder]="'Select Created By'" [settings]="searchDropdownSettings"
+            [data]="createdByList" [(ngModel)]="createdBySelected">
+        </ng-multiselect-dropdown>
     </div>
 
     <div class="col-sm">

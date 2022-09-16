@@ -173,13 +173,36 @@
     </div>
 
 
-    <div class="d-flex justify-content-center mt-3">
+    <!-- <div class="d-flex justify-content-center mt-3">
         <ngb-pagination [collectionSize]="dataCollectionSize" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
             [rotate]="true" [boundaryLinks]="true" (pageChange)="pageChange()">
         </ngb-pagination>
-    </div>
-</div>
+    </div> -->
 
+    <div class="d-flex justify-content-center mt-3">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" >
+                <button class="pagination-previous-btn" [disabled]="hasPreviousPage==false" (click)="fetchPreviousPageTestData()">Previous</button>
+              </li>
+              
+              <li class="col-sm-2">
+                <input class="pagination-textbox" type="number"  (change)="getTestDataPage()" [(ngModel)]="currentPage">
+              </li>
+              
+              <li class="col-sm-2">
+                <input class="pagination-textbox" type="number"  [(ngModel)]="totalPages" disabled>
+              </li>
+              
+              <li class="page-item">
+                <button class="pagination-next-btn" [disabled]="hasNextPage==false" (click)="fetchNextPageTestData()">Next</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+    </div>
+    
+    
 
 <div class="table-responsive scrollable-div">
 
@@ -221,7 +244,10 @@
         <tbody class="table-body">
 
             <ng-container
-                *ngFor="let testDataMetaRecord of testDataMetaValuesAsObjectList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+               
+            *ngFor="let testDataMetaRecord of testDataMetaValuesAsObjectList">
+
+            <!-- *ngFor="let testDataMetaRecord of testDataMetaValuesAsObjectList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"> -->
                 <ng-container *ngIf="selectedTestTableId===2001">
                     <tr *ngFor="let testDataAppOneTableOneRecord of testDataMetaRecord.testDataAppOneTableOne"
                         (dblclick)="onEdit($event, testDataMetaRecord, testDataAppOneTableOneRecord)">

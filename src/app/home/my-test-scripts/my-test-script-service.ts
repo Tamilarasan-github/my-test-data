@@ -71,7 +71,7 @@ export class TestScriptsService {
     fetchTestScripts(applicationId:number, testScriptSearchCriteria: TestScriptSearchCriteria) {
         const headers={'content-type':'application/json'}
        
-        this.httpClient.post<TestScript[]>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/search", testScriptSearchCriteria, {'headers':headers})
+        this.httpClient.post<TestScript[]>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/search", testScriptSearchCriteria, {'headers':headers, withCredentials: true})
         .subscribe(
           {
             next : (responseBody) => {

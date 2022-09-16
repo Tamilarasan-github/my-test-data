@@ -23,6 +23,8 @@
     --button-secondary-text-color: hsl(var(--hue-color), 0%, 100%);
     --button-third-text-color: hsl(var(--hue-color), 0%, 100%);
 
+    --button-pagination-text-color: hsl(var(--hue-color), 0%, 100%);
+
     --info-bg-color:hsl(var(--hue-color), 20%, 28%);
 
     --title-color: hsl(var(--hue-color), 0%, 100%);
@@ -165,6 +167,43 @@
     margin: 3px;
 }
 
+.pagination-previous-btn{
+    background-color: var(--button-primary-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--button-font-size);
+    border-top-left-radius: 2000px;
+    border-bottom-left-radius: 2000px;
+    color: var(--button-primary-text-color);
+    padding: 10px 25px;
+    height: 2.5rem;
+}
+
+.pagination-next-btn{
+    background-color: var(--button-primary-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--button-font-size);
+    border-top-right-radius: 2000px;
+    border-bottom-right-radius: 2000px;
+    color: var(--button-primary-text-color);
+    padding: 10px 25px;
+    height: 2.5rem;
+}
+
+.pagination-textbox{
+    background-color: var(--button-primary-bg-color);
+    font-family: var(--button-font);
+    font-size: var(--h3-font-size);
+    width: 3rem;
+    height: 2.5rem;
+    border: none;
+    display: inline;
+    text-align: right; 
+    color: var(--button-primary-text-color);
+}
+
+
+
+
 .button-defaults {
     /* font-family: sans-Tahoma; */
     /* text-shadow: 1px 3px 5px rgba(0,0,0,0.63); */
@@ -276,7 +315,7 @@ ng-multiselect-dropdown {
     cursor: pointer;
     width: 100%;
     text-align: left;
-    padding: 2px;
+    padding: 10px 2px 2px 2px;
     background-color: var(--primary-bg-color);
     color: #F7F7F7;
     font-family: var(--h2-font);

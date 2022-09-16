@@ -5,16 +5,16 @@ export class TestDataSearchCriteria
         public testCaseId:string[],
         public jiraId:string[],
         public runFlag:string[],
-        public testScripts:string[],
+        public testScriptName:string[],
         public testShortDescription:string[],
         public testPriority:string[],
         public testCategory:string[],
         public createdBy:string[],
-        public testDataCreatedFromDate: Date,
-        public testDataCreatedToDate: Date,
+        public createdFrom: Date,
+        public createdTo: Date,
         public updatedBy:string[],
-        public testDataUpdatedFromDate: Date,
-        public testDataUpdatedToDate: Date
+        public updatedFrom: Date,
+        public updatedTo: Date
     )
     {}
 }
