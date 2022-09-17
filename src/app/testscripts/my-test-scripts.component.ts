@@ -3,10 +3,11 @@ import { Validators } from '@angular/forms';
 import { Event, Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { ApplicationTableInfoService } from '../my-header/my-application-table-info-service';
-import { TestDataSearchCriteria } from '../my-test-data/my-test-data-search/my-test-data-search-criteria';
-import { TestDataService } from '../my-test-data/my-test-data.service';
-import { NgbModalService } from '../ngbModalService';
+import { ApplicationTableInfoService } from 'src/app/home/my-header/my-application-table-info-service';
+import { TestDataSearchCriteria } from 'src/app/home/my-test-data/my-test-data-search/my-test-data-search-criteria';
+import { TestDataService } from 'src/app/home/my-test-data/my-test-data.service';
+import { NgbModalService } from 'src/app/home/ngbModalService';
+
 import { NewGroup } from './my-new-group';
 import { TestScriptGroups } from './my-test-script-groups';
 import { TestScriptsService } from './my-test-script-service';

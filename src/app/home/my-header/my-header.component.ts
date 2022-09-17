@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { TestScriptsService } from '../my-test-scripts/my-test-script-service';
 import { ApplicationTableInfoService } from './my-application-table-info-service';
 import { TestApplicationInfo } from './my-test-applications-info';
 import { TestTableInfo } from './my-test-tables-info';
@@ -19,7 +18,7 @@ export class MyHeaderComponent
   highlightFeature:string='';
   applicationIdSelected: number;
   showSideBar: boolean=false;
-  constructor(private router:Router, private applicationTableInfoService:ApplicationTableInfoService, private testScriptsService:TestScriptsService) {
+  constructor(private router:Router, private applicationTableInfoService:ApplicationTableInfoService) {
     this.applicationIdSelected=1001;
    }
 
@@ -104,7 +103,7 @@ export class MyHeaderComponent
 
   fetchTestScriptsDropdownValues()
   {
-    this.testScriptsService.fetchTestScriptsDropdownValues(this.applicationIdSelected);
+   // this.testScriptsService.fetchTestScriptsDropdownValues(this.applicationIdSelected);
   }
 
   toggleSideBar()

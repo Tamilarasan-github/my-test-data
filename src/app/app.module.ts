@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyHeaderComponent } from './home/my-header/my-header.component';
-import { MyTestScriptsComponent } from './home/my-test-scripts/my-test-scripts.component';
+
 
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -19,8 +19,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { TestScriptsService } from './home/my-test-scripts/my-test-script-service';
 
 import { MyTestReportsComponent } from './home/my-test-reports/my-test-reports.component';
 
@@ -42,41 +40,14 @@ import { MyTestScriptsExecutionHistoryComponent } from './home/my-test-execution
 import { NgbModalService } from './home/ngbModalService';
 import { SpinnerService } from './spinner-service';
 import { HttpRequestResponseInterceptor } from './http-request-response-interceptor';
-import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
 
 
-const appRoute = [
- 
-  { path: 'login', component: LoginComponent},
-  { path: 'home', component: HomeComponent},
-  { path: 'test-scripts', component: MyTestScriptsComponent },
-  { path: 'test-data', component: MyTestDataComponent },
-  {
-    path: 'test-execution-summary',
-    component: MyTestExecutionSummaryComponent,
-  },
-  {
-    path: 'test-reports/:suiteId',
-    component: MyTestReportsComponent,
-    // children:
-    // [
-    //   {
-    //       path: '**',
-    //       component: MyTestReportsComponent
-    //   }
-    // ]
-  },
-  { path: 'logout', component: LogoutComponent},
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: '**', redirectTo: 'login', pathMatch: 'full'}
-];
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MyHeaderComponent,
-    MyTestScriptsComponent,
     HomeComponent,
     MyTestDataComponent,
     MyTestDataSearchComponent,
@@ -88,8 +59,6 @@ const appRoute = [
     MyBulkUpdatesComponent,
     MySuiteExecutionHistoryComponent,
     MyTestScriptsExecutionHistoryComponent,
-    LoginComponent,
-    LogoutComponent,
   ],
 
   imports: [
@@ -103,11 +72,13 @@ const appRoute = [
     NgMultiSelectDropDownModule,
     NgbModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoute),
+  ],
+  exports: [ 
+    MyTestDataSearchComponent,
+    MyTestDataResultsComponent,
   ],
   providers: [
     { provide: ApiHttpService },
-    { provide: TestScriptsService },
     { provide: TestDataService },
     { provide: TestExecutionSummaryService },
     { provide: ApplicationTableInfoService },

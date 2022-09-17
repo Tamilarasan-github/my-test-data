@@ -2,10 +2,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { ApplicationTableInfoService } from "src/app/home/my-header/my-application-table-info-service";
+import { TestDataService } from "src/app/home/my-test-data/my-test-data.service";
 import { environment } from "src/environments/environment";
-import { ApplicationTableInfoService } from "../my-header/my-application-table-info-service";
-import { TestDataService } from "../my-test-data/my-test-data.service";
-import { TestScriptGroups } from "./my-test-script-groups";
+
+
 import { TestScript } from "./test-scripts";
 import { TestScriptExecution } from "./test-scripts-execution";
 import { TestScriptSearchCriteria } from "./test-scripts-search-criteria";
