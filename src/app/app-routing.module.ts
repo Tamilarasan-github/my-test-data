@@ -1,32 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LogInComponent } from './auth/log-in/log-in.component';
-import { HomeComponent } from './home/home.component';
-import { MyTestDataComponent } from './home/my-test-data/my-test-data.component';
-import { MyTestExecutionSummaryComponent } from './home/my-test-execution-summary/my-test-execution-summary.component';
-import { MyTestReportsComponent } from './home/my-test-reports/my-test-reports.component';
+import { AuthGuard } from './auth/auth.guard';
+import { LogInComponent } from './auth/components/log-in/log-in.component';
+import { LogoutComponent } from './auth/components/logout/logout.component';
+
+import { MyTestExecutionSummaryComponent } from './executionsummary/components/my-test-execution-summary/my-test-execution-summary.component';
+import { HomeComponent } from './home/components/home/home.component';
+import { MyTestReportsComponent } from './reports/components/my-test-reports/my-test-reports.component';
+import { MyTestDataComponent } from './testdata/my-test-data.component';
+import { MyTestScriptsComponent } from './testscripts/components/my-test-scripts.component';
 
 
 const routes: Routes = [
 
   { path: 'login', component: LogInComponent},
-  { path: 'home', component: HomeComponent},
-  { path: 'testdata', component: MyTestDataComponent },
-  {
-    path: 'testexecutionsummary',
-    component: MyTestExecutionSummaryComponent,
-  },
-  {
-    path: 'testreports/:suiteId',
-    component: MyTestReportsComponent,
-    // children:
-    // [
-    //   {
-    //       path: '**',
-    //       component: MyTestReportsComponent
-    //   }
-    // ]
-  },
+  { path: 'logout', component: LogoutComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  //{ path: 'home', component: HomeComponent},
+
+  { path: 'testscripts', component: MyTestScriptsComponent, canActivate: [AuthGuard]},
+  { path: 'test-data', component: MyTestDataComponent, canActivate: [AuthGuard]},
+  { path: 'test-execution-summary', component: MyTestExecutionSummaryComponent, canActivate: [AuthGuard]},
+  { path: 'test-reports/:suiteId', component: MyTestReportsComponent, canActivate: [AuthGuard]},
   { path: '', redirectTo: 'login', pathMatch: 'full'},
   { path: '**', redirectTo: 'login', pathMatch: 'full'}
 ];

@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule } from './auth-routing.module';
 
-import { LogoutComponent } from './logout/logout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { LogInComponent } from './log-in/log-in.component';
+import { LogInComponent } from './components/log-in/log-in.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { LogInService } from './components/log-in/log-in.service';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -20,6 +22,16 @@ import { LogInComponent } from './log-in/log-in.component';
     AuthRoutingModule,
     BrowserModule, 
     ReactiveFormsModule,
+  ],
+  exports: [
+    LogInComponent,
+    LogoutComponent
+  ],
+
+  providers:[
+    { provide: LogInService },
+    { provide: AuthGuard}
   ]
+
 })
 export class AuthModule { }

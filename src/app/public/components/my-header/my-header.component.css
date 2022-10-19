@@ -1,0 +1,155 @@
+.top-container {
+    background-color: var(--primary-bg-color);
+}
+
+.select-customized
+{
+    background-color: var(--primary-bg-color);
+    color: white;
+    outline: none;
+    border: 0px solid transparent;
+    border-color: transparent;
+    font-weight: 500;
+    position: relative;
+    cursor:pointer;
+}
+
+.dropdown-list-customized
+{
+    position: absolute;
+    background-color: var(--primary-bg-color);
+    color: var(--text-color);
+    cursor:pointer;
+}
+
+
+.nav-bar {
+    background-color: var(--primary-bg-color);
+    border-top: 2px solid var(--secondary-bg-color);;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-bar a {
+    font-size: var(--menu-font-size);
+    font-family: var(--menu-font);
+    color: var( --menu-text-color);
+    text-align: center;
+    text-decoration: none;
+    font-weight: bolder;
+    padding: 5px 5px;
+}
+
+.nav-bar a:hover {
+  
+    color: rgb(204, 46, 46);
+}
+
+.title-bar{
+    display: inline-block;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.title-bar>ul{
+    list-style-type: none;
+    display: flex;
+}
+
+.title-bar>li{
+   
+    display: inline-block;
+}
+
+.menu-list>li
+{
+    display: inline-block;
+}
+
+@media screen and (max-width: 600px) {
+    .sub-menu{
+        display: none;
+    } 
+
+    .my-profile
+    {
+        display: none;
+    }
+
+    .humburger-menu{
+        position: relative;
+        z-index: 1;
+        
+    } 
+
+    .humburger-list>ul{
+    list-style: none;
+    }
+
+    .humburger-list>ul>li
+    {
+        padding: 10px 0px;
+    }
+
+    .humburger-list
+    {
+        position: absolute;
+        background-color: var(--primary-bg-color);
+       
+        width: 600px;
+        left: -30px;
+        list-style: none;
+        border-top: 2px solid #ddd;
+    }
+
+    .humburger-list-link
+    {
+        font-size: var(--menu-font-size);
+    font-family: var(--menu-font);
+    color: var( --menu-text-color);
+    text-align: center;
+    text-decoration: none;
+    font-weight: bolder;
+    padding: 5px 10px;
+    }
+
+    .big-screen
+    {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    .humburger-menu{
+        display: none;
+       
+    } 
+}
+
+
+
+.header-title {
+    font-size: var(--title-font-size);
+    font-family: var(--title-font);
+    color: var(--title-color);
+    text-decoration: none;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.my-profile {
+    font-size: var(--title-font-size);
+    font-family: var(--title-font);
+    color: var(--title-color);
+    font-weight: bolder;
+    position: absolute;
+    right: 10px;
+}
+
+.highlight-selected-Link {
+    background-color: #ddd;
+    color: black;
+    text-shadow: 1px 3px 5px rgba(253, 252, 252, 0.63);
+}

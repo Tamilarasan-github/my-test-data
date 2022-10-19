@@ -2,9 +2,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
-import { ApplicationTableInfoService } from "src/app/home/my-header/my-application-table-info-service";
-import { TestDataService } from "src/app/home/my-test-data/my-test-data.service";
+import { ApplicationTableInfoService } from "src/app/public/my-application-table-info-service";
 import { environment } from "src/environments/environment";
+import { DataUpdate } from "../public/data.update.model";
+import { TestDataService } from "../testdata/my-test-data.service";
 
 
 import { TestScript } from "./test-scripts";
@@ -72,7 +73,7 @@ export class TestScriptsService {
     fetchTestScripts(applicationId:number, testScriptSearchCriteria: TestScriptSearchCriteria) {
         const headers={'content-type':'application/json'}
        
-        this.httpClient.post<TestScript[]>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/search", testScriptSearchCriteria, {'headers':headers, withCredentials: true})
+        this.httpClient.post<TestScript[]>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/search", testScriptSearchCriteria)
         .subscribe(
           {
             next : (responseBody) => {
@@ -135,6 +136,29 @@ export class TestScriptsService {
     fetchTestData()
     {
         
+    }
+
+    saveTestscript(applicationId:number, testScript:TestScript)
+    {
+        return this.httpClient.post<TestScript>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/save", testScript);
+    }
+
+    deleteTestscript(applicationId:number, testScript:TestScript)
+    {
+        return this.httpClient.post<TestScript>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/delete", testScript);
+    }
+
+    updateTestscript(applicationId:number, updateTestscript: DataUpdate)
+    {
+        // let obj;
+        // updateTestscript.forEach((value: Map<string, string>, key: number) => {
+        //     console.log("Object.fromEntries(value):" +JSON.stringify(Object.fromEntries(value)))
+        //     obj={
+        //             [key]:JSON.stringify(Object.fromEntries(value))
+        //         }
+        // });
+        // console.log("Update Map to JSON:"+obj)
+        return this.httpClient.post<TestScript>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/update",updateTestscript);
     }
 
 }

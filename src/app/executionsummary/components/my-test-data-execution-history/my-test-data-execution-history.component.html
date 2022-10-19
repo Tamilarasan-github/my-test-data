@@ -1,0 +1,124 @@
+
+    <div class="collapsible" (click)="showTestDataExecTableContainer()">
+        Test Data Execution
+        <i class="bi bi-caret-down-fill" *ngIf="showTestDataExecTable"></i>
+        <i class="bi bi-caret-up-fill" *ngIf="showTestDataExecTable==false"></i>
+    </div>
+    <div *ngIf="showTestDataExecTable">
+    <app-my-test-execution-search></app-my-test-execution-search>
+    <div class="container-xxl mw-100">
+        <div class="d-flex justify-content-center">
+
+            <!-- <div class="my-2 px-1">
+                <ngb-pagination [collectionSize]="dataCollectionSize" [(page)]="page" [pageSize]="pageSize"
+                    [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="pageChange()">
+                </ngb-pagination>
+            </div> -->
+
+            <div ngbDropdown class="my-2 px-1">
+                <button ngbDropdownToggle type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                    </svg>
+                </button>
+                <div ngbDropdownMenu>
+                    <a ngbDropdownItem class="export-dropdown-btn"> All Data </a>
+                    <a ngbDropdownItem class="export-dropdown-btn"> Selected Data </a>
+                </div>
+            </div>
+
+            <div ngbDropdown class="my-2 px-1" [autoClose]="false">
+                <button ngbDropdownToggle type="button" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg " width="16 " height="16 " fill="currentColor "
+                        class="bi bi-list-columns-reverse " viewBox="0 0 16 16 ">
+                        <path fill-rule="evenodd " d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5
+                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5
+                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5
+                    0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5
+                    0 0 1-.5-.5Z " />
+                    </svg>
+                </button>
+
+                <!-- <div ngbDropdownMenu>
+                    <input class="search-txtbox" type="text " placeholder="Search "
+                        (input)="searchColumnsInDropdown($event)">
+                    <div ngbDropdownItem class="dropdown-item" *ngFor="let column of filteredColumnsDropdownList ">
+
+                        <input class="columns-dropdown-checkbox" type="checkbox"
+                            [checked]="columnsSelectedList.includes(column)"
+                            (change)="updateColumnsVisible($event, column)">
+                        <label class="columns-dropdown-label">{{column}}</label>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive ">
+
+        <table class="table table-borderless table-hover">
+
+            <thead class="table-header">
+                    <th class="table-header-cols"> <input type="checkbox"> </th>
+                    <th class="table-header-cols"> ACTIONS </th>
+                    <th class="table-header-cols">TEST DATA EXECUTION ID</th>
+                    <th class="table-header-cols">SUITE ID</th>
+                    <th class="table-header-cols">TEST SCRIP TEXECUTION ID</th>
+                    <th class="table-header-cols">TEST DATA META ID</th>
+                    <th class="table-header-cols">TEST CASE ID</th>
+                    <th class="table-header-cols">TEST SCRIPT NAME</th>
+                    <th class="table-header-cols">RUN FLAG</th>
+                    <th class="table-header-cols">TEST SCENARIO</th>
+                    <th class="table-header-cols">TEST PRIORITY</th>
+                    <th class="table-header-cols">TEST CASE CATEGORY</th>
+                    <th class="table-header-cols">JIRA ID</th>
+                    <th class="table-header-cols">AUTOMATED TEST STATUS</th>
+                    <th class="table-header-cols">MANUAL TEST STATUS</th>
+                    <th class="table-header-cols">TEST FAIL REASON</th>
+                    <th class="table-header-cols">TEST INFORMATION</th>
+                    <th class="table-header-cols">TEST COMMENTS</th>
+                    <th class="table-header-cols">TEST IGNORED</th>
+                    <th class="table-header-cols">EXECUTION STATUS</th>
+                    <th class="table-header-cols">EXECUTION TIME</th>
+                    <th class="table-header-cols">EXECUTED BY</th>
+                    <th class="table-header-cols">EXECUTED ON</th>
+                    <th class="table-header-cols">UPDATED BY</th>
+                    <th class="table-header-cols">UPDATED DATE</th>                    
+                <tbody>
+                <tr #currentRow class="table-active" *ngFor="let testDataMetaExecutionHistory of testDataMetaExecutionHistoryList; let i = index">
+                    
+                    <th *ngIf="testDataMetaExecutionHistory.automatedTestStatus=='Added'" class="table-header-cols"> <input type="checkbox"> </th>
+                    <th *ngIf="testDataMetaExecutionHistory.automatedTestStatus!=='Added'" class="table-header-cols"> <input type="checkbox" disabled> </th>
+                    <td>{{testDataMetaExecutionHistory.testDataExecutionId}}</td>
+                    <td>{{testDataMetaExecutionHistory.suiteId}}</td>
+                    <td>{{testDataMetaExecutionHistory.testScriptExecutionId}}</td>
+                    <td>{{testDataMetaExecutionHistory.testDataMetaId}}</td>
+                    <td>{{testDataMetaExecutionHistory.testCaseId}}</td>
+                    <td>{{testDataMetaExecutionHistory.testScriptName}}</td>
+                    <td>{{testDataMetaExecutionHistory.runFlag}}</td>
+                    <td>{{testDataMetaExecutionHistory.testScenario}}</td>
+                    <td>{{testDataMetaExecutionHistory.testPriority}}</td>
+                    <td>{{testDataMetaExecutionHistory.testCaseCategory}}</td>
+                    <td>{{testDataMetaExecutionHistory.jiraId}}</td>
+                    <td>{{testDataMetaExecutionHistory.automatedTestStatus}}</td>
+                    <td>{{testDataMetaExecutionHistory.manualTestStatus}}</td>
+                    <td>{{testDataMetaExecutionHistory.testFailReason}}</td>
+                    <td>{{testDataMetaExecutionHistory.testInformation}}</td>
+                    <td>{{testDataMetaExecutionHistory.testComments}}</td>
+                    <td>{{testDataMetaExecutionHistory.testIgnored}}</td>
+                    <td>{{testDataMetaExecutionHistory.executionStatus}}</td>
+                    <td>{{testDataMetaExecutionHistory.executionTime}}</td>
+                    <td>{{testDataMetaExecutionHistory.executedBy}}</td>
+                    <td>{{testDataMetaExecutionHistory.executedOn}}</td>
+                    <td>{{testDataMetaExecutionHistory.updatedBy}}</td>
+                    <td>{{testDataMetaExecutionHistory.updatedDate}}</td>
+                   
+</tr>                    
+              </tbody>
+        </table>
+    </div>
+</div>

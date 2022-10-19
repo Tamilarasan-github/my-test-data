@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { MyTestScriptsComponent } from "./my-test-scripts.component";
+import { MyTestScriptsComponent } from "./components/my-test-scripts.component";
+
 
 
 const routes:Routes = [
@@ -8,7 +9,7 @@ const routes:Routes = [
 ]
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
   })
 export class TestscriptsRoutingModule

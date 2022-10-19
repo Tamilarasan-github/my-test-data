@@ -1,17 +1,13 @@
-export class TestScript {
+export interface TestScript {
 
-    constructor(
-        public testScriptsId:number, 
-        public testScripts:string, 
-        public testScriptsCategory:string, 
-        public testScriptsDescription:string,
-        public createdBy: string,
-        public createdDate: string,
-        public updatedBy: string,
-        public updatedDate: string,
-        public deleteFlag: string
-        )
-    {
-
-    }
+        testScriptsId:number;
+        testScripts:string; 
+        testScriptsCategory:string; 
+        testScriptsDescription:string;
+        createdBy: string;
+        createdDate: Date;
+        updatedBy: string;
+        updatedDate: Date;
+        deleteFlag: string;
 }
+

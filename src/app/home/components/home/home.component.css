@@ -1,0 +1,37 @@
+.dashboard-stats-search
+{
+    padding: 10px;
+}
+
+.dashboard-stats-search-field
+{
+    display: inline-block;
+    width: 300px;
+    margin: 15px;
+}
+
+.dashboard-stats-search-btn
+{
+    display: inline-block;
+    margin: 15px;
+}
+
+.dashboard-card
+{
+    margin: 20px;
+    padding: 20px;
+    display: inline-block;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.dashboard-card:hover
+{
+    -ms-transform-origin-x: scaleX(1);
+}
+
+.dashboard-card-body
+{
+    display: inline-block;
+    width: 350px; 
+}
