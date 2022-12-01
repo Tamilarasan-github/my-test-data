@@ -47,8 +47,9 @@
     --scroll-bar-thumb-color: hsl(var(--hue-color), 15%, 70%);
 
     --table-header-bg-color: var(--primary-bg-color);
-    --table-header-text-color:hsl(var(--hue-color), 0%, 100%);
-    --table-body-bg-color:hsl(var(--hue-color), 38%, 72%);
+    --table-header-bg-color: #dee2e6;
+    --table-header-text-color: #212529;
+    --table-body-bg-color:#dee2e6;
     --table-row-bg-color:hsl(var(--hue-color), 0%, 100%);;
     --table-row-text-color:var(--primary-bg-color);
 
@@ -65,6 +66,7 @@
     --label-font: 'Maven Pro', sans-serif;
     --input-font: 'Maven Pro', sans-serif;
     --button-font: 'Maven Pro', sans-serif;
+    --table-font: sans-serif;
 
     --gullible-font: 'Maven Pro', sans-serif;
     --body-font: 'Poppins', sans-serif;
@@ -203,6 +205,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     color: var(--button-primary-text-color);
     padding: 10px 25px;
     height: 2.5rem;
+    text-decoration: none;
 }
 
 .pagination-next-btn{
@@ -214,6 +217,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     color: var(--button-primary-text-color);
     padding: 10px 25px;
     height: 2.5rem;
+    text-decoration: none;
 }
 
 .pagination-textbox{
@@ -221,7 +225,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     font-family: var(--button-font);
     font-size: var(--h3-font-size);
     width: 3rem;
-    height: 2.5rem;
+    height: 2.2rem;
     border: none;
     display: inline;
     text-align: right; 
@@ -297,7 +301,7 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 
 .table-header-cols{
     font-family: var(--h3-font);
-    font-weight: var(--h3-font-size);;
+    font-weight: 600;
     color: var(--table-header-text-color);
     padding: 10px;
 }
@@ -305,6 +309,8 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 .table-body
 {
     background-color: var(--table-body-bg-color);
+    font-family: var(--h3-font);
+    font-weight: var(--h3-font-size);;
 }
 
 
@@ -352,7 +358,7 @@ ng-multiselect-dropdown {
     border-color: transparent;
     background-color: transparent;
     /* overflow: hidden; */
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .table-textarea-edit {
