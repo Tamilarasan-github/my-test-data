@@ -12,8 +12,18 @@
 <div *ngIf="showSuiteSearch"> -->
 <div class="container">
 <div class="row p-2">
+
     <div class="col-sm">
-        <input type="text" id="suiteName" placeholder="Search Suite ID/Suite Name/URL" class="form-control">
+        <label class="label">Suite Id</label>
+        <input type="text" id="suiteId" placeholder="" [(ngModel)]="suiteId" class="form-control">
+    </div>
+    <div class="col-sm">
+        <label class="label">Suite Name</label>
+        <input type="text" id="suiteName" placeholder="" [(ngModel)]="suiteName" class="form-control">
+    </div>
+    <div class="col-sm">
+        <label class="label">Suite URL</label>
+        <input type="text" id="suiteUrl" placeholder="" [(ngModel)]="suiteUrl" class="form-control">
     </div>
 </div>
 <div class="row p-2">
@@ -26,7 +36,7 @@
     </div>
 
     <div class="col-sm">
-        <label class="label">Created By</label>
+        <label class="label">Suite Created By</label>
         <ng-multiselect-dropdown [placeholder]="'Select Created By'" [settings]="searchDropdownSettings"
             [data]="createdByList" [(ngModel)]="createdBySelected">
         </ng-multiselect-dropdown>
@@ -56,6 +66,34 @@
 </div>
 </div>
 
+<div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li [ngClass]="(hasPreviousPage==false)?'page-item disabled':'page-item disabled'">
+            <a class="pagination-previous-btn" (click)="fetchPreviousPageTestSuiteExecutionHistory()">
+                <span aria-hidden="true">&laquo;</span> 
+                <span class="sr-only">Previous</span>
+            </a>
+          </li>
+          
+          <li>
+            <input class="pagination-textbox" type="number"  (change)="getTestSuiteExecutionHistoryPage()" [(ngModel)]="currentPage">
+          </li>
+          
+          <li>
+            <input class="pagination-textbox" type="number"  [(ngModel)]="totalPages" disabled>
+          </li>
+          
+          <li [ngClass]="(hasNextPage==false)?'page-item':'page-item disabled'">
+            <a class="pagination-next-btn" (click)="fetchNextPageTestSuiteExecutionHistory()">
+                <span class="sr-only">Next</span>
+                <span aria-hidden="true">&raquo;</span>
+                
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
 <div class="suite-exec-table table-responsive scrollable-div mt-2">
     <table class="table table-borderless table-hover">
@@ -76,27 +114,27 @@
 
                 <td>
                     <ng-container *ngIf="suite.suiteStatus === 'Added'">
-                        <button class="queued" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
                         </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Queued'">
-                        <button class="queued" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
                         </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'In-progress'">
                         <button class="inprogress"
-                            (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
+                            (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Completed'">
                         <button class="completed"
-                            (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
+                            (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Error'">
-                        <button class="error" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
                         </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Canceled'">
-                        <button class="error" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
                         </button>
                     </ng-container>
                 </td>
@@ -105,7 +143,7 @@
                         <button class="queued" (click)="executeSuite(suite.suiteId)">Execute</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Queued'">
-                        <button class="queued" (click)="getTestSCriptsExecutionHistory(suite.suiteId)"
+                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)"
                             disabled>Execute</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'In-progress'">
@@ -117,10 +155,10 @@
                             (click)="viewReport(suite.suiteId)">View</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Error'">
-                        <button class="error" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">Re-run</button>
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">Re-run</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Canceled'">
-                        <button class="error" (click)="getTestSCriptsExecutionHistory(suite.suiteId)">Execute
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">Execute
                         </button>
                     </ng-container>
                 </td>
@@ -146,11 +184,11 @@
                 </td>
 
                 <td>
-                    {{suite.createdBy}}
+                    {{suite.executedBy}}
                 </td>
 
                 <td>
-                    {{suite.createdDate}}
+                    {{suite.executedDate}}
                 </td>
             </tr>
         </tbody>

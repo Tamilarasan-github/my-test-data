@@ -1,9 +1,104 @@
-
+<!-- 
+    <button class="collapsible" (click)="showSeachContainer()">Search Criteria</button>
+    *ngIf="showSearch" -->
+    
     <div class="collapsible" (click)="showTestDataExecTableContainer()">
         Test Data Execution
         <i class="bi bi-caret-down-fill" *ngIf="showTestDataExecTable"></i>
         <i class="bi bi-caret-up-fill" *ngIf="showTestDataExecTable==false"></i>
     </div>
+    <div class="container">
+        <div class="row p-2">
+            <div class="col-sm">
+                <label class="label">Test Data Execution ID</label>
+                <input type="text" id="testDataExecutionId" placeholder="" [(ngModel)]="testDataExecutionId" class="form-control">
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Suite ID</label>
+                <input type="text" id="suiteId" placeholder="" [(ngModel)]="suiteId" class="form-control">
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Test Script Execution ID</label>
+                <input type="text" id="testScriptExecutionId" placeholder="" [(ngModel)]="testScriptExecutionId" class="form-control">
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Test Data Meta ID</label>
+                <input type="text" id="testExecutionId" placeholder="" [(ngModel)]="testDataMetaId" class="form-control">
+            </div>
+            
+        </div>
+        <div class="row p-2">
+            <div class="col-sm">
+                <label class="label">Test Script</label>
+                <input type="text" id="testScript" placeholder="" [(ngModel)]="testScript" class="form-control">
+
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Test Short Description</label>
+                <input type="text" id="testShortDescription" placeholder="" [(ngModel)]="testShortDescription" class="form-control">
+            </div>
+
+        </div>
+        <div class="row p-2">
+
+            <div class="col-sm">
+                <label class="label">JIRA Story</label>
+                <input type="text" id="jiraStory" placeholder="" [(ngModel)]="jiraStory" class="form-control">
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Test Status</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataStatusDropdownList" [(ngModel)]="testDataStatusSelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="col-sm">
+                <label class="label">Test Category</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataCategoryDropdownList" [(ngModel)]="testDataCategorySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+
+
+            <div class="col-sm">
+                <label class="label">Test Executed By</label>
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataExecutedByDropdownList" [(ngModel)]="testDataExecutedBySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+
+        <div class="row p-2">
+            <div class="col-sm">
+                <label class="label">Created Date From</label>
+                <input type="date" id="testDataCreatedFromDate" class="form-select" 
+                [(ngModel)]="testDataMetaExecCreatedDateFrom">
+            </div>
+        
+            <div class="col-sm">
+                <label class="label">Created Date To</label>
+                <input type="date" id="testDataCreatedToDate" class="form-select"
+                [(ngModel)]="testDataMetaExecCreatedDateTo">
+        
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+
+            <div class="p-2">
+                <button type="button" class="primary-btn" (click)="fetchTestExecutionResults()">Search</button>
+            </div>
+            <div class="p-2">
+                <button type="button" class="secondary-btn" (click)="clearSearch()">Clear</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
     <div *ngIf="showTestDataExecTable">
     <app-my-test-execution-search></app-my-test-execution-search>
     <div class="container-xxl mw-100">
@@ -17,13 +112,6 @@
 
             <div ngbDropdown class="my-2 px-1">
                 <button ngbDropdownToggle type="button" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-download" viewBox="0 0 16 16">
-                        <path
-                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-                        <path
-                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                    </svg>
                 </button>
                 <div ngbDropdownMenu>
                     <a ngbDropdownItem class="export-dropdown-btn"> All Data </a>
@@ -33,14 +121,7 @@
 
             <div ngbDropdown class="my-2 px-1" [autoClose]="false">
                 <button ngbDropdownToggle type="button" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg " width="16 " height="16 " fill="currentColor "
-                        class="bi bi-list-columns-reverse " viewBox="0 0 16 16 ">
-                        <path fill-rule="evenodd " d="M0 .5A.5.5 0 0 1 .5 0h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 0 .5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10A.5.5 0 0 1 4 .5Zm-4 2A.5.5 0 0 1 .5 2h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5
-                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 4h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 6h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5
-                    0 0 1-.5-.5Zm-4 2A.5.5 0 0 1 .5 8h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5
-                    0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5Zm-4 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm4 0a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5
-                    0 0 1-.5-.5Z " />
-                    </svg>
+                    
                 </button>
 
                 <!-- <div ngbDropdownMenu>
@@ -67,7 +148,7 @@
                     <th class="table-header-cols"> ACTIONS </th>
                     <th class="table-header-cols">TEST DATA EXECUTION ID</th>
                     <th class="table-header-cols">SUITE ID</th>
-                    <th class="table-header-cols">TEST SCRIP TEXECUTION ID</th>
+                    <th class="table-header-cols">TEST SCRIPT EXECUTION ID</th>
                     <th class="table-header-cols">TEST DATA META ID</th>
                     <th class="table-header-cols">TEST CASE ID</th>
                     <th class="table-header-cols">TEST SCRIPT NAME</th>
@@ -91,8 +172,29 @@
                 <tbody>
                 <tr #currentRow class="table-active" *ngFor="let testDataMetaExecutionHistory of testDataMetaExecutionHistoryList; let i = index">
                     
-                    <th *ngIf="testDataMetaExecutionHistory.automatedTestStatus=='Added'" class="table-header-cols"> <input type="checkbox"> </th>
-                    <th *ngIf="testDataMetaExecutionHistory.automatedTestStatus!=='Added'" class="table-header-cols"> <input type="checkbox" disabled> </th>
+                    <td *ngIf="testDataMetaExecutionHistory.automatedTestStatus=='Added'" class="table-header-cols"> <input type="checkbox"> </td>
+                    <td *ngIf="testDataMetaExecutionHistory.automatedTestStatus!=='Added'" class="table-header-cols"> <input type="checkbox" disabled> </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <div>
+                                <i class='bi bi-pencil-square  m-2'
+                                    *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory"
+                                    (click)="onEdit($event, testDataMetaExecutionHistory)"></i>
+
+                                <!-- <i class='bi bi-trash3-fill m-2'
+                                    *ngIf="currentlyInEditTestDataMetaExecutionHistory!=testDataMetaExecutionHistory"
+                                    (click)="onDelete($event, testDataMetaExecutionHistory)"></i> -->
+
+                                <i class='bi bi-x-circle-fill  m-2'
+                                    *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"
+                                    (click)="onCancel($event, testDataMetaExecutionHistory)"></i>
+
+                                <i class='bi bi-box-arrow-down  m-2'
+                                    *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"
+                                    (click)="onUpdate($event, testDataMetaExecutionHistory)"></i>
+                            </div>
+                        </div>
+                    </td>
                     <td>{{testDataMetaExecutionHistory.testDataExecutionId}}</td>
                     <td>{{testDataMetaExecutionHistory.suiteId}}</td>
                     <td>{{testDataMetaExecutionHistory.testScriptExecutionId}}</td>
@@ -104,16 +206,21 @@
                     <td>{{testDataMetaExecutionHistory.testPriority}}</td>
                     <td>{{testDataMetaExecutionHistory.testCaseCategory}}</td>
                     <td>{{testDataMetaExecutionHistory.jiraId}}</td>
-                    <td>{{testDataMetaExecutionHistory.automatedTestStatus}}</td>
-                    <td>{{testDataMetaExecutionHistory.manualTestStatus}}</td>
-                    <td>{{testDataMetaExecutionHistory.testFailReason}}</td>
-                    <td>{{testDataMetaExecutionHistory.testInformation}}</td>
-                    <td>{{testDataMetaExecutionHistory.testComments}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory">{{testDataMetaExecutionHistory.automatedTestStatus}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"><textarea>{{testDataMetaExecutionHistory.automatedTestStatus}}</textarea></td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory">{{testDataMetaExecutionHistory.manualTestStatus}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"><textarea>{{testDataMetaExecutionHistory.manualTestStatus}}</textarea></td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory">{{testDataMetaExecutionHistory.testFailReason}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"><textarea>{{testDataMetaExecutionHistory.testFailReason}}</textarea></td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory">{{testDataMetaExecutionHistory.testInformation}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"><textarea>{{testDataMetaExecutionHistory.testInformation}}</textarea></td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory!==testDataMetaExecutionHistory">{{testDataMetaExecutionHistory.testComments}}</td>
+                    <td *ngIf="currentlyInEditTestDataMetaExecutionHistory===testDataMetaExecutionHistory"><textarea>{{testDataMetaExecutionHistory.testComments}}</textarea></td>
                     <td>{{testDataMetaExecutionHistory.testIgnored}}</td>
                     <td>{{testDataMetaExecutionHistory.executionStatus}}</td>
                     <td>{{testDataMetaExecutionHistory.executionTime}}</td>
                     <td>{{testDataMetaExecutionHistory.executedBy}}</td>
-                    <td>{{testDataMetaExecutionHistory.executedOn}}</td>
+                    <td> <input type="datetime" value="{{testDataMetaExecutionHistory.executedOn}}"></td>
                     <td>{{testDataMetaExecutionHistory.updatedBy}}</td>
                     <td>{{testDataMetaExecutionHistory.updatedDate}}</td>
                    

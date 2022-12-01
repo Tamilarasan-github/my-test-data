@@ -34,6 +34,10 @@
 
                 </li>
                 <li>
+                    <a class="humburger-list-link" routerLink="/suite" routerLinkActive="badge-success">SUITE</a>
+
+                </li>
+                <li>
                     <a class="humburger-list-link" routerLink="/testexecutionsummary"
                         routerLinkActive="badge-success">EXECUTION
                         SUMMARY</a>
@@ -108,25 +112,25 @@
 <div class="sub-menu nav-bar" *ngIf="showHeader()">
 
     <ul class="menu-list">
-       <li>
+       <li class="pe-5">
              <a class="menu-links" routerLink="/home" routerLinkActive="badge-success">DASHBOARD</a>
        </li>
-        <li>
+        <li class="pe-5">
             <a class="menu-links" routerLink="/testscripts" routerLinkActive="active"
                 (click)="fetchTestScriptsDropdownValues()">TEST
                 SCRIPTS</a>
         </li>
-        <li>
+        <li class="pe-5">
             <a class="menu-links" routerLink="/test-data" routerLinkActive="active">TEST DATA</a>
         </li>
-        <li>
-
+        <li class="pe-5">
+            <a class="menu-links" routerLink="/suite" routerLinkActive="badge-success">SUITE</a>
+        </li>
+        <li class="pe-5">
             <a class="menu-links" routerLink="/test-execution-summary" routerLinkActive="active">EXECUTION SUMMARY</a>
         </li>
-        <li>
-
+        <li class="pe-5">
             <a class="menu-links" routerLink="/test-reports" routerLinkActive="active">REPORTS</a>
-
         </li>
         <!-- 
     <a routerLink="/test-execution-summary" routerLinkActive="active" (click)="navigateToFeature('test-execution-summary')" [ngClass]="highlight('test-execution-summary')">EXECUTION SUMMARY</a>

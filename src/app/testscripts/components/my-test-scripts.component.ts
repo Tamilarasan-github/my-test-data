@@ -13,6 +13,15 @@ import { TestScriptSearchCriteria } from '../test-scripts-search-criteria';
 import { TestDataSearchCriteria } from 'src/app/testdata/components/my-test-data-search/my-test-data-search-criteria';
 import { TestDataService } from 'src/app/testdata/my-test-data.service';
 import { DataUpdate, UpdatedValues } from 'src/app/public/data.update.model';
+import { Suite } from 'src/app/suite/suite.model';
+import { LogInService } from 'src/app/auth/components/log-in/log-in.service';
+import { SuiteService } from 'src/app/suite/suite-service';
+import { SuiteCreateModel } from 'src/app/suite/suite-create.model';
+import { TestExecutionSummaryService } from 'src/app/executionsummary/components/my-test-execution-summary/my-test-execution-summary-service';
+import { TestSuiteExecutionInfo, TestSuiteExecutionRequest } from 'src/app/executionsummary/components/my-suite-execution-history/suite.model';
+
+import { ExecutionInputValues } from 'src/app/suite/execution-input-values';
+import { TestDataFilter } from 'src/app/suite/test-data-filter';
 
 
 
@@ -27,26 +36,24 @@ export class MyTestScriptsComponent implements OnInit {
   dropdownSingleSelectionSettings = {};
 
   showSearch: boolean = false;
-  showTestScriptsTable: boolean = false;
+  showTestScriptsTable: boolean = true;
 
   testTablesDropdownList:[]=[]
   
   editableTestScript: TestScript | undefined;
-  showAddTestscript: boolean = false;
+  showAddTestscript: boolean = true;
 
-  suiteName: String;
+  suiteName: string;
   suiteDescription: string;
-  url: String;
-  browser: String;
-  userName:String;
-  password:String;
-
+  url: string;
+  browser: string;
+  
   testScriptsList: TestScript[] = [];
   previousTestScriptsList: TestScript[] = [];
   updateTestScriptsList: TestScript[]=[];
   testScriptUpdate :DataUpdate  | undefined;
 
-  listOfTestScriptsToSelected: TestScript[] = [];
+  listOfTestScriptsSelected: TestScript[] = [];
   testScriptDetailsUpdate: Map<number, Map<string, string>> = new Map<number, Map<string, string>>();
   testScriptDetailsBackup: Map<number, Map<string, string>> = new Map<number, Map<string, string>>();
 
@@ -75,6 +82,23 @@ export class MyTestScriptsComponent implements OnInit {
 
   modalOptions:NgbModalOptions;
 
+  executionInputValues: ExecutionInputValues[];
+
+  testRunFlagDropdownList: any[] = ["Yes", "No"];
+  testRunFlagSelectedList: any = [];
+ 
+  testDataCategoryDropdownList: any[] = ["Unit Testing", "Integration Testing", "Regression Testing", "Smoke Testing", "Sanity testing"];
+  testDataCategorySelectedList: any = [];
+
+  testDataPriorityDropdownList: any[] = ["0" ,"1", "2", "3", "4", "5"];
+  testDataPrioritySelectedList: any = [];
+
+  testDataCreatedByDropdownList: any[] = [];
+  testDataCreatedBySelectedList: any = [];
+
+  testDataCreatedDateFrom: Date = new Date('2000-01-01');
+  testDataCreatedDateTo: Date = new Date('2999-01-01'); 
+
   
   @ViewChild('newTestScriptName')
   newTestScriptName!: ElementRef<HTMLInputElement>;
@@ -82,7 +106,12 @@ export class MyTestScriptsComponent implements OnInit {
   newTestScriptDescription!: ElementRef<HTMLInputElement>;
 
 
-  constructor(private testScriptsService: TestScriptsService, private applicationTableInfoService:ApplicationTableInfoService, private ngbModalService:NgbModalService, private testDataService:TestDataService) {
+  constructor(private testScriptsService: TestScriptsService, 
+    private applicationTableInfoService:ApplicationTableInfoService, 
+    private ngbModalService:NgbModalService, 
+    private testDataService:TestDataService, 
+    private suiteService: SuiteService,
+    private testExecutionSummaryService: TestExecutionSummaryService) {
     
     this.modalOptions={
 
@@ -92,10 +121,10 @@ export class MyTestScriptsComponent implements OnInit {
     this.suiteDescription="This suite executes regression scenarios";
     this.url="www.google.com";
     this.browser="Chrome";
-    this.userName="tamil";
-    this.password="tamilarasan";
-
     
+    this.executionInputValues=[];
+    this.executionInputValues.push(new ExecutionInputValues("","","password"));
+   // this.executionInputValues.push(new ExecutionInputValues("","","text"));
 
     this.testScriptsService.testScriptsAsObservable.subscribe(
       {
@@ -219,14 +248,14 @@ export class MyTestScriptsComponent implements OnInit {
 
   eventCheck(event: any, testScriptData: TestScript) {
     if (event.target.checked) {
-      this.listOfTestScriptsToSelected.push(testScriptData);
-      console.log("Checkbox event: "+JSON.stringify(this.listOfTestScriptsToSelected));
+      this.listOfTestScriptsSelected.push(testScriptData);
+      console.log("Checkbox event: "+JSON.stringify(this.listOfTestScriptsSelected));
     }
     else {
-      this.listOfTestScriptsToSelected.forEach((elementInArray, indexOdElementInArray) => {
+      this.listOfTestScriptsSelected.forEach((elementInArray, indexOdElementInArray) => {
         if (elementInArray == testScriptData) {
-          this.listOfTestScriptsToSelected.splice(indexOdElementInArray, 1);
-          console.log("Checkbox event: "+JSON.stringify(this.listOfTestScriptsToSelected));
+          this.listOfTestScriptsSelected.splice(indexOdElementInArray, 1);
+          console.log("Checkbox event: "+JSON.stringify(this.listOfTestScriptsSelected));
         }
       });
 
@@ -244,7 +273,7 @@ export class MyTestScriptsComponent implements OnInit {
   }
 
   enableNewTestscriptRow(event: any) {
-    this.showAddTestscript = true;
+    this.showAddTestscript = !this.showAddTestscript;
   }
 
   cancelNewTestscriptRow(event: any) {
@@ -419,34 +448,96 @@ export class MyTestScriptsComponent implements OnInit {
     this.showTestScriptsTable = !this.showTestScriptsTable;
   }
 
-  executeTestScriptsBatch() {
-    this.dismissModal();
-    const testScriptExecution: TestScriptExecution = new TestScriptExecution(
-      this.suiteName,
-      this.url,
-      this.browser,
-      this.userName,
-      this.password,
-      this.listOfTestScriptsToSelected
-    );
-    console.log("testScriptExecution: "+JSON.stringify(testScriptExecution));
-    this.testScriptsService.executeTestScriptsBatch(this.testScriptsService.applicationSelectedId, testScriptExecution)
-  }
+  // executeTestScriptsBatch() {
+  //   this.dismissModal();
+  //   const testScriptExecution: TestScriptExecution = new TestScriptExecution(
+  //     this.suiteName,
+  //     this.url,
+  //     this.browser,
+  //     this.userName,
+  //     this.password,
+  //     this.listOfTestScriptsSelected
+  //   );
+  //   console.log("testScriptExecution: "+JSON.stringify(testScriptExecution));
+  //   this.testScriptsService.executeTestScriptsBatch(this.testScriptsService.applicationSelectedId, testScriptExecution)
+  // }
 
-  addSuiteToExecutionList()
+  createTestSuite()
   {
     this.dismissModal();
-    const testScriptExecution: TestScriptExecution = new TestScriptExecution(
-      this.suiteName,
-      this.url,
-      this.browser,
-      this.userName,
-      this.password,
-      this.listOfTestScriptsToSelected
-    );
-    console.log("testScriptExecution: "+JSON.stringify(testScriptExecution));
-    this.testScriptsService.addSuiteToExecutionList(this.testScriptsService.applicationSelectedId, testScriptExecution)
+    if(this.listOfTestScriptsSelected.length>0)
+    {
+    const username: string = sessionStorage.getItem("authenticatedUser")!;
+    const suite:Suite=new Suite(0, this.suiteName, this.suiteDescription, username, new Date(), "" , new Date())
+    const suiteCreateRequest:SuiteCreateModel=new SuiteCreateModel(suite, this.listOfTestScriptsSelected);
+    this.suiteService.createSuite(suiteCreateRequest).subscribe(
+      {
+        next: (response) => {
+          console.log(JSON.stringify(response));
+          alert("Suite "+response.suiteId+" created successfully!")
+        }
+      })
+    }
+    else{
+      alert("Please select testscripts to create suite!")
+    }
   }
+
+  executeTestScripts()
+  {
+    this.dismissModal();
+
+    if(this.listOfTestScriptsSelected.length>0)
+    {
+    const authenticatedUsername: string = sessionStorage.getItem("authenticatedUser")!;
+    this.listOfTestScriptsSelected.forEach(element => {
+    
+    const testSuiteExecutionInfo:TestSuiteExecutionInfo = new TestSuiteExecutionInfo(0, element.testScriptsId, element.testScripts, element.testScriptsDescription,"Queued",this.url, this.browser, authenticatedUsername, new Date(), "" , new Date())
+        
+    const testDataFilter : TestDataFilter = new TestDataFilter(this.testRunFlagSelectedList, this.testDataCategorySelectedList, this.testDataPrioritySelectedList, this.testDataCreatedBySelectedList, this.testDataCreatedDateFrom, this.testDataCreatedDateTo);
+
+    const testSuiteExecutionRequest: TestSuiteExecutionRequest = new TestSuiteExecutionRequest(testSuiteExecutionInfo, this.executionInputValues, testDataFilter);
+        
+    this.testExecutionSummaryService.executeTestScripts(testSuiteExecutionRequest).subscribe(
+      {
+        next: (response) => 
+        {
+          console.log(JSON.stringify(response));
+    
+        }
+      })
+    });
+   
+    }
+    else{
+      alert("Please select testscripts to execute!")
+    }
+}
+
+valueTypeChange(event: any, executionInputValues: ExecutionInputValues)
+{
+  if(event.target.checked)
+  {
+    executionInputValues.type="password";
+  }
+  else{
+    executionInputValues.type="text";
+  }
+}
+  
+
+  // addSuiteToExecutionList()
+  // {
+  //   this.dismissModal();
+  //   const testScriptExecution: TestScriptExecution = new TestScriptExecution(
+  //     this.suiteName,
+  //     this.url,
+  //     this.browser,
+  //     this.listOfTestScriptsSelected
+  //   );
+  //   console.log("testScriptExecution: "+JSON.stringify(testScriptExecution));
+  //   this.testScriptsService.addSuiteToExecutionList(this.testScriptsService.applicationSelectedId, testScriptExecution)
+  // }
 
   openTestData(testData:String)
   {
@@ -454,7 +545,7 @@ export class MyTestScriptsComponent implements OnInit {
   }
 
   openModal(content:any) {
-    this.ngbModalService.open(content);
+    this.ngbModalService.openBiggerModal(content);
   }
 
   openBiggerModal(testScriptName:string, content:any) {

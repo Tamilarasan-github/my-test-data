@@ -33,5 +33,10 @@
 .dashboard-card-body
 {
     display: inline-block;
-    width: 350px; 
+    width: 280px; 
+}
+
+.dashboard-counts
+{
+    text-align: right;
 }

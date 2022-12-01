@@ -33,7 +33,9 @@ import { TestscriptsRoutingModule } from "./testscripts/testscripts-routing.modu
 import { HomeComponent } from "./home/components/home/home.component";
 import { DashboardService } from "./home/components/home/dashboard-services";
 import { DatePipe } from "@angular/common";
-
+import { SuiteComponent } from "./suite/components/suite-list/suite.component";
+import { TestscriptsListComponent } from "./suite/components/testscripts-list/testscripts-list.component";
+import { SuiteService } from "./suite/suite-service";
 
 
 @NgModule({
@@ -51,6 +53,8 @@ import { DatePipe } from "@angular/common";
     MyBulkUpdatesComponent,
     MySuiteExecutionHistoryComponent,
     MyTestScriptsExecutionHistoryComponent,
+    SuiteComponent,
+    TestscriptsListComponent,
   ],
 
   imports: [
@@ -81,6 +85,7 @@ import { DatePipe } from "@angular/common";
     { provide: NgbModalService },
     { provide: SpinnerService },
     { provide: DatePipe},
+    { provide: SuiteService},
 
     {
       provide: HTTP_INTERCEPTORS,

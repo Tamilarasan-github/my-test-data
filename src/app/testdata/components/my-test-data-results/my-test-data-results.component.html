@@ -187,20 +187,27 @@
     <div class="d-flex justify-content-center mt-3">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
-              <li class="page-item" >
-                <button class="pagination-previous-btn" [disabled]="hasPreviousPage==false" (click)="fetchPreviousPageTestData()">Previous</button>
+              <li [ngClass]="(hasPreviousPage==false)?'page-item disabled':'page-item disabled'">
+                <a class="pagination-previous-btn" (click)="fetchPreviousPageTestData()">
+                    <span aria-hidden="true">&laquo;</span> 
+                    <span class="sr-only">Previous</span>
+                </a>
               </li>
               
-              <li class="col-sm-2">
+              <li>
                 <input class="pagination-textbox" type="number"  (change)="getTestDataPage()" [(ngModel)]="currentPage">
               </li>
               
-              <li class="col-sm-2">
+              <li>
                 <input class="pagination-textbox" type="number"  [(ngModel)]="totalPages" disabled>
               </li>
               
-              <li class="page-item">
-                <button class="pagination-next-btn" [disabled]="hasNextPage==false" (click)="fetchNextPageTestData()">Next</button>
+              <li [ngClass]="(hasNextPage==false)?'page-item':'page-item disabled'">
+                <a class="pagination-next-btn" (click)="fetchNextPageTestData()">
+                    <span class="sr-only">Next</span>
+                    <span aria-hidden="true">&raquo;</span>
+                    
+                </a>
               </li>
             </ul>
           </nav>

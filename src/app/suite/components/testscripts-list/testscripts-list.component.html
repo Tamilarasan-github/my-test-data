@@ -1,0 +1,51 @@
+
+<div class="">
+<button class="primary-btn">Remove Testscripts</button>
+<button class="primary-btn">Add Testscripts</button>
+</div>
+ <div class="table-responsive scrollable-div mt-2">
+
+    <table class="table table-borderless table-hover">
+        <thead class="table-header">
+            <th class="table-header-cols"> <input type="checkbox"></th>
+            <th class="table-header-cols"> TEST SCRIPTS ID</th>
+            <th class="table-header-cols"> TEST SCRIPTS NAME</th>
+            <th class="table-header-cols"> TEST SCRIPTS CATEGORY</th>
+            <th class="table-header-cols"> TEST SCRIPTS DESCRIPTION</th>
+            <th class="table-header-cols"> CREATED BY</th>
+            <th class="table-header-cols"> CREATED DATE</th>
+           
+        </thead>
+        <tbody class="table-body">
+
+              <tr #currentRow class="table-active" *ngFor="let testScript of testScripts; let i = index">
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    {{testScript.testScriptsId}}
+                </td>
+
+                <td>
+                    {{testScript.testScripts}}
+                </td>
+
+                <td>
+                    {{testScript.testScriptsCategory}}
+                </td>
+
+                <td>
+                    {{testScript.testScriptsDescription}}
+                </td>
+
+                <td>
+                    {{testScript.createdBy}}
+                </td>
+
+                <td>
+                    {{testScript.createdDate}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

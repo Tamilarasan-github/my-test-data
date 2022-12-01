@@ -106,7 +106,7 @@
 
 
 <div class="collapsible" (click)="showTestScriptsGrid()">
-    Test Scripts Search Results
+    Test Scripts
     <i class="bi bi-caret-down-fill" *ngIf="showSearch==false"></i>
     <i class="bi bi-caret-up-fill" *ngIf="showSearch"></i>
 </div>
@@ -118,12 +118,12 @@
             <i class="bi bi-plus-square-fill"></i>
         </button>
 
-        <button type="button" class="secondary-btn" (click)="openModal(myModal)">Add to Execution List</button>
+        <button type="button" class="secondary-btn" (click)="openModal(myModal)">Create Test Suite</button>
         <i class="fa-thin fa-circle-info"></i>
 
         <ng-template #myModal>
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-basic-title">Execution Details</h5>
+                <h5 class="modal-title" id="modal-basic-title">Create Test Suite Details</h5>
                 <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -139,25 +139,13 @@
                 <textarea type="text" id="suiteDescription" class="form-control"
                     [(ngModel)]="suiteDescription"></textarea>
 
-                <label class="label">URL(Dev/SIT/UAT/Prod)</label>
-                <input type="text" id="url" class="form-control" [(ngModel)]="url" #sUrl="ngModel">
-                <div *ngIf="sUrl.invalid" class="alert alert-danger">
-                    URL is required!
-                </div>
-
-                <label class="label">Browser</label>
-                <input type="text" id="browser" class="form-control" [(ngModel)]="browser" #sBrowser="ngModel">
-                <div *ngIf="sBrowser.invalid" class="alert alert-danger">
-                    Browser Name is required!
-                </div>
-
                 <div class="info mt-3">
-                    <span>Note: Here we need to enter the input values which will be added to execution list for this suite. In the execution summary screen, by clicking on "Execute", this suite can be executed.</span>
+                    <span>Note: Test Suite created here can be executed from "Suite" tab</span>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="primary-btn" (click)="addSuiteToExecutionList()">Done</button>
+                <button type="submit" class="primary-btn" (click)="createTestSuite()">Create</button>
             </div>
         </ng-template>
 
@@ -170,37 +158,92 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="m-3">
-
-                <label class="label">Batch Name</label>
-                <input type="text" id="batchName" class="form-control" [(ngModel)]="suiteName">
-
+            <div class="row p-2">
+                <div class="col-sm">
                 <label class="label">URL(Dev/SIT/UAT/Prod)</label>
                 <input type="text" id="url" class="form-control" [(ngModel)]="url">
-
+                </div>
+                <div class="col-sm">
                 <label class="label">Browser</label>
                 <input type="text" id="browser" class="form-control" [(ngModel)]="browser">
-
-                <label class="label">User Name</label>
-                <input type="text" id="userName" class="form-control" [(ngModel)]="userName">
-
-                <label class="label">Password</label>
-                <input type="password" id="password" class="form-control" [(ngModel)]="password">
-
-                <div class="info mt-3">
-                    <span>Note: Here we need to pass the input values based on which the suite will be executed.</span>
                 </div>
             </div>
 
+            <div class="info mt-3">
+                <span>Note: Below fields are run time input values based on which the suite/testscripts will be executed.</span>
+            </div>
+            <div class="row p-2" *ngFor="let input of executionInputValues; let i = index">
+                
+                
+                <div class="col-sm">
+                    <label class="label"> {{"Execution Input Value:" +i}}</label>
+                    <input type="text" id="key" class="form-control mt-1" placeholder="Key" [(ngModel)]="input.key">
+                </div>
+
+                <div class="col-sm">
+                    <input type="checkbox" id="valueType" class="mt-1" (change)="valueTypeChange($event, input)"> <label for="valueType">Password</label>
+                    <input type="{{input.type}}" id="value" class="form-control mt-1" placeholder="Value" [(ngModel)]="input.value">
+                </div>
+            </div>
+                        
+            <div class="info mt-3">
+                <span>Note: Below fields are test data filters based on which test data will be executed for all the selected suite/testscripts.</span>
+            </div>
+            <div class="row p-2">
+                <div class="col-sm">
+                    <label class="label" >Run Flag</label>
+                     <ng-multiselect-dropdown 
+                     [placeholder]="'Select Run Flag'" 
+                     [settings]="dropdownSettings"
+                     [data]="testRunFlagDropdownList" 
+                     [(ngModel)]="testRunFlagSelectedList">
+                     </ng-multiselect-dropdown>
+                 </div>
+
+                 <div class="col-sm">
+                    <label class="label" >Test Priority</label>
+                     <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+                         [data]="testDataPriorityDropdownList" [(ngModel)]="testDataPrioritySelectedList">
+                     </ng-multiselect-dropdown>
+                 </div>
+     
+                 <div class="col-sm">
+                    <label class="label" >Test Category</label>
+                     <ng-multiselect-dropdown [settings]="dropdownSettings"
+                         [data]="testDataCategoryDropdownList" [(ngModel)]="testDataCategorySelectedList">                        
+                     </ng-multiselect-dropdown>
+                 </div>
+                 </div>
+
+                 <div class="row p-2">
+                 <div class="col-sm">
+                    <label class="label" >Created By</label>
+                     <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+                         [data]="testDataCreatedByDropdownList" [(ngModel)]="testDataCreatedBySelectedList">
+                     </ng-multiselect-dropdown>
+                 </div>
+     
+                 <div class="col-sm">
+                    <label class="label" >Created Date From</label>
+                     <input type="date" id="testDataCreatedFromDate" class="form-select" [(ngModel)]="testDataCreatedDateFrom">
+                 </div>
+     
+                 <div class="col-sm">
+                    <label class="label" >Created Date To</label>
+                     <input type="date" id="testDataCreatedToDate" class="form-select" [(ngModel)]="testDataCreatedDateTo">
+     
+                 </div>
+            </div>
+
             <div class="modal-footer">
-                <button type="button" class="primary-btn" (click)="executeTestScriptsBatch()">Done</button>
+                <button type="button" class="primary-btn" (click)="executeTestScripts()">Execute</button>
             </div>
         </ng-template>
 
     </div>
 
 
-    <div class="table-responsive scrollable-div mt-2">
+    <div class="table-responsive scrollable-div accordion-header">
 
         <table class="table table-borderless table-hover">
             <thead class="table-header">
@@ -223,7 +266,7 @@
                     </td>
 
                     <td>
-                        <textarea id="newTestScriptId" #newTestScriptId class="table-textarea-highlight" [disabled]="true"></textarea>
+                        <div id="newTestScriptId" #newTestScriptId class="table-textarea-highlight"></div>
                     </td>
 
                     <td>
@@ -236,6 +279,14 @@
 
                     <td>
                         <textarea id="newTestScriptDescription" #newTestScriptDescription class="table-textarea-highlight"></textarea>
+                    </td>
+
+                    <td>
+                        <div id="newCreatedBy" #newCreatedBy class="table-textarea-highlight"></div>
+                    </td>
+
+                    <td>
+                        <div id="newCreatedDate" #newCreatedDate class="table-textarea-highlight"></div>
                     </td>
                 </tr>
 

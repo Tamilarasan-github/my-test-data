@@ -930,6 +930,8 @@ export class MyTestDataResultsComponent implements OnInit {
   }
 
   fetchPreviousPageTestData() {
+    if(this.hasPreviousPage)
+    {
     this.testDataService.fetchTestDataMetaFromBackend(
       this.testApplicationId,
       this.selectedTestTableId,
@@ -938,10 +940,13 @@ export class MyTestDataResultsComponent implements OnInit {
       this.numOfRecordsToShowInAPage,
       'testDataMetaId'
     );
+    }
   }
 
   fetchNextPageTestData() {
     console.log('Current Page:' + this.currentPage);
+    if(this.hasNextPage)
+    {
     this.testDataService.fetchTestDataMetaFromBackend(
       this.testApplicationId,
       this.selectedTestTableId,
@@ -950,5 +955,6 @@ export class MyTestDataResultsComponent implements OnInit {
       this.numOfRecordsToShowInAPage,
       'testDataMetaId'
     );
+    }
   }
 }

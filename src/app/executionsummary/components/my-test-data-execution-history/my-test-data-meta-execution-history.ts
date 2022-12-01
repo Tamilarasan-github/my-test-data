@@ -1,6 +1,3 @@
-
-import { TestDataExecution } from "./my-test-data-execution";
-
 export class TestDataMetaExecutionHistory {
     constructor(
         public testDataExecutionId:number,
