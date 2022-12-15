@@ -159,7 +159,7 @@
                         <button type="button" class="primary-btn" (click)="exportTestDataSearchResults()">Export</button>
                     </div>
                 </ng-template>
-                <a ngbDropdownItem (click)="openModal(uploadFromExcel)"> Upload from Excel </a>
+                <!-- <a ngbDropdownItem (click)="openModal(uploadFromExcel)"> Upload from Excel </a> -->
                 <ng-template #uploadFromExcel>
                     <div class="modal-header">
                         Upload Data From Excel
@@ -262,8 +262,8 @@
             </thead> -->
         <tbody class="table-body">
             <ng-container *ngIf="showNewTestDataRow">
-                <ng-container *ngFor="let newData of newTestData.testDataAppOneTableOne | keyvalue:unsorted; let i = index">
-            <tr>
+                <ng-container *ngFor="let newData of newTestDataTableOneRowCount; let i = index">
+            <tr *ngIf="!(removedNewTestDataRowNumList.includes(i))">
                 <td> <input type="checkbox" disabled> </td>
                 <td>
                     <div class="d-flex justify-content-center" *ngIf="i===0">
@@ -287,10 +287,7 @@
                     <td class="table-header-cols" *ngIf="showTestDataMetaFieldValue(field.field_name_api) && i===0">
                         <textarea #newTestDataRow
                         name={{field.field_name_api}} (change)="newTestDataAppOneTableDetails($event, i)"
-                        [ngClass]="'table-textarea-edit'"
-                        [(ngModel)]=newData.value>
-                        
-                        </textarea>
+                        [ngClass]="'table-textarea-edit'"></textarea>
                     </td>
                     <td class="table-header-cols" *ngIf="showTestDataMetaFieldValue(field.field_name_api) && i>0">
                         <div></div>
@@ -298,13 +295,18 @@
                 </ng-container>
                 <ng-container *ngIf="selectedTestTableId===2001">
                     <ng-container *ngFor="let field of testDataAppOneTableOneFieldsInfo">
-                        <td class="table-header-cols" *ngIf="showTestDataMetaFieldValue(field.field_name_api)">
+
+                       <td class="table-header-cols" *ngIf="showTestDataMetaFieldValue(field.field_name_api) && field.field_name_api=='testDataId'">
                             <textarea #newTestDataRow
                             name={{field.field_name_api}}
                             [ngClass]="'table-textarea-edit'"
-                            [(ngModel)]=newData.value
-                            (change)="newTestDataAppOneTableDetails($event, i)">
-                            </textarea>
+                            (change)="newTestDataAppOneTableDetails($event, i+1)" [value]="i+1" disabled></textarea>
+                        </td>
+                        <td class="table-header-cols" *ngIf="showTestDataMetaFieldValue(field.field_name_api) && field.field_name_api!=='testDataId'">
+                            <textarea #newTestDataRow
+                            name={{field.field_name_api}}
+                            [ngClass]="'table-textarea-edit'"
+                            (change)="newTestDataAppOneTableDetails($event, i+1)"></textarea>
                         </td>
                         
                     </ng-container>
@@ -316,8 +318,7 @@
                             <textarea #newTestDataRow
                             name={{field.field_name_api}}
                             [ngClass]="'table-textarea-edit'">
-                            (change)="newTestDataAppOneTableDetails($event, i)"
-                            </textarea>
+                            (change)="newTestDataAppOneTableDetails($event, i)"></textarea>
                         </td>
                     </ng-container>
                 </ng-container> 
@@ -368,7 +369,7 @@
                            
                           
                                 <td *ngIf="showTestDataMetaFieldValue(testDataMetaColumn.key) && i===0">
-                                    <ng-container>
+                                    <ng-container *ngIf="!(testDataMetaColumn.key == 'testCategory' || testDataMetaColumn.key == 'testPriority' || testDataMetaColumn.key == 'runFlag')">
                                     <textarea *ngIf="currentlyInEditTestDataMetaRecord!=testDataMetaRecord"
                                         [disabled]="true" [(ngModel)]=testDataMetaColumn.value
                                         name={{testDataMetaColumn.key}} [ngClass]=" 'table-textarea' ">
@@ -380,6 +381,39 @@
                                         [ngClass]=" 'table-textarea-edit' ">
                                     </textarea>
                                  </ng-container>
+
+                                 <ng-container *ngIf="testDataMetaColumn.key == 'runFlag'">
+                                    <textarea *ngIf="currentlyInEditTestDataMetaRecord!=testDataMetaRecord"
+                                        [disabled]="true" [(ngModel)]=testDataMetaColumn.value
+                                        name={{testDataMetaColumn.key}} [ngClass]=" 'table-textarea' ">
+                                     </textarea>
+
+                                    <select *ngIf="currentlyInEditTestDataMetaRecord===testDataMetaRecord" [(ngModel)]="testDataMetaColumn.value">
+                                        <option *ngFor="let runFlag of testRunFlagDropdownList" [ngValue]="runFlag">{{runFlag}}</option>
+                                      </select>
+                                </ng-container>
+
+                                 <ng-container *ngIf="testDataMetaColumn.key == 'testPriority'">
+                                    <textarea *ngIf="currentlyInEditTestDataMetaRecord!=testDataMetaRecord"
+                                        [disabled]="true" [(ngModel)]=testDataMetaColumn.value
+                                        name={{testDataMetaColumn.key}} [ngClass]=" 'table-textarea' ">
+                                     </textarea>
+
+                                    <select *ngIf="currentlyInEditTestDataMetaRecord===testDataMetaRecord" [(ngModel)]="testDataMetaColumn.value">
+                                        <option *ngFor="let priority of testDataPriorityDropdownList" [ngValue]="priority">{{priority}}</option>
+                                      </select>
+                                </ng-container>
+
+                                 <ng-container *ngIf="testDataMetaColumn.key == 'testCategory'">
+                                    <textarea *ngIf="currentlyInEditTestDataMetaRecord!=testDataMetaRecord"
+                                        [disabled]="true" [(ngModel)]=testDataMetaColumn.value
+                                        name={{testDataMetaColumn.key}} [ngClass]=" 'table-textarea' ">
+                                     </textarea>
+
+                                    <select [(ngModel)]="testDataMetaColumn.value" *ngIf="currentlyInEditTestDataMetaRecord===testDataMetaRecord" >
+                                        <option *ngFor="let category of testDataCategoryDropdownList" [ngValue]="category">{{category}}</option>
+                                      </select>
+                                </ng-container>
                                 </td>
                                 <td *ngIf="showTestDataMetaFieldValue(testDataMetaColumn.key) && i>0">
                                     <div></div>

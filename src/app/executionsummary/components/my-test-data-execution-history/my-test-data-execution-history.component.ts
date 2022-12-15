@@ -34,6 +34,7 @@ export class MyTestExecutionResultsComponent implements OnInit {
   currentlyInEditTestDataMetaExecutionHistory={} as TestDataMetaExecutionHistory;
 
   testDataExecutionId:string;
+  suiteExecutionId: string;
   suiteId: string;
   testScriptExecutionId:string;
   testDataMetaId: string;
@@ -111,6 +112,7 @@ export class MyTestExecutionResultsComponent implements OnInit {
     };
 
     this.testDataExecutionId='';
+    this.suiteExecutionId="";
     this.suiteId='';
     this.testScriptExecutionId='';
     this.testDataMetaId='';
@@ -204,7 +206,7 @@ export class MyTestExecutionResultsComponent implements OnInit {
     this.showSearch=!this.showSearch;
   }
 
-  fetchTestExecutionResults()
+  fetchTestDataExecutionResults()
   {
     const testDataMetaExecutionSearch:TestDataMetaExecutionSearch=
     {
@@ -337,7 +339,7 @@ export class MyTestExecutionResultsComponent implements OnInit {
      {
       this.currentlyInEditTestDataMetaExecutionHistory = testDataMetaExecutionHistory;
      } 
-     else if ( this.currentlyInEditTestDataMetaExecutionHistory.testDataExecutionId !=testDataMetaExecutionHistory.testDataExecutionId) 
+     else if ( this.currentlyInEditTestDataMetaExecutionHistory.id !=testDataMetaExecutionHistory.id) 
      {
       if (confirm('There are some unsaved changes, do you want to save them before proceeding?')) 
       {
@@ -382,8 +384,8 @@ export class MyTestExecutionResultsComponent implements OnInit {
     testDataMetaExecutionHistory: TestDataMetaExecutionHistory) {
     if (
       this.currentlyInEditTestDataMetaExecutionHistory &&
-      this.currentlyInEditTestDataMetaExecutionHistory.testDataExecutionId ===
-      testDataMetaExecutionHistory.testDataExecutionId
+      this.currentlyInEditTestDataMetaExecutionHistory.id ===
+      testDataMetaExecutionHistory.id
       ) 
       {
     //   this.testExecutionSummaryService.updateTestData(

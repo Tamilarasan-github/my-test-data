@@ -1,25 +1,30 @@
 
 <div class="my-container">
-<div class="collapsible">
+<!-- <div class="collapsible">
     <div class="inline-block-div">
          <input type="text" class="simple-search-bar" placeholder="Testscript ID/Name/Category">
     </div>
     <div class="inline-block-div">
         <button type="submit" class="primary-btn-search-icon"><i class="bi bi-search"></i></button>
     </div>
-</div>
+</div> -->
 <div class="collapsible" (click)="showSeachContainer()">
-    Testscripts Advanced Search Criteria 
+    Testscripts Search Criteria 
     <i class="bi bi-caret-down-fill" *ngIf="showSearch==false"></i>
     <i class="bi bi-caret-up-fill" *ngIf="showSearch"></i>
 </div>
 <div class="container" *ngIf="showSearch">
     <div class="row p-2">
         <div class="col-sm">
-            <label class="label">Test Scripts</label>
-            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsDropdownList"
+            <label class="label">Test Scripts Name*</label>
+            <input type="text" id="testScriptsSelectedList" [(ngModel)]= "testScriptsSelectedList" placeholder="" class="form-control">
+
+            <!-- <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsDropdownList"
                 [(ngModel)]="testScriptsSelectedList">
-            </ng-multiselect-dropdown>
+            </ng-multiselect-dropdown> -->
+        </div>
+        <div class="col-sm">
+           
         </div>
     </div>
 
@@ -27,10 +32,12 @@
 
         <div class="col-sm">
             <label class="label">Test Scripts ID</label>
-            <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsIdDropdownList"
+            <input type="number" id="testScriptsIdSelectedList" [(ngModel)]= "testScriptsIdSelectedList" placeholder="" class="form-control">
+
+            <!-- <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="testScriptsIdDropdownList"
                 [(ngModel)]="testScriptsIdSelectedList">
 
-            </ng-multiselect-dropdown>
+            </ng-multiselect-dropdown> -->
         </div>
 
         <div class="col-sm">
@@ -41,14 +48,14 @@
         </div>
         <div class="col-sm">
             <label class="label">Created By</label>
-            <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+            <ng-multiselect-dropdown  [settings]="dropdownSettings"
                 [data]=" testScriptsCreatedByDropdownList" [(ngModel)]=" testScriptsCreatedBySelectedList">
             </ng-multiselect-dropdown>
         </div>
 
         <div class="col-sm">
             <label class="label">Updated By</label>
-            <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="dropdownSettings"
+            <ng-multiselect-dropdown  [settings]="dropdownSettings"
                 [data]=" testScriptsUpdatedByDropdownList" [(ngModel)]=" testScriptsUpdatedBySelectedList">
             </ng-multiselect-dropdown>
         </div>

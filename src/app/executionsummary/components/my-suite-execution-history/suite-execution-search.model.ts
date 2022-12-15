@@ -1,13 +1,14 @@
 export class SuiteExecutionSearch
 {
     constructor(
+        public executionId:string,
         public suiteId:string,
         public suiteName: string,
         public suiteStatus:string[],
         public url:string,
-        public createdBy:string[],
-        public createdDateFrom: Date,
-        public createdDateTo: Date,
+        public executedBy:string[],
+        public executedDateFrom: Date,
+        public executedDateTo: Date,
     )
     {
 

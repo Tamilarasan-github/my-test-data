@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { environment } from 'src/environments/environment';
 import { TestExecutionSummaryService } from '../my-test-execution-summary/my-test-execution-summary-service';
 import { SuiteExecutionSearch } from './suite-execution-search.model';
 import { TestSuiteExecutionInfo } from './suite.model';
@@ -16,6 +17,8 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
   suiteExecutionResultsVisible: boolean=true;
   testSuiteExecutionHistory:TestSuiteExecutionInfo[];
   searchDropdownSettings: IDropdownSettings = {};
+  
+  suiteExecutionId: string;
   suiteId: string;
   suiteName: string;
   suiteUrl: string;
@@ -23,8 +26,8 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
   createdBySelected: string[]=[];
   suiteStatusList: string[]=[];
   createdByList: string[]=[];
-  suiteCreatedDateFrom: Date; 
-  suiteCreatedDateTo: Date; 
+  suiteExecutedDateFrom: Date; 
+  suiteExecutedDateTo: Date; 
 
   numOfRecordsToShowInAPage: number;
   totalNumOfRecords: number;
@@ -36,11 +39,12 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
 
   constructor(private _router: Router, private testExecutionSummaryService:TestExecutionSummaryService) {
 
+    this.suiteExecutionId="";
     this.suiteId='';
     this.suiteName='';
     this.suiteUrl='';
-    this.suiteCreatedDateFrom = new Date(2010,1,1);
-    this.suiteCreatedDateTo = new Date(2099,1,1);
+    this.suiteExecutedDateFrom = new Date(2010,1,1);
+    this.suiteExecutedDateTo = new Date(2099,1,1);
     this.testSuiteExecutionHistory=[];
     
     this.numOfRecordsToShowInAPage = 10;
@@ -49,6 +53,8 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
     this.totalPages = 0;
     this.hasNextPage = false;
     this.hasPreviousPage = false;
+
+    this.fetchSuiteExecutionDetails();
 
     this.testExecutionSummaryService.testSuiteExecutionNumOfElementsAsObservable.subscribe({
       next: (value) => {
@@ -121,59 +127,60 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
 
   fetchSuiteExecutionDetails()
   {
-    const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteCreatedDateFrom, this.suiteCreatedDateTo);
-    this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(suiteExecutionSearch, 0, 10, 'createdDate');
+    const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteExecutionId, this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteExecutedDateFrom, this.suiteExecutedDateTo);
+    this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(suiteExecutionSearch, 0, 10, 'executedDate');
   }
 
   clearSuiteSearch()
   {
+    this.suiteExecutionId='';
     this.suiteId='';
     this.suiteName='';
     this.suiteUrl='';
     this.suiteStatusSelected=[];
-    this.suiteCreatedDateFrom= new Date('2000-01-01'); 
-    this.suiteCreatedDateTo= new Date('2999-01-01'); 
+    this.suiteExecutedDateFrom= new Date('2000-01-01'); 
+    this.suiteExecutedDateTo= new Date('2999-01-01'); 
   }
 
-  getTestScriptsExecutionHistory(suiteId: number)
+  getTestScriptsExecutionHistory(suiteExecutionId: number)
   {
-    this.testExecutionSummaryService.getTestScriptsExecutionHistory(suiteId);
+    this.testExecutionSummaryService.getTestScriptsExecutionHistory(suiteExecutionId);
   }
 
-  executeSuite(suiteId: number)
+  executeSuite(suiteExecutionId: number)
   {
-    this.testExecutionSummaryService.executeSuite(suiteId);
+    this.testExecutionSummaryService.executeSuite(suiteExecutionId);
   }
 
-  cancelSuiteExecution(suiteId: number)
+  cancelSuiteExecution(suiteExecutionId: number)
   {
-    this.testExecutionSummaryService.cancelSuiteExecution(suiteId);
+    this.testExecutionSummaryService.cancelSuiteExecution(suiteExecutionId);
   }
 
-  viewReport(suiteId: number)
+  viewReport(suiteExecutionId: number)
   {
     const url = this._router.serializeUrl(
-      this._router.createUrlTree(['/test-reports/'+suiteId]));
+      this._router.createUrlTree(['/test-reports/'+suiteExecutionId]));
       console.log("URL:"+url);
-       window.open("http://localhost:8080/applications/1001/execution-summary/testSuite/view-report/"+suiteId, '_blank');
+       window.open(environment.backendBaseURL +"/applications/1001/execution-summary/view-report/"+suiteExecutionId, '_blank');
   }
 
   getTestSuiteExecutionHistoryPage() {
-    const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteCreatedDateFrom, this.suiteCreatedDateTo);
-    this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(suiteExecutionSearch, this.currentPage+1, 10, 'createdDate'
+    const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteExecutionId, this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteExecutedDateFrom, this.suiteExecutedDateTo);
+    this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(suiteExecutionSearch, this.currentPage+1, 10, 'executedDate'
     );
   }
 
   fetchPreviousPageTestSuiteExecutionHistory() {
     if(this.hasPreviousPage)
     {
-      const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteCreatedDateFrom, this.suiteCreatedDateTo);
+      const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteExecutionId, this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteExecutedDateFrom, this.suiteExecutedDateTo);
 
       this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(
       suiteExecutionSearch,
       this.currentPage - 2,
       10, 
-      'createdDate'
+      'executedDate'
       );
     }
   }
@@ -183,13 +190,13 @@ export class MySuiteExecutionHistoryComponent implements OnInit {
     
     if(this.hasNextPage)
     {
-      const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteCreatedDateFrom, this.suiteCreatedDateTo);
+      const suiteExecutionSearch:SuiteExecutionSearch=new SuiteExecutionSearch(this.suiteExecutionId, this.suiteId, this.suiteName, this.suiteStatusSelected, this.suiteUrl, this.createdBySelected, this.suiteExecutedDateFrom, this.suiteExecutedDateTo);
 
       this.testExecutionSummaryService.fetchTestSuiteExecutionHistoryBySearchCriteria(
       suiteExecutionSearch,
       this.currentPage,
       10, 
-      'createdDate'
+      'executedDate'
       );
     }
   }

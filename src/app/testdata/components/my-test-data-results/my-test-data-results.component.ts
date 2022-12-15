@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { NgbModalService } from 'src/app/home/ngbModalService';
-import { DataUpdate, UpdatedValues } from 'src/app/public/data.update.model';
+import { RowValues, KeyAndValue } from 'src/app/public/row.values.model';
 
 import { ApplicationTableInfoService } from '../../../public/my-application-table-info-service';
 import { TestDataService } from '../../my-test-data.service';
@@ -24,8 +24,9 @@ export class MyTestDataResultsComponent implements OnInit {
   testDataSearchResultsVisible: boolean;
 
   //testDataRowCount: number=0;
-  newTestData: TestDataMeta=new TestDataMeta();
-  newTestDataRowCount: number=0;
+  //newTestData: TestDataMeta=new TestDataMeta();
+ 
+
   testDataMetaValuesAsObjectList: TestDataMeta[];
   clonedTestDataMetaValuesAsObject: TestDataMeta[];
   currentlyInEditTestDataMetaRecord: TestDataMeta | undefined;
@@ -51,14 +52,8 @@ export class MyTestDataResultsComponent implements OnInit {
 
   selectColumnsDropdownSettings: IDropdownSettings = {};
 
-  testDataMetaDetailsToUpdate: Map<number, Map<number, String>> = new Map<
-    number,
-    Map<number, String>
-  >();
-  testDataDetailsToUpdate: Map<number, Map<number, String>> = new Map<
-    number,
-    Map<number, String>
-  >();
+  testDataMetaDetailsToUpdate: Map<number, Map<number, String>> = new Map<number, Map<number, String>>();
+  testDataDetailsToUpdate: Map<number, Map<number, String>> = new Map<number, Map<number, String>>();
   listOfTestDataSelected: TestDataMeta[] = [];
   testDataMetaIdSelectedSet: Set<number>;
 
@@ -69,14 +64,27 @@ export class MyTestDataResultsComponent implements OnInit {
 
   testDataSearchedCriteria: TestDataSearchCriteria;
 
-  testDataUpdate: DataUpdate[] = [];
+  testDataUpdate: RowValues[] = [];
+  testDataPriorityDropdownList: string[];
+  testDataCategoryDropdownList: string[];
+  testRunFlagDropdownList: string[];
+
+  newTestDataTableOneRowCount: TestDataAppOneTableOne[]; //this is just for row count
+
+  newTestDataRowValues: RowValues[]; 
+  removedNewTestDataRowNumList: number[];
+ 
 
   constructor(
     private testDataService: TestDataService,
     private applicationTableInfoService: ApplicationTableInfoService,
     private ngbModalService: NgbModalService
-  ) {
+  ) 
+  {
     this.testDataSearchResultsVisible = true;
+    this.newTestDataTableOneRowCount=[new TestDataAppOneTableOne];
+    this.newTestDataRowValues=[];
+    this.removedNewTestDataRowNumList=[];
 
     this.testDataSearchedCriteria = new TestDataSearchCriteria(
       [],
@@ -84,7 +92,7 @@ export class MyTestDataResultsComponent implements OnInit {
       [],
       [],
       [],
-      [],
+      "",
       [],
       [],
       [],
@@ -95,8 +103,13 @@ export class MyTestDataResultsComponent implements OnInit {
       new Date()
     );
 
-    this.newTestData.testDataAppOneTableOne.push(new TestDataAppOneTableOne());
-    
+    this.testDataPriorityDropdownList=["5","4","3","2","1","0"];
+
+  this.testDataCategoryDropdownList=["Integration Testing", "Functional Testing", "Regression Testing", "Smoke Testing"];
+
+  this.testRunFlagDropdownList=["Yes", "No", ""];
+
+
     this.testDataMetaValuesAsObjectList = [];
     this.clonedTestDataMetaValuesAsObject = [];
 
@@ -567,29 +580,59 @@ export class MyTestDataResultsComponent implements OnInit {
     return returnValue;
   }
 
-  newTestDataAppOneTableDetails(
-    event: any,
-    index: number,
-  ) 
-  {
-    let updatedColumn: string = event.target.name;
-    let updatedValue: string = event.target.value;
-    console.log("updatedColumn:"+updatedColumn);
-    console.log("updatedValue:"+updatedValue);
+  newTestDataAppOneTableDetails(event: any, rowTempTestDataId: number) 
+  { 
+    const updatedColumn = event.target.name;
+    const updatedValue = event.target.value;
 
-    //this.newTestData[updatedColumn as keyof TestDataMeta]=updatedValue;
-    // Object.entries(this.newTestData).forEach(
-    //   ([key, value]) =>
-    //   {
-    //     if(key.match(updatedColumn))
-    //     {
-    //       console.log("Key matched:"+key)
-    //       console.log(this.newTestData[key as keyof TestDataMeta])
-    //     }
-    //   } 
-    // );
-    console.log(JSON.stringify(this.newTestData))
-  }
+    // this.newChangesTestDataMetaValuesAsObject[updateColumn as keyof typeof this.newChangesTestDataMetaValuesAsObject]=updatedValue;
+
+    // console.log("Updates are..:"+JSON.stringify(this.newChangesTestDataMetaValuesAsObject));
+    const newTestDataValues: KeyAndValue = {
+      columnName: updatedColumn,
+      columnValue: updatedValue,
+    };
+
+    if (!(this.newTestDataRowValues.length === 0)) 
+    {
+      let columNameAvailableFlag: boolean = false;
+
+      this.newTestDataRowValues.every((rowValue) => {
+        if (rowValue.id === rowTempTestDataId) 
+        {
+          rowValue.keyAndValue.forEach
+          (
+            (item: { columnName: any; columnValue: any }) => {
+              if (item.columnName === updatedColumn) {
+                item.columnValue = updatedValue;
+                columNameAvailableFlag = true;
+                console.log('this.newTestDataRowValues after:' +JSON.stringify(this.newTestDataRowValues));
+
+              }
+            }
+          );
+
+          if (columNameAvailableFlag === false) 
+          {
+            console.log('this.newTestDataRowValues before:' +JSON.stringify(this.newTestDataRowValues));
+            let tempKeyAndValue: KeyAndValue[]= rowValue.keyAndValue;
+            tempKeyAndValue.push(newTestDataValues);
+            rowValue.keyAndValue=tempKeyAndValue;
+            console.log('this.newTestDataRowValues after:' +JSON.stringify(this.newTestDataRowValues)
+            );
+          }
+        }
+      });
+    } 
+    else {
+      this.newTestDataRowValues.push({
+        id: rowTempTestDataId,
+        keyAndValue: [newTestDataValues],
+      });
+    }
+  } 
+
+  
 
   updateExistingTestDataMetaDetails(event: any, testDataMeta: TestDataMeta) {
     if (
@@ -603,7 +646,7 @@ export class MyTestDataResultsComponent implements OnInit {
       // this.newChangesTestDataMetaValuesAsObject[updateColumn as keyof typeof this.newChangesTestDataMetaValuesAsObject]=updatedValue;
 
       // console.log("Updates are..:"+JSON.stringify(this.newChangesTestDataMetaValuesAsObject));
-      const testDataUpdatedValues: UpdatedValues = {
+      const testDataUpdatedValues: KeyAndValue = {
         columnName: updatedColumn,
         columnValue: updatedValue,
       };
@@ -612,7 +655,7 @@ export class MyTestDataResultsComponent implements OnInit {
         let columNameAvailableFlag: boolean = false;
         this.testDataUpdate.every((data) => {
           if (data.id === testDataMeta.testDataMetaId) {
-            data.values.forEach(
+            data.keyAndValue.forEach(
               (item: { columnName: any; columnValue: any }) => {
                 if (item.columnName === updatedColumn) {
                   item.columnValue = updatedValue;
@@ -626,7 +669,7 @@ export class MyTestDataResultsComponent implements OnInit {
                 'this.testScriptUpdate before:' +
                   JSON.stringify(this.testDataUpdate)
               );
-              data.values.push(testDataUpdatedValues);
+              data.keyAndValue.push(testDataUpdatedValues);
               console.log(
                 'this.testScriptUpdate after:' +
                   JSON.stringify(this.testDataUpdate)
@@ -637,7 +680,7 @@ export class MyTestDataResultsComponent implements OnInit {
       } else {
         this.testDataUpdate.push({
           id: testDataMeta.testDataMetaId,
-          values: [testDataUpdatedValues],
+          keyAndValue: [testDataUpdatedValues],
         });
       }
     } else {
@@ -662,7 +705,7 @@ export class MyTestDataResultsComponent implements OnInit {
       // this.newChangesTestDataMetaValuesAsObject[updateColumn as keyof typeof this.newChangesTestDataMetaValuesAsObject]=updatedValue;
 
       // console.log("Updates are..:"+JSON.stringify(this.newChangesTestDataMetaValuesAsObject));
-      let testDataUpdatedValues: UpdatedValues = {
+      let testDataUpdatedValues: KeyAndValue = {
         columnName: updatedColumn,
         columnValue: updatedValue,
       };
@@ -672,7 +715,7 @@ export class MyTestDataResultsComponent implements OnInit {
 
         this.testDataUpdate.every((currentTestDataUpdate) => {
           if (currentTestDataUpdate.id === testDataId) {
-            currentTestDataUpdate.values.forEach(
+            currentTestDataUpdate.keyAndValue.forEach(
               (item: { columnName: any; columnValue: any }) => {
                 if (item.columnName === updatedColumn) {
                   item.columnValue = updatedValue;
@@ -686,7 +729,7 @@ export class MyTestDataResultsComponent implements OnInit {
                 'this.testScriptUpdate before:' +
                   JSON.stringify(this.testDataUpdate)
               );
-              currentTestDataUpdate.values.push(testDataUpdatedValues);
+              currentTestDataUpdate.keyAndValue.push(testDataUpdatedValues);
               console.log(
                 'this.testScriptUpdate after:' +
                   JSON.stringify(this.testDataUpdate)
@@ -695,14 +738,14 @@ export class MyTestDataResultsComponent implements OnInit {
           } else {
             this.testDataUpdate.push({
               id: testDataId,
-              values: [testDataUpdatedValues],
+              keyAndValue: [testDataUpdatedValues],
             });
           }
         });
       } else {
         this.testDataUpdate.push({
           id: testDataId,
-          values: [testDataUpdatedValues],
+          keyAndValue: [testDataUpdatedValues],
         });
       }
     } else {
@@ -890,14 +933,29 @@ export class MyTestDataResultsComponent implements OnInit {
 
   onSaveNewTestData()
   {
-
+      this.testDataService.saveNewTestData(this.testApplicationId, this.selectedTestTableId, this.newTestDataRowValues)
+      .subscribe({
+      next: (responseBody) => {
+        console.log('Newly Added Test Data response: ' + JSON.stringify(responseBody));
+       // this.testDataService.fetchTestDataMetaFromBackend(this.applicationTableInfoService.applicationSelected, this.selectedTestTableId, this.testDataService.lastUsedTestDataSearchCriteria!, 0, 10, 'testDataMetaId');
+        this.testDataService.fetchDropdownValuesFromBackEnd(this.applicationTableInfoService.applicationSelected,  this.selectedTestTableId);
+       // this.testDataUpdate=[];
+        this.newTestDataRowValues=[];
+        this.currentlyInEditTestDataMetaRecord=undefined;
+        alert("Successfully Added");
+      },
+      error: (e) => {
+        console.log('New Test Data Add response: ' + JSON.stringify(e));
+        alert('New Test Data Add error:' + JSON.stringify(e));
+      },
+      complete: () => console.info('New Test Data Added successfully & dropdown updated'),
+    });
   }
 
   onAddNewTestDataRow()
   {
-    let newTestDataAppOneTableOne: TestDataAppOneTableOne=new TestDataAppOneTableOne();
-    newTestDataAppOneTableOne.testDataId=this.newTestDataRowCount+1;
-    this.newTestData.testDataAppOneTableOne.push(newTestDataAppOneTableOne);
+    this.newTestDataTableOneRowCount.push(new TestDataAppOneTableOne);
+    
   }
 
   onUpdateNewTestDataRow(event: any, testDataMetaRecord:TestDataMeta)
@@ -905,9 +963,9 @@ export class MyTestDataResultsComponent implements OnInit {
     testDataMetaRecord.testDataAppOneTableOne.push(new TestDataAppOneTableOne());
   }
 
-  onRemoveNewTestDataRow(index: number)
+  onRemoveNewTestDataRow(rowNum: number)
   {
-    this.newTestData.testDataAppOneTableOne.slice(index, 1);
+    this.removedNewTestDataRowNumList.push(rowNum);
   }
 
   exportTestDataSearchResults() {

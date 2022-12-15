@@ -12,7 +12,7 @@ import { TestScriptExecution } from '../test-scripts-execution';
 import { TestScriptSearchCriteria } from '../test-scripts-search-criteria';
 import { TestDataSearchCriteria } from 'src/app/testdata/components/my-test-data-search/my-test-data-search-criteria';
 import { TestDataService } from 'src/app/testdata/my-test-data.service';
-import { DataUpdate, UpdatedValues } from 'src/app/public/data.update.model';
+import { RowValues, KeyAndValue } from 'src/app/public/row.values.model';
 import { Suite } from 'src/app/suite/suite.model';
 import { LogInService } from 'src/app/auth/components/log-in/log-in.service';
 import { SuiteService } from 'src/app/suite/suite-service';
@@ -35,7 +35,7 @@ export class MyTestScriptsComponent implements OnInit {
   dropdownSettings = {};
   dropdownSingleSelectionSettings = {};
 
-  showSearch: boolean = false;
+  showSearch: boolean = true;
   showTestScriptsTable: boolean = true;
 
   testTablesDropdownList:[]=[]
@@ -51,7 +51,7 @@ export class MyTestScriptsComponent implements OnInit {
   testScriptsList: TestScript[] = [];
   previousTestScriptsList: TestScript[] = [];
   updateTestScriptsList: TestScript[]=[];
-  testScriptUpdate :DataUpdate  | undefined;
+  testScriptUpdate :RowValues  | undefined;
 
   listOfTestScriptsSelected: TestScript[] = [];
   testScriptDetailsUpdate: Map<number, Map<string, string>> = new Map<number, Map<string, string>>();
@@ -60,10 +60,10 @@ export class MyTestScriptsComponent implements OnInit {
   
 
   testScriptsIdDropdownList: any[] = [];
-  testScriptsIdSelectedList: any = [];
+  testScriptsIdSelectedList: string = "";
 
   testScriptsDropdownList: any[] = [];
-  testScriptsSelectedList: any = [];
+  testScriptsSelectedList: string = "";
 
   testScriptsCategoryDropdownList: any[] = [];
   testScriptsCategorySelectedList: any = [];
@@ -87,10 +87,10 @@ export class MyTestScriptsComponent implements OnInit {
   testRunFlagDropdownList: any[] = ["Yes", "No"];
   testRunFlagSelectedList: any = [];
  
-  testDataCategoryDropdownList: any[] = ["Unit Testing", "Integration Testing", "Regression Testing", "Smoke Testing", "Sanity testing"];
+  testDataCategoryDropdownList: any[] = ["Integration Testing", "Functional Testing", "Regression Testing", "Smoke Testing"];
   testDataCategorySelectedList: any = [];
 
-  testDataPriorityDropdownList: any[] = ["0" ,"1", "2", "3", "4", "5"];
+  testDataPriorityDropdownList: any[] = ["5" ,"4", "3", "2", "1", "0"];
   testDataPrioritySelectedList: any = [];
 
   testDataCreatedByDropdownList: any[] = [];
@@ -119,7 +119,7 @@ export class MyTestScriptsComponent implements OnInit {
     
     this.suiteName="Suite-001";
     this.suiteDescription="This suite executes regression scenarios";
-    this.url="www.google.com";
+    this.url="https://www.google.com";
     this.browser="Chrome";
     
     this.executionInputValues=[];
@@ -165,20 +165,20 @@ export class MyTestScriptsComponent implements OnInit {
 
     if(this.showSearch)
     {
-      this.testScriptsService.fetchTestScriptsDropdownValues(this.applicationTableInfoService.applicationSelected);
+      // this.testScriptsService.fetchTestScriptsDropdownValues(this.applicationTableInfoService.applicationSelected);
     
-      this.testScriptsService.testScriptsDropdownValuesAsObservable.subscribe(
-        {
-          next:(value)=>{
-            console.log(JSON.stringify(value))
-            this.testScriptsIdDropdownList=value.testScriptsId;
-            this.testScriptsDropdownList=value.testScripts;
-            this.testScriptsCategoryDropdownList=value.testScriptsCategory;
-            this.testScriptsCreatedByDropdownList=value.createdBy;
-            this.testScriptsUpdatedByDropdownList=value.updatedBy
-          }
-        }
-      )
+      // this.testScriptsService.testScriptsDropdownValuesAsObservable.subscribe(
+      //   {
+      //     next:(value)=>{
+      //       console.log(JSON.stringify(value))
+      //       this.testScriptsIdDropdownList=value.testScriptsId;
+      //       this.testScriptsDropdownList=value.testScripts;
+      //       this.testScriptsCategoryDropdownList=value.testScriptsCategory;
+      //       this.testScriptsCreatedByDropdownList=value.createdBy;
+      //       this.testScriptsUpdatedByDropdownList=value.updatedBy
+      //     }
+      //   }
+      // )
     }
   }
 
@@ -187,7 +187,7 @@ export class MyTestScriptsComponent implements OnInit {
   fetchTestscripts()
   {
     const testScriptSearchCriteria:TestScriptSearchCriteria=new TestScriptSearchCriteria(
-      this.testScriptsIdSelectedList,
+      this.setZeroIfEmptyString(this.testScriptsIdSelectedList),
       this.testScriptsSelectedList,
       this.testScriptsCategorySelectedList,
       this.testScriptsCreatedBySelectedList,
@@ -204,8 +204,8 @@ export class MyTestScriptsComponent implements OnInit {
     
   clearSearch() {
 
-    this. testScriptsIdSelectedList = [];
-    this. testScriptsSelectedList = [];
+    this. testScriptsIdSelectedList = "";
+    this. testScriptsSelectedList = "";
     this. testScriptsCategorySelectedList = [];
     this. testScriptsCreatedBySelectedList = [];
     this. testScriptsUpdatedBySelectedList = [];
@@ -380,7 +380,7 @@ export class MyTestScriptsComponent implements OnInit {
         let updatedColumn: string = event.target.name;
         let updatedValue: string = event.target.value;
 
-        const testScriptUpdatedValues: UpdatedValues ={
+        const testScriptUpdatedValues: KeyAndValue ={
           columnName: updatedColumn,
           columnValue: updatedValue
         }
@@ -390,7 +390,7 @@ export class MyTestScriptsComponent implements OnInit {
           let columNameAvailableFlag:boolean=false;
           if(this.testScriptUpdate.id===testScriptData.testScriptsId)
           {
-            this.testScriptUpdate.values.forEach(item=> 
+            this.testScriptUpdate.keyAndValue.forEach(item=> 
             {
               if(item.columnName===updatedColumn)
               {
@@ -402,7 +402,7 @@ export class MyTestScriptsComponent implements OnInit {
             if(columNameAvailableFlag===false)
             {
               console.log("this.testScriptUpdate before:"+JSON.stringify(this.testScriptUpdate))
-              this.testScriptUpdate.values.push(testScriptUpdatedValues);
+              this.testScriptUpdate.keyAndValue.push(testScriptUpdatedValues);
               console.log("this.testScriptUpdate after:"+JSON.stringify(this.testScriptUpdate))
             }
           
@@ -411,7 +411,7 @@ export class MyTestScriptsComponent implements OnInit {
         else{
           this.testScriptUpdate={
             id:testScriptData.testScriptsId,
-            values:[testScriptUpdatedValues]
+            keyAndValue:[testScriptUpdatedValues]
           }
         }
 
@@ -560,7 +560,7 @@ valueTypeChange(event: any, executionInputValues: ExecutionInputValues)
         [],
         [],
         [testScriptName],
-        [],
+        "",
         [],
         [],
         [],
@@ -580,6 +580,19 @@ valueTypeChange(event: any, executionInputValues: ExecutionInputValues)
   dismissModal()
   {
     this.ngbModalService.dismiss();
+  }
+
+  
+  setZeroIfEmptyString(input: string)
+  {
+    if(input==="")
+    {
+      return "0";
+    }
+    else
+    {
+      return input;
+    }
   }
   
 }

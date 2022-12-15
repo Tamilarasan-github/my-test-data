@@ -294,7 +294,8 @@ transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     background-color: var(--table-header-bg-color);
     position: sticky;
     top: 0;
-    width: 100%;
+   
+    overflow-x: auto;
     z-index: 3;
     
 }
@@ -363,9 +364,9 @@ ng-multiselect-dropdown {
 
 .table-textarea-edit {
     border-color: transparent;
-    background-color: transparent;
+    background-color: aliceblue;
     /* overflow: hidden; */
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .table-textarea::-webkit-resizer {

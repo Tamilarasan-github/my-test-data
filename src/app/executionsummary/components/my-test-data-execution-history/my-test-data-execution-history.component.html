@@ -15,6 +15,11 @@
             </div>
 
             <div class="col-sm">
+                <label class="label">Suite Execution ID</label>
+                <input type="text" id="suiteExecutionId" placeholder="" [(ngModel)]="suiteId" class="form-control">
+            </div>
+
+            <div class="col-sm">
                 <label class="label">Suite ID</label>
                 <input type="text" id="suiteId" placeholder="" [(ngModel)]="suiteId" class="form-control">
             </div>
@@ -24,26 +29,15 @@
                 <input type="text" id="testScriptExecutionId" placeholder="" [(ngModel)]="testScriptExecutionId" class="form-control">
             </div>
 
+          
+            
+        </div>
+       
+        <div class="row p-2">
             <div class="col-sm">
                 <label class="label">Test Data Meta ID</label>
                 <input type="text" id="testExecutionId" placeholder="" [(ngModel)]="testDataMetaId" class="form-control">
             </div>
-            
-        </div>
-        <div class="row p-2">
-            <div class="col-sm">
-                <label class="label">Test Script</label>
-                <input type="text" id="testScript" placeholder="" [(ngModel)]="testScript" class="form-control">
-
-            </div>
-
-            <div class="col-sm">
-                <label class="label">Test Short Description</label>
-                <input type="text" id="testShortDescription" placeholder="" [(ngModel)]="testShortDescription" class="form-control">
-            </div>
-
-        </div>
-        <div class="row p-2">
 
             <div class="col-sm">
                 <label class="label">JIRA Story</label>
@@ -56,21 +50,27 @@
                 </ng-multiselect-dropdown>
             </div>
 
+           
+            <div class="col-sm">
+                <label class="label">Test Script</label>
+                <input type="text" id="testScript" placeholder="" [(ngModel)]="testScript" class="form-control">
+
+            </div>
+
+           
+        </div>
+
+        <div class="row p-2">
             <div class="col-sm">
                 <label class="label">Test Category</label>
                 <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataCategoryDropdownList" [(ngModel)]="testDataCategorySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
             </div>
-
-
             <div class="col-sm">
                 <label class="label">Test Executed By</label>
                 <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="searchDropdownSettings" [data]="testDataExecutedByDropdownList" [(ngModel)]="testDataExecutedBySelectedList" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
             </div>
-        </div>
-
-        <div class="row p-2">
             <div class="col-sm">
                 <label class="label">Created Date From</label>
                 <input type="date" id="testDataCreatedFromDate" class="form-select" 
@@ -84,11 +84,20 @@
         
             </div>
         </div>
+        <div class="row p-2">
+          
+
+            <!-- <div class="col-sm">
+                <label class="label">Test Short Description</label>
+                <input type="text" id="testShortDescription" placeholder="" [(ngModel)]="testShortDescription" class="form-control">
+            </div> -->
+
+        </div>
 
         <div class="d-flex justify-content-center">
 
             <div class="p-2">
-                <button type="button" class="primary-btn" (click)="fetchTestExecutionResults()">Search</button>
+                <button type="button" class="primary-btn" (click)="fetchTestDataExecutionResults()">Search</button>
             </div>
             <div class="p-2">
                 <button type="button" class="secondary-btn" (click)="clearSearch()">Clear</button>
@@ -146,9 +155,11 @@
             <thead class="table-header">
                     <th class="table-header-cols"> <input type="checkbox"> </th>
                     <th class="table-header-cols"> ACTIONS </th>
-                    <th class="table-header-cols">TEST DATA EXECUTION ID</th>
+                    <th class="table-header-cols">TEST DATA EXEC ID</th>
+                    <th class="table-header-cols">SUITE EXEC ID</th>
                     <th class="table-header-cols">SUITE ID</th>
                     <th class="table-header-cols">TEST SCRIPT EXECUTION ID</th>
+                    <th class="table-header-cols">TEST SCRIPT ID</th>
                     <th class="table-header-cols">TEST DATA META ID</th>
                     <th class="table-header-cols">TEST CASE ID</th>
                     <th class="table-header-cols">TEST SCRIPT NAME</th>
@@ -195,9 +206,11 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{testDataMetaExecutionHistory.testDataExecutionId}}</td>
+                    <td>{{testDataMetaExecutionHistory.id}}</td>
+                    <td>{{testDataMetaExecutionHistory.suiteExecutionId}}</td>
                     <td>{{testDataMetaExecutionHistory.suiteId}}</td>
                     <td>{{testDataMetaExecutionHistory.testScriptExecutionId}}</td>
+                    <td>{{testDataMetaExecutionHistory.testScriptId}}</td>
                     <td>{{testDataMetaExecutionHistory.testDataMetaId}}</td>
                     <td>{{testDataMetaExecutionHistory.testCaseId}}</td>
                     <td>{{testDataMetaExecutionHistory.testScriptName}}</td>

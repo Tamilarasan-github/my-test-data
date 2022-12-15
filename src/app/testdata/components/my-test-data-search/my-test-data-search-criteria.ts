@@ -6,7 +6,7 @@ export class TestDataSearchCriteria
         public jiraId:string[],
         public runFlag:string[],
         public testScriptName:string[],
-        public testShortDescription:string[],
+        public testShortDescription:string,
         public testPriority:string[],
         public testCategory:string[],
         public createdBy:string[],

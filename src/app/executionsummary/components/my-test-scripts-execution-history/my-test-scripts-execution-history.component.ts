@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TestExecutionSummaryService } from 'src/app/executionsummary/components/my-test-execution-summary/my-test-execution-summary-service';
+import { TestDataMetaExecutionSearch } from '../my-test-data-execution-history/my-test-data-meta-execution-search.model';
 
 import { TestScriptsExecutionHistory } from './test-scripts-execution-history';
 import { TestScriptsExecutionSearch } from './testscripts-execution-search.model';
@@ -16,6 +17,7 @@ export class MyTestScriptsExecutionHistoryComponent implements OnInit {
   testScriptsExecutionHistory:TestScriptsExecutionHistory[];
 
   testScriptsExecutionId: string;
+  suiteExecutionId: string;
   suiteId: string;
   testScriptId: string;
   testScriptsCategory: string[];
@@ -38,6 +40,8 @@ export class MyTestScriptsExecutionHistoryComponent implements OnInit {
 
     this.testScriptsExecutionHistory=[];
     this.testScriptsExecutionId="";
+
+    this.suiteExecutionId="";
     this.suiteId="";
     this.testScriptId="";
     this.testScriptsCategory=[];
@@ -147,7 +151,26 @@ export class MyTestScriptsExecutionHistoryComponent implements OnInit {
 
   getTestDataMetaExecutionHistory(testScriptExecutionId: string)
   {
-    this.testExecutionSummaryService.getTestDataMetaExecutionHistory(testScriptExecutionId);
+    const testDataMetaExecutionSearch:TestDataMetaExecutionSearch=
+    {
+      'testDataExecutionId':"0",
+      'suiteId': "0",
+      'testScriptExecutionId':testScriptExecutionId,
+      'testDataMetaId':"0",
+      'testDataStatus':[],
+      'testCategory':[],
+      'jiraStory':"",
+      'testScripts':"",
+      'testShortDescription':"",
+      'executedBy':[],
+      'executedDateFrom':new Date('2000-01-01'),
+      'executedDateTo':new Date('2099-01-01') 
+    }
+
+    console.log("testDataMetaExecutionSearch:"+testDataMetaExecutionSearch);
+
+    this.testExecutionSummaryService.fetchTestDataMetaExecutionHistoryBySearchCriteria(testDataMetaExecutionSearch, 0, 10, 'executedOn');
+
   }
 
   getTestScriptsExecutionHistoryPage() {   

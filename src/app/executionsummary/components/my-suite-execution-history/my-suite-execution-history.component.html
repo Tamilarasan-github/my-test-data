@@ -12,7 +12,10 @@
 <div *ngIf="showSuiteSearch"> -->
 <div class="container">
 <div class="row p-2">
-
+    <div class="col-sm">
+        <label class="label">Suite Execution Id</label>
+        <input type="text" id="suiteExecutionId" placeholder="" [(ngModel)]="suiteExecutionId" class="form-control">
+    </div>
     <div class="col-sm">
         <label class="label">Suite Id</label>
         <input type="text" id="suiteId" placeholder="" [(ngModel)]="suiteId" class="form-control">
@@ -37,20 +40,20 @@
 
     <div class="col-sm">
         <label class="label">Suite Created By</label>
-        <ng-multiselect-dropdown [placeholder]="'Select Created By'" [settings]="searchDropdownSettings"
+        <ng-multiselect-dropdown [placeholder]="'Select Executed By'" [settings]="searchDropdownSettings"
             [data]="createdByList" [(ngModel)]="createdBySelected">
         </ng-multiselect-dropdown>
     </div>
 
     <div class="col-sm">
         <label class="label">Created Date From</label>
-        <input type="date" id="testDataCreatedFromDate" class="form-select" [(ngModel)]="suiteCreatedDateFrom">
+        <input type="date" id="suiteExecutedDateFrom" class="form-select" [(ngModel)]="suiteExecutedDateFrom">
     </div>
 
     <div class="col-sm">
         <label class="label">Created Date To</label>
-        <input type="date" id="testDataCreatedToDate" placeholder="Suite Created Date To" class="form-select"
-            [(ngModel)]="suiteCreatedDateTo">
+        <input type="date" id="suiteExecutedDateTo" placeholder="Suite Created Date To" class="form-select"
+            [(ngModel)]="suiteExecutedDateTo">
 
     </div>
 </div>
@@ -98,69 +101,67 @@
 <div class="suite-exec-table table-responsive scrollable-div mt-2">
     <table class="table table-borderless table-hover">
         <thead class="table-header">
-            <th class="table-header-cols"> SUITE ID</th>
-            <th class="table-header-cols"> ACTION</th>
-            <th class="table-header-cols"> SUITE NAME</th>
-            <th class="table-header-cols"> SUITE DESCRIPTION</th>
-            <th class="table-header-cols"> SUITE STATUS</th>
-            <th class="table-header-cols"> URL</th>
-            <th class="table-header-cols"> BROWSER</th>
-            <th class="table-header-cols"> CREATED BY</th>
-            <th class="table-header-cols"> CREATED DATE</th>
+            <th class="table-header-cols header-width-5"> SUITE EXECUTION ID</th>
+            <th class="table-header-cols header-width-5"> ACTION</th>
+            <th class="table-header-cols header-width-5"> SUITE ID</th>
+            <th class="table-header-cols header-width-5"> SUITE NAME</th>
+            <th class="table-header-cols header-width-5"> SUITE DESCRIPTION</th>
+            <th class="table-header-cols header-width-5"> SUITE STATUS</th>
+            <th class="table-header-cols header-width-5"> URL</th>
+            <th class="table-header-cols header-width-5"> BROWSER</th>
+            <th class="table-header-cols header-width-5"> CREATED BY</th>
+            <th class="table-header-cols header-width-5"> CREATED DATE</th>
         </thead>
         <tbody class="table-body">
 
-            <tr #currentRow class="table-active" *ngFor="let suite of testSuiteExecutionHistory; let i = index">
+            <tr #currentRow *ngFor="let suite of testSuiteExecutionHistory; let i = index">
 
                 <td>
-                    <ng-container *ngIf="suite.suiteStatus === 'Added'">
-                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
-                        </button>
-                    </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Queued'">
-                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.executionId)">{{suite.suiteId}}
                         </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'In-progress'">
                         <button class="inprogress"
-                            (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
+                            (click)="getTestScriptsExecutionHistory(suite.executionId)">{{suite.executionId}} </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Completed'">
                         <button class="completed"
-                            (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}} </button>
+                            (click)="getTestScriptsExecutionHistory(suite.executionId)">{{suite.executionId}} </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Error'">
-                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.executionId)">{{suite.executionId}}
                         </button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Canceled'">
-                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">{{suite.suiteId}}
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.executionId)">{{suite.executionId}}
                         </button>
                     </ng-container>
                 </td>
                 <td>
-                    <ng-container *ngIf="suite.suiteStatus === 'Added'">
-                        <button class="queued" (click)="executeSuite(suite.suiteId)">Execute</button>
-                    </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Queued'">
-                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.suiteId)"
+                        <button class="queued" (click)="getTestScriptsExecutionHistory(suite.executionId)"
                             disabled>Execute</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'In-progress'">
                         <button class="inprogress"
-                            (click)="cancelSuiteExecution(suite.suiteId)">Cancel</button>
+                            (click)="cancelSuiteExecution(suite.executionId)">Cancel</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Completed'">
                         <button class="completed"
-                            (click)="viewReport(suite.suiteId)">View</button>
+                            (click)="viewReport(suite.executionId)">View</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Error'">
-                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">Re-run</button>
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.executionId)">Re-run</button>
                     </ng-container>
                     <ng-container *ngIf="suite.suiteStatus === 'Canceled'">
-                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.suiteId)">Execute
+                        <button class="error" (click)="getTestScriptsExecutionHistory(suite.executionId)">Execute
                         </button>
                     </ng-container>
+                </td>
+
+                <td>
+                    {{suite.suiteId}}
                 </td>
 
                 <td>

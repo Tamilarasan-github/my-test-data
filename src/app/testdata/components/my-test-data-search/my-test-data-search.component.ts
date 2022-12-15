@@ -45,8 +45,8 @@ export class MyTestDataSearchComponent implements OnInit {
   testScriptNamesDropdownList: any[] = [];
   testScriptNamesSelectedList: any = [];
 
-  testDataShortDescriptionDropdownList: any[] = [];
-  testDataShortDescriptionSelectedList: any = [];
+  testDataShortDescriptionDropdownList: any[]= [];
+  testDataShortDescriptionSelectedList: string = "";
 
   testDataCategoryDropdownList: any[] = [];
   testDataCategorySelectedList: any = [];
@@ -106,6 +106,12 @@ export class MyTestDataSearchComponent implements OnInit {
         }
       }
     )
+
+    this.testDataPriorityDropdownList=["5","4","3","2","1","0"];
+
+    this.testDataCategoryDropdownList=["Integration Testing", "Functional Testing", "Regression Testing", "Smoke Testing"];
+ 
+    this.testRunFlagDropdownList=["Yes", "No", ""];
   }
 
 
@@ -191,11 +197,11 @@ export class MyTestDataSearchComponent implements OnInit {
           this.testDataMetaIdDropdownList = newValues.testDataMetaId!;
           this.testCaseIdDropdownList = newValues.testCaseId!;
           this.testScriptNamesDropdownList = newValues.testScriptName!;
-          this.testDataShortDescriptionDropdownList = newValues.testShortDescription!;
-          this.testDataCategoryDropdownList = newValues.testCategory!;
-          this.testDataPriorityDropdownList=newValues.testPriority!;
+          //this.testDataShortDescriptionDropdownList = newValues.testShortDescription!;
+          // this.testDataCategoryDropdownList = newValues.testCategory!;
+          // this.testDataPriorityDropdownList=newValues.testPriority!;
           this.jiraIdDropdownList = newValues.jiraId!;
-          this.testRunFlagDropdownList = newValues.runFlag!;
+          //this.testRunFlagDropdownList = newValues.runFlag!;
           this.testDataCreatedByDropdownList = newValues.createdBy!;
           this.testDataUpdatedByDropdownList = newValues.updatedBy!;
   }
@@ -243,7 +249,7 @@ export class MyTestDataSearchComponent implements OnInit {
 
     this.testDataMetaIdSelectedList = [];
     this.testScriptNamesSelectedList = [];
-    this.testDataShortDescriptionSelectedList = [];
+    this.testDataShortDescriptionSelectedList = "";
     this.testDataCategorySelectedList = [];
     this.jiraIdSelectedList = [];
     this.testRunFlagSelectedList = [];

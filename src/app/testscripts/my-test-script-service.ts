@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { ApplicationTableInfoService } from "src/app/public/my-application-table-info-service";
 import { environment } from "src/environments/environment";
-import { DataUpdate } from "../public/data.update.model";
+import { RowValues } from "../public/row.values.model";
 import { TestDataService } from "../testdata/my-test-data.service";
 
 
@@ -27,7 +27,7 @@ export class TestScriptsService {
     public applicationSelectedId: number;
 
     constructor(private httpClient: HttpClient,  private applicationTableInfoService:ApplicationTableInfoService, private testDataService:TestDataService) {
-        this.testScriptsDropdownValuesBehaviorSub = new BehaviorSubject<TestScriptSearchCriteria>(new TestScriptSearchCriteria([],[],[],[],new Date,new Date,[],new Date,new Date));
+        this.testScriptsDropdownValuesBehaviorSub = new BehaviorSubject<TestScriptSearchCriteria>(new TestScriptSearchCriteria("","",[],[],new Date,new Date,[],new Date,new Date));
         this.testScriptsDropdownValuesAsObservable = this.testScriptsDropdownValuesBehaviorSub.asObservable();
 
         this.testScriptsBehaviorSub = new BehaviorSubject<TestScript[]>([]);
@@ -148,7 +148,7 @@ export class TestScriptsService {
         return this.httpClient.post<TestScript>(environment.backendBaseURL+"/applications/"+applicationId+"/testscripts/delete", testScript);
     }
 
-    updateTestscript(applicationId:number, updateTestscript: DataUpdate)
+    updateTestscript(applicationId:number, updateTestscript: RowValues)
     {
         // let obj;
         // updateTestscript.forEach((value: Map<string, string>, key: number) => {

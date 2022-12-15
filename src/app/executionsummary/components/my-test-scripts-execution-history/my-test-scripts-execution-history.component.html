@@ -13,6 +13,12 @@
                     <label class="label">Test Scripts Execution Id</label>
                     <input type="text" id="testScriptsExecutionId" [(ngModel)]="testScriptsExecutionId" placeholder=""  class="form-control">
                 </div>
+
+                <div class="col-sm">
+                    <label class="label">Suite Execution Id</label>
+                    <input type="text" id="suiteExecutionId" [(ngModel)]="suiteExecutionId" placeholder=""  class="form-control">
+                </div>
+
                 <div class="col-sm">
                     <label class="label">Suite Id</label>
                     <input type="text" id="suiteId" [(ngModel)]="suiteId" placeholder=""  class="form-control">
@@ -21,30 +27,33 @@
                     <label class="label">Test Script Id</label>
                     <input type="text" id="testScriptId" [(ngModel)]="testScriptId" placeholder=""  class="form-control">
                 </div>
+               
+            </div>
+           
+
+            <div class="row p-2">     
                 <div class="col-sm">
                     <label class="label">Test Scripts Category</label>
-                    <ng-multiselect-dropdown [placeholder]="'testScriptsCategory'" [settings]="searchDropdownSettings"
+                    <ng-multiselect-dropdown placeholder="" [settings]="searchDropdownSettings"
                     [data]="createdByList" [(ngModel)]="testScriptsCategory" id="testScriptsCategory">
                     </ng-multiselect-dropdown>
                 </div>
-            </div>
 
-            <div class="row p-2">            
                 <div class="col-sm">
-                    <label class="label">Created By</label>
-                    <ng-multiselect-dropdown [placeholder]="'Select Created By'" [settings]="searchDropdownSettings"
+                    <label class="label">Executed By</label>
+                    <ng-multiselect-dropdown [settings]="searchDropdownSettings"
                         [data]="createdByList" [(ngModel)]="createdBySelected">
                     </ng-multiselect-dropdown>
                 </div>
             
                 <div class="col-sm">
-                    <label class="label">Created Date From</label>
+                    <label class="label">Executed Date From</label>
                     <input type="date" id="testDataCreatedFromDate" class="form-select" [(ngModel)]="testScriptExecCreatedDateFrom">
                 </div>
             
                 <div class="col-sm">
-                    <label class="label">Created Date To</label>
-                    <input type="date" id="testDataCreatedToDate" placeholder="Suite Created Date To" class="form-select"
+                    <label class="label">Executed Date To</label>
+                    <input type="date" id="testDataCreatedToDate"  class="form-select"
                         [(ngModel)]="testScriptExecCreatedDateTo">
             
                 </div>
@@ -94,14 +103,15 @@
 
                 <table class="table table-borderless table-hover">
                     <thead class="table-header">
-                        <th class="table-header-cols"> TEST SCRIPTS EXEC ID</th>
+                        <th class="table-header-cols"> EXEC ID</th>
+                        <th class="table-header-cols"> SUITE EXEC ID</th>
                         <th class="table-header-cols"> SUITE ID</th>
                         <th class="table-header-cols"> TEST SCRIPTS ID</th>
                         <th class="table-header-cols"> TEST SCRIPTS NAME</th>
                         <th class="table-header-cols"> TEST SCRIPTS CATEGORY</th>
                         <th class="table-header-cols"> TEST SCRIPTS DESCRIPTION</th>
-                        <th class="table-header-cols"> CREATED BY</th>
-                        <th class="table-header-cols"> CREATED DATE</th>
+                        <th class="table-header-cols"> EXECUTED BY</th>
+                        <th class="table-header-cols"> EXECUTED DATE</th>
                        
                     </thead>
                     <tbody class="table-body">
@@ -109,8 +119,12 @@
                           <tr #currentRow class="table-active" *ngFor="let testScript of testScriptsExecutionHistory; let i = index">
 
                             <td>
-                               <button class="primary-btn" (click)="getTestDataMetaExecutionHistory(testScript.testScriptExecutionId)">{{testScript.testScriptExecutionId}} </button> 
+                               <button class="primary-btn" (click)="getTestDataMetaExecutionHistory(testScript.id)">{{testScript.id}} </button> 
                             </td>
+                            <td>
+                                {{testScript.suiteExecutionId}}
+                            </td>
+
                             <td>
                                 {{testScript.suiteId}}
                             </td>

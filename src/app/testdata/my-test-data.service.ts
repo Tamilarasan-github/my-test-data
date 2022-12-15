@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ApiHttpService } from 'src/app/api-http-service';
 import { TestTableInfo } from 'src/app/public/my-test-tables-info';
 import { environment } from 'src/environments/environment';
-import { DataUpdate } from '../public/data.update.model';
+import { RowValues } from '../public/row.values.model';
 import { ApplicationTableInfoService } from '../public/my-application-table-info-service';
 import { TestDataMeta } from './components/my-test-data-results/my-test-data-meta';
 import { TestDataMetaDropdownValues } from './components/my-test-data-search/my-test-data-meta-dropdown-values';
@@ -80,7 +80,7 @@ export class TestDataService {
     this.tableSelectedAsObservable =
       this.tableSelectedBehaviorSub.asObservable();
 
-    this.testDataSearchCriteriaBehaviorSub = new BehaviorSubject<TestDataSearchCriteria>(new TestDataSearchCriteria([],[],[],[],[],[],[],[],[],new Date,new Date,[],new Date,new Date));
+    this.testDataSearchCriteriaBehaviorSub = new BehaviorSubject<TestDataSearchCriteria>(new TestDataSearchCriteria([],[],[],[],[],"",[],[],[],new Date,new Date,[],new Date,new Date));
     this.testDataSearchCriteriaAsObservable = this.testDataSearchCriteriaBehaviorSub.asObservable();
 
     this.testDataMetaAppOneFieldsInfoBehaviorSub = new BehaviorSubject<TestFieldsInfo[]>([]);
@@ -264,6 +264,21 @@ export class TestDataService {
     return map;
   }
 
+
+  saveNewTestData(applicationId: number,
+    tableId: number,
+    newTestData:RowValues[]) 
+    {
+    const headers = { 'content-type': 'application/json' };
+    const request = JSON.stringify(newTestData);
+
+    return this.httpClient
+      .post<String[]>(
+        environment.backendBaseURL +'/applications/' +applicationId +'/tables/' + tableId + '/create', request,
+        { headers: headers }
+      )
+  }
+
   fetchTestDataMetaFromBackend(
     applicationId: number,
     tableId: number,
@@ -389,7 +404,7 @@ export class TestDataService {
   updateTestData(
     applicationId: number,
     tableId: number,
-    testDataUpdate:DataUpdate[]
+    testDataUpdate:RowValues[]
   ) {
     const headers = { 'content-type': 'application/json' };
     const request = JSON.stringify(testDataUpdate);

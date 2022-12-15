@@ -1,7 +1,8 @@
 export class TestScriptsExecutionHistory
 {
     constructor(
-        public testScriptExecutionId:string,
+        public id:string,
+        public suiteExecutionId:string,
         public suiteId:string,
         public testScriptsId: string,
         public testScriptsName: string,

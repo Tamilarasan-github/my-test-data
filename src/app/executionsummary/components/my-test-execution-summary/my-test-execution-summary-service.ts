@@ -166,21 +166,7 @@ export class TestExecutionSummaryService
       return this.httpClient.post(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/suites/execute",testSuiteExecutionHistory);
     }
 
-    getTestExecutionSummaryDropdownValues():TestExecutionSummarySearchCriteria
-    {
-        const response=
-            new TestExecutionSummarySearchCriteria(['1001', '1002'],
-                ['T001', 'T002'],
-                ['PASS', 'FAIL', 'No Results'],
-                ['Smoke Test', 'Regression'],
-                ['JIRA-01', 'JIRA-21'],
-                ['TestScript-001', 'TestScript-002'],
-                ['Hello', 'World'],
-                ['Tamilarasan S']);
-        
-
-        return response;
-    }
+   
 
     getTestSuiteExecutionHistory()
     {
@@ -322,11 +308,11 @@ export class TestExecutionSummaryService
       });
   }
 
-    getTestScriptsExecutionHistory(suiteId: number)
+    getTestScriptsExecutionHistory(suiteExecutionId: number)
     {
         const headers={'content-type':'application/json'}
   
-        return this.httpClient.get<TestScriptsExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/suites/"+suiteId+"/testScripts", {'headers':headers})
+        return this.httpClient.get<TestScriptsExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/suites/"+suiteExecutionId+"/testScripts", {'headers':headers})
         .subscribe(
           {
             next : (responseBody) => {
@@ -341,24 +327,9 @@ export class TestExecutionSummaryService
           })
     }
 
-    getTestDataMetaExecutionHistory(testScriptExecutionId: string)
-    {
-        const headers={'content-type':'application/json'}
-  
-        return this.httpClient.post<TestDataMetaExecutionHistory[]>(environment.backendBaseURL+"/applications/"+this.applicationSelectedId+"/execution-summary/testDataMeta/execution-history", {'testScriptExecutionId':testScriptExecutionId}, {'headers':headers})
-        .subscribe(
-          {
-            next : (responseBody) => {
-                this.testDataMetaExecutionHistoryBehaviorSub.next(responseBody);
-              console.log(JSON.stringify(responseBody));
-            },
-            error :(e)=> {
-                console.log("Test Data Meta Execution History fetching error:"+e);
-                console.error()
-            }
-           
-          })
-    }
+    
+
+   
 
     executeSuite(suiteId: number)
     {

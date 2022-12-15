@@ -1,9 +1,9 @@
 export class TestScriptSearchCriteria {
 
     constructor(
-        public testScriptsId:number[], 
-        public testScripts:String[], 
-        public testScriptsCategory:String[], 
+        public testScriptsId:string, 
+        public testScripts:string, 
+        public testScriptsCategory:string[], 
         public createdBy: string[],
         public createdDateFrom: Date,
         public createdDateTo: Date,

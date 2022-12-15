@@ -1,8 +1,10 @@
 export class TestDataMetaExecutionHistory {
     constructor(
-        public testDataExecutionId:number,
+        public id:number,
+        public suiteExecutionId: number,
         public suiteId:number,
         public testScriptExecutionId:number,
+        public testScriptId:number,
         public testDataMetaId:string,
         public testCaseId:string,
         public testScriptName:string,
